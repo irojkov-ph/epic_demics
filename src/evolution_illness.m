@@ -12,7 +12,7 @@ function [t,system] = evolution_illness(t_now,dt,M,sys)
         k = floor(rand.*(Nlin+1));
         l = floor(rand.*(Ncol+1));
         
-        [t_now,sys] = evolve_case(t_now,dt,sys,k,l);
+        [t_now,sys] = evolve_cell(t_now,dt,sys,k,l);
         
     end
     

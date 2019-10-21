@@ -1,4 +1,4 @@
-function [t,system] = evolve_case(t_now, dt, sys, k, l)
+function [t,system] = evolve_cell(t_now, dt, sys, k, l)
     
     % recovery rate (fixed)
     gamma;
