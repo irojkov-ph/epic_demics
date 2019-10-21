@@ -2,7 +2,7 @@ function [t,system] = evolution_illness(t_now,dt,M,sys)
     
     % dt is the small time step in which only one evenement happens
     % sys matrix of structures containing the people
-    % M is the number of times we choose a random case
+    % M is the number of times we choose a random cell
     
     Nlin = size(sys,1);
     Ncol = size(sys,2);

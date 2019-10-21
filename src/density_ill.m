@@ -13,8 +13,8 @@ function y = density_ill(sys,k,l)
         
         for j = 1:3
             if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
-                ex = ex+1;
-            elseif    %we are not at the central case
+                %if we are in the boundaries of the grid and not in (k,l)
+                N_cells = N_cells + 1;
                 if(sys(id_lin(i),id_col(j)).state == 'I')
                     N_I = N_I + 1;
                 end
@@ -23,5 +23,6 @@ function y = density_ill(sys,k,l)
         
     end
     
+    y = N_I./N_cells;
     
 end
