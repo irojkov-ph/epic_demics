@@ -7,6 +7,8 @@ function [t,system] = step(t_now,sys,dt,M,dynamic)
         [t_now,sys] = evolution_illness(t_now,dt,sys,dynamic);
     end
     
+    % evolution_vaccination(sys)
+    
     t = t_now;
     system = sys;
     

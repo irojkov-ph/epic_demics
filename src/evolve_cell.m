@@ -5,7 +5,8 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
     % recovery rate (fixed)
     gamma=0.5;
     % infection rate (to upload if depends seasonally and depends on the neighbours)
-    beta = beta_0(t_now).*density_ill(sys,k,l);
+    %beta = beta_0(t_now).*density_ill(sys,k,l);
+    beta = 0.5; %for the test
     % death rate (fixed)
     mu=0.5;
     % rate at which the vaccine becomes less effective
@@ -88,9 +89,8 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
         disp(['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
     end
     
-    update_ages(sys,dt);
+    system = update_ages(sys,dt);
     
-    system = sys;
     t = t_now + dt;
     
 end
