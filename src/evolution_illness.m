@@ -1,4 +1,4 @@
-function [t,system] = evolution_illness(t_now,dt,M,sys)
+function [t,system] = evolution_illness(t_now,dt,sys,dynamic)
     
     % dt is the small time step in which only one evenement happens
     % sys matrix of structures containing the people
@@ -7,13 +7,13 @@ function [t,system] = evolution_illness(t_now,dt,M,sys)
     Nlin = size(sys,1);
     Ncol = size(sys,2);
     
-    for i=1:M
+    k = floor(rand.*(Nlin+1));
+    l = floor(rand.*(Ncol+1));
         
-        k = floor(rand.*(Nlin+1));
-        l = floor(rand.*(Ncol+1));
-        
-        [t_now,sys] = evolve_cell(t_now,dt,sys,k,l);
-        
+    [t_now,sys] = evolve_cell(t_now,dt,sys,k,l);
+    
+    if(dynamic)
+        sys = displacement(sys,k,l);
     end
     
     t = t_now;
