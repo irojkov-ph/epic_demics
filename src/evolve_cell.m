@@ -1,25 +1,27 @@
 function [t,system] = evolve_cell(t_now, dt, sys, k, l)
     
+    %ATTENTION NORMALISE THE PROBAS
+    
     % recovery rate (fixed)
-    gamma;
+    gamma=0.5;
     % infection rate (to upload if depends seasonally and depends on the neighbours)
     beta = beta_0(t_now).*density_ill(sys,k,l);
     % death rate (fixed)
-    mu;
+    mu=0.5;
     % rate at which the vaccine becomes less effective
-    alpha;
+    alpha=0;
     
     %rewards
     %nothing happens to a susceptible person
-    r_S0;
+    r_S0=0;
     %nothing happens to a infected person
-    r_I0;
+    r_I0=0;
     %nothing happens to a recovered person
-    r_R0;
+    r_R0=0;
     %the person gets the infection
-    r_ill;
+    r_ill=0;
     %the person from R becomes again susceptible
-    r_back_to_S;
+    r_back_to_S=0;
     
     
     state_ = sys(k,l).state;

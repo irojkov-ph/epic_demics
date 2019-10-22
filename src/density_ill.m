@@ -22,7 +22,6 @@ function y = density_ill(sys,k,l)
         end
         
     end
-    
     y = N_I./N_cells;
     
 end
