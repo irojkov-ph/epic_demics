@@ -7,7 +7,7 @@
 % `reshaped_sys` is an n x n array of structures which represent people
 % in the system and have the following fields:
 %       - state:        'S', 'I' or 'R' 
-%       - vaccin:    0 or 1
+%       - vaccinated:    0 or 1
 %       - reward:       a double that represents the reward of the persont 
 %       - age:          the age of the person
 %
@@ -23,12 +23,12 @@ function [reshaped_sys]=system_reshape(sys)
     size_cell = [numel(sys.state) 1];
 
     state = reshape(num2cell(sys.state),size_cell);
-    vaccin = reshape(num2cell(sys.vaccin),size_cell);
-    r = reshape(num2cell(sys.r),size_cell);
+    vaccinated = reshape(num2cell(sys.vaccinated),size_cell);
+    reward = reshape(num2cell(sys.reward),size_cell);
     age = reshape(num2cell(sys.age),size_cell);
     
-    reshaped_sys = cell2struct([state,vaccin,r,age],{'state','vaccin','r','age'},2);
+    reshaped_sys = cell2struct([state,vaccinated,reward,age],{'state','vaccinated','reward','age'},2);
 
-    reshaped_sys = reshape(reshaped_sys,size(sys.r));
+    reshaped_sys = reshape(reshaped_sys,size(sys.reward));
     
 end

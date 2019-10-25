@@ -4,8 +4,8 @@
 % Each structure sys.'field'(i,j) represent the value of the field 'field' 
 % for a person from the system which has the position (i,j)
 % The fields and their values could be :
-%       - state:        'S', 'I' or 'R' 
-%       - vaccin:    0 or 1
+%       - state:        "S", "I" or "R" 
+%       - vaccinated:    0 or 1
 %       - reward:       a double that represents the reward of the persont 
 %       - age:          the age of the person
 % That means the command sys.age would give you the matrice of ages and
@@ -44,10 +44,10 @@ function [sys]=system_init(n)
     age = round(random(pda,n));
     
     % Creating the rewards matrix
-    r = zeros(n);
+    reward = zeros(n);
     
     % Creating the vaccination matrix
-    vaccin = round(rand(n));
+    vaccinated = round(rand(n));
     
     % Creating the state matrix
     state = string(ones(n));
@@ -56,8 +56,8 @@ function [sys]=system_init(n)
     
     % Filling the system structure
     sys.state = state;
-    sys.vaccin = vaccin;
-    sys.r = r;
+    sys.vaccinated = vaccinated;
+    sys.reward = reward;
     sys.age = age;    
 
 end
