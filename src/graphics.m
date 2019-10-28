@@ -10,6 +10,7 @@ evolution(S,10);%currently plots average vacc and non-vacc rate over time
 % figure
 % draw_state(S);
 
+% tests
 
 %this is a simplified init function that is only used for testing
 %once this file is joined with the others this fct should be deleted
