@@ -25,8 +25,12 @@ function system = displacement(sys,k,l)
                 if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
                     if(p<=(q*n) && p>(q*(n-1)))
                         sys = switch_cells(k,l,id_lin(i),id_col(j),sys);
-                        fileID = fopen('exp.txt','w')
-                        disp(['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
+                        
+                        % Write in logs
+                        fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
+                        fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
+                        fclose(fileID);
+                        
                         moved = true;
                     end
                     n = n + 1;
@@ -64,7 +68,12 @@ function system = displacement(sys,k,l)
                     if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
                         if( p>density && p<=(density + density_ill(sys,id_lin(i),id_lin(j))/dens_tot) && ~moved)
                             sys = switch_cells(k,l,id_lin(i),id_col(j),sys);
-                            disp(['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
+                            
+                            % Write in logs
+                            fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
+                            fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
+                            fclose(fileID);
+                            
                             moved = true;
                         end
                         density = density + density_ill(sys,id_lin(i),id_lin(j))/dens_tot;
@@ -76,7 +85,7 @@ function system = displacement(sys,k,l)
         end
         
     else
-        disp(['Error! There exist no state "', state_ , ' " in this model! It can not be displaced!'])
+        error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be displaced!'])
     end
     
     system = sys;
