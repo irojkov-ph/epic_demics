@@ -1,6 +1,6 @@
 function system = displacement(sys,k,l)
     
-    state_ = sys(k,l).state;
+    state_ = sys.state(k,l);
     
     N_cell = count_nearest_neighbours(k,l,size(sys,1),size(sys,2));
     
@@ -25,6 +25,7 @@ function system = displacement(sys,k,l)
                 if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
                     if(p<=(q*n) && p>(q*(n-1)))
                         sys = switch_cells(k,l,id_lin(i),id_col(j),sys);
+                        fileID = fopen('exp.txt','w')
                         disp(['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
                         moved = true;
                     end
