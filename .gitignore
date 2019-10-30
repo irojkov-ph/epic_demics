@@ -22,4 +22,7 @@
 # On ignore les fichiers compressés
 	*.rar
 	*.zip
+
+# On ignore les fichier qui commence par my_
+	my_*
 	
