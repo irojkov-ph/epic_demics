@@ -1,4 +1,4 @@
-% Function [reshaped_sys]=system_reshape(sys) 
+% Function [reshaped_sys] = system_reshape() 
 %
 % This function reshape the system as it is initialized by the
 % `system_init.m` function. The aim of this function is to provide a more
@@ -16,19 +16,24 @@
 %         (i,j) person.
 %       - reshaped_sys(i,j).age is the age of that person.
 % 
+% This function will not rewrite the actual `system` variable but will
+% create a reshaped copy of it.
+%
+%
 
-
-function [reshaped_sys]=system_reshape(sys)
+function [reshaped_sys] = system_reshape()
     
-    size_cell = [numel(sys.state) 1];
+    global system
 
-    state = reshape(num2cell(sys.state),size_cell);
-    vaccinated = reshape(num2cell(sys.vaccinated),size_cell);
-    reward = reshape(num2cell(sys.reward),size_cell);
-    age = reshape(num2cell(sys.age),size_cell);
+    size_cell = [numel(system.state) 1];
+
+    state = reshape(num2cell(system.state),size_cell);
+    vaccinated = reshape(num2cell(system.vaccinated),size_cell);
+    reward = reshape(num2cell(system.reward),size_cell);
+    age = reshape(num2cell(system.age),size_cell);
     
     reshaped_sys = cell2struct([state,vaccinated,reward,age],{'state','vaccinated','reward','age'},2);
 
-    reshaped_sys = reshape(reshaped_sys,size(sys.reward));
+    reshaped_sys = reshape(reshaped_sys,size(system.reward));
     
 end
