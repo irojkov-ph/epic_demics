@@ -1,3 +1,6 @@
+%%
+addpath('../src');
+
 %% test beta_0
 
 t = 1:200;
@@ -205,3 +208,18 @@ disp(states(k,l));
 
 %% test step
 
+
+%% test interval
+N=1000;
+
+dt = zeros(1,N);
+
+for i=1:N
+    dt(i) = interval(1);
+end
+
+mean(dt)
+
+figure
+plot(1:N, dt)
+grid on
