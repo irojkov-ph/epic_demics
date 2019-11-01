@@ -27,7 +27,7 @@ function status = displacement(k,l)
                 if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
                     if(p<=(q*n) && p>(q*(n-1)))
                         try
-                            switch_cells(k,l,id_lin(i),id_col(j)); %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                            switch_cells(k,l,id_lin(i),id_col(j));
                             
                             % Write in logs
                             fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
