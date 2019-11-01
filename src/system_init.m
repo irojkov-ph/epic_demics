@@ -28,9 +28,9 @@ function [sys]=system_init(n)
 
     % Load data in order to create a probability density function 
     pop_table = load('swiss_pop_age_2016.mat');
-    x = [0 pop_table.newdata.age.'];
+    x = [0 pop_table.data.age.'];
     x(2)=1e-3;
-    Fx = [0 cumsum(pop_table.newdata.("%tot").')];
+    Fx = [0 cumsum(pop_table.data.tot_per.')];
     
     % Create the probability distribution of age
     pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
@@ -61,3 +61,4 @@ function [sys]=system_init(n)
     sys.age = age;    
 
 end
+
