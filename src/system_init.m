@@ -28,6 +28,9 @@ function [status] = system_init(n)
     status = -1;
     
     % Test input is valid
+    if nargin<1
+        error('ID:invalid_input','You have to specify an integer as a parameter.');
+    end
     n = int8(n);
     if size(n,1)~=1 || size(n,2)~=1
         error('ID:invalid_input','''n'' has to be only one interger.');
@@ -35,7 +38,7 @@ function [status] = system_init(n)
     
     global system
     
-    % include path for data
+    % Include path for data
     addpath('../data/')
 
     % Load data in order to create a probability density function 
@@ -71,6 +74,11 @@ function [status] = system_init(n)
     system.reward = reward;
     system.age = age;
     
+    fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
+        'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
+        'A system of size %d x %d was initialized as a \n', ...
+        'global variable named `system`.\n'],n,n);
+     
     status = 1;
 end
 
