@@ -1,5 +1,5 @@
-function s=evolution_vaccination(system)
-    %global system;
+function s=evolution_vaccination()
+    global system;
     n = size(system.reward,1);
     %r_vacc == reward for vaccination
     r_vacc = -4;

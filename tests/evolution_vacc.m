@@ -1,5 +1,5 @@
 addpath('..\src');
-system = system_init(10);
+global system
 system.reward
 system = evolution_vaccination(system);
 system.reward
