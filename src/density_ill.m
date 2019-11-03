@@ -13,8 +13,8 @@ function y = density_ill(k,l)
     N_col = size(system.age,2);
     
     if k<1 || k>N_lin || l<1 || l>N_col
-       warning('ID:invalid_input',['The specified indices are out of range', ...
-                                    'The density is therefore null.'])
+       warning('ID:invalid_input',['The specified indices are out of range.\n', ...
+                                   'The density is therefore null.'])
        y=0;
        return
     end
