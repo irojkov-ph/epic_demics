@@ -13,16 +13,11 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
     alpha=0;
     
     %rewards
-    %nothing happens to a susceptible person
-    r_S0=0;
-    %nothing happens to a infected person
-    r_I0=0;
-    %nothing happens to a recovered person
-    r_R0=0;
     %the person gets the infection
-    r_ill=0;
-    %the person from R becomes again susceptible
-    r_back_to_S=0;
+    r_ill = -10;
+    %the person recovers
+    r_recover = 2;
+
     
     
     state_ = sys.state(k,l);
@@ -46,7 +41,7 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
             sys.age(k,l) = 0;
             sys.vaccinated(k,l) = false;
         else
-            sys.reward(k,l) = sys.reward(k,l) + r_S0;
+
         end
         
     elseif(state_ == 'I')
@@ -64,7 +59,7 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
             sys.vaccinated(k,l) = false;
             sys.state(k,l) = 'S';
         else
-            sys.reward(k,l) = sys.reward(k,l) + r_I0;
+
         end
         
     elseif(state_ == 'R')
@@ -73,7 +68,6 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
         
         if(p<=alpha)
             % the person becomes again susceptible
-            sys.reward(k,l) = sys.reward(k,l) + r_back_to_S;
             sys.state(k,l) = 'S';
             sys.vaccinated(k,l) = false;
         elseif(p>alpha && p<=(alpha+mu))
@@ -83,7 +77,7 @@ function [t,system] = evolve_cell(t_now, dt, sys, k, l)
             sys.vaccinated(k,l) = false;
             sys.state(k,l) = 'S';
         else
-            sys.reward(k,l) = sys.reward(k,l) + r_R0;
+
         end
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
