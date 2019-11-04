@@ -1,7 +1,27 @@
+% Function t = evolution_illness(t_now,dt,dynamic)
+% 
+% This function evolve the "whole" system for a time interval `dt`.
+% 
+% The evolution of the system is programmed randomly, i.e. the cell which
+% will evolve during this time interval is chosen randomly.
+% 
+% As it is meant in the title of the function, it evolves only the illness
+% throughout the system at not the vaccination choices.
+% 
+% The function returns the time returned by `evolve_cell.m`
+% 
+
+
 function t = evolution_illness(t_now,dt,dynamic)
     
     % dt is the small time step in which only one evenement happens
-    % M is the number of times we choose a random cell
+    % M (in step.m) is the number of times we choose a random cell
+        
+    if nargin<3 
+       error('ID:invalid_input','No input specified')
+    elseif dt<=0
+       error('ID:invalid_input','The time interval `dt` has to be positiv.')
+    end
     
     global system
     

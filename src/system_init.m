@@ -36,6 +36,8 @@ function [status] = system_init(n)
         error('ID:invalid_input','''n'' has to be only one interger.');
     end
     
+    % Clear all global variables named `system` and create a new one
+    clear global system
     global system
     
     % Include path for data

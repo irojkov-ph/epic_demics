@@ -1,5 +1,22 @@
+% Function t = evolve_cell(t_now, dt, k, l)
+% 
+% This function evolve one unique cell at the position (k,l) 
+% for a time interval `dt`. 
+% 
+% All fields of the cell could evolve (even the field `vaccinated` could 
+% change if for instace the cell "die")
+% 
+% More specifically the `state` of the cell evolves following the SIR model
+% whose parameter are specified in the begining of the function.
+% 
+% It returns the evolution of the time, i.e. `t = t_now + dt`.
+% 
+% 
+
 function t = evolve_cell(t_now, dt, k, l)
-    
+
+    global system
+
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
@@ -22,9 +39,14 @@ function t = evolve_cell(t_now, dt, k, l)
     %the person gets the infection
     r_ill=0;
     %the person from R becomes again susceptible
-    r_back_to_S=0;
+    r_back_to_S=0;   
     
-    global system
+    if nargin<4 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
+       error('ID:invalid_input','The specified indices are out of range.\n')
+    end
+    if dt<=0
+       error('ID:invalid_input','The time interval `dt` has to be positiv.\n')
+    end
     
     state_ = system.state(k,l);
     
@@ -56,7 +78,7 @@ function t = evolve_cell(t_now, dt, k, l)
         
         if(p<=gamma)
             % the person recovers
-            system.reward(k,l) = system.reward(k,l) + r_recover;
+            system.reward(k,l) = system.reward(k,l);
             system.state(k,l) = 'R';
         elseif(p>gamma && p<=(gamma+mu))
             % the person dies, we consider a newborn at its place
