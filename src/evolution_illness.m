@@ -1,4 +1,4 @@
-function [t,system] = evolution_illness(t_now,mean_dt,sys,dynamic)
+function [t,system] = evolution_illness(t_now,dt,sys,dynamic)
     
     % dt is the small time step in which only one evenement happens
     % sys matrix of structures containing the people
@@ -21,8 +21,7 @@ function [t,system] = evolution_illness(t_now,mean_dt,sys,dynamic)
         l=Ncol;
     end
     
-    %time is chosen exponentially
-    dt=interval(mean_dt);
+    
     
     [t_now,sys] = evolve_cell(t_now,dt,sys,k,l);
     
