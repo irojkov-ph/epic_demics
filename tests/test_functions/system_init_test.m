@@ -1,7 +1,4 @@
-% This file 
-
 function tests = system_init_test
-    addpath('../src/')
     tests = functiontests(localfunctions);
 end
 

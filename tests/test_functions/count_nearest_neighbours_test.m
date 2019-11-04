@@ -1,5 +1,4 @@
 function tests = count_nearest_neighbours_test
-    addpath('../src/')
     tests = functiontests(localfunctions);
 end
 

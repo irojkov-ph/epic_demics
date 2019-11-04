@@ -1,5 +1,4 @@
 function tests = evolution_illness_test
-    addpath('../src/')
     tests = functiontests(localfunctions);
 end
 

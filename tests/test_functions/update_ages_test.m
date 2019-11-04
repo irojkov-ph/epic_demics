@@ -1,5 +1,4 @@
 function tests = update_ages_test
-    addpath('../src/')
     [~,~]=evalc('system_init(4)');
     global system
     system.age = [ 1, 2, 3, 4; ...

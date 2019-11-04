@@ -1,5 +1,4 @@
 function tests = density_ill_test
-    addpath('../src/')
     [~,~]=evalc('system_init(4)');
     global system
     system.state = ["S","S","S","I"; ...

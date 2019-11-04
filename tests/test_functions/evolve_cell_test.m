@@ -1,6 +1,4 @@
 function tests = evolve_cell_test
-    
-    addpath('../src/')
     [~,~]=evalc('system_init(6)');
     global system
     system.state = ["S"    "S"    "S"    "S"    "S"    "S"; ...

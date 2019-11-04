@@ -13,7 +13,7 @@
 
 function status = displacement(k,l)
     status = -1;
-    global system
+    global system epic_demics_path
     
     N_lin = size(system.age,1);
     N_col = size(system.age,2);
@@ -49,7 +49,7 @@ function status = displacement(k,l)
                             switch_cells(k,l,id_lin(i),id_col(j));
                             
                             % Write in logs
-                            fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
+                            fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
                             fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
                             fclose(fileID);
 
@@ -96,12 +96,13 @@ function status = displacement(k,l)
                                 switch_cells(k,l,id_lin(i),id_col(j));
 
                                 % Write in logs
-                                fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
+                                fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
                                 fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
                                 fclose(fileID);
 
                                 moved = true;
-                            catch
+                            catch EM
+                                EM
                                 error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                             end
                         end
