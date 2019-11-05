@@ -207,19 +207,3 @@ disp(states(k,l));
 %% test evolution_illness
 
 %% test step
-
-
-%% test interval
-N=1000;
-
-dt = zeros(1,N);
-
-for i=1:N
-    dt(i) = interval(1);
-end
-
-mean(dt)
-
-figure
-plot(1:N, dt)
-grid on
