@@ -1,10 +1,4 @@
-# On ignore les .exe :
-*.exe
-	
-# On ignore les fichiers utiles pour la compilation C++11 :
-*.o
-	
-# On ignore les fichiers de compilation pour latex :
+# Latex compilation files are ignored :
 *.aux
 *.fdb_latexmk
 *.fls
@@ -12,17 +6,16 @@
 *.synctex.gz
 *.toc
 	
-# On ignore les videos
-*.mp4
-	
-# On ignore les fichiers tempotaires de Matlab
+# Temporary Matlab files are ignored :
 *.asv
 *.m~
 	
-# On ignore les fichiers compressés
+# Compressed files are ignored :
 *.rar
 *.zip
 
-# On ignore les fichier qui commence par my_
+# Files begining with `my_` are ignored :
 my_*
-	
+
+# The folder `./doc/papers/`
+papers/
