@@ -21,8 +21,6 @@ function [t,system] = evolution_illness(t_now,dt,sys,dynamic)
         l=Ncol;
     end
     
-    
-    
     [t_now,sys] = evolve_cell(t_now,dt,sys,k,l);
     
     if(dynamic)
