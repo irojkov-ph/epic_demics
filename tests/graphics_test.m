@@ -1,4 +1,4 @@
-addpath('C:\Users\nicde\Desktop\ETH\GESS\epic_demics\src');
+addpath('..\src');
 
 
 n = 100; %n*n == number of people
