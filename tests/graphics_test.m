@@ -1,17 +1,17 @@
 addpath('C:\Users\nicde\Desktop\ETH\GESS\epic_demics\src');
 
-
+global system;
 n = 100; %n*n == number of people
-S = system_init(n);
-%evolution(S,10);%currently plots average vacc and non-vacc rate over time
+system = system_init(n);
+%evolution(10);%currently plots average vacc and non-vacc rate over time
 % figure
-% draw(S,'reward');
+% draw('reward');
 figure
-draw(S,"vaccinated");
+draw("age");
 % figure
-% draw(S,'vaccinated');
+% draw('vaccinated');
 % figure
-% draw_(S,'state');
+% draw_('state');
 
 % tests
 
@@ -49,23 +49,23 @@ function [sys]=system_init(n)
     % Filling the system structure
     sys.state = state;
     sys.vaccin = vaccin;
-    sys.r = r;
+    sys.reward = r;
     sys.age = age;    
 
 end
 
 %this fct implements the time evolution of the system
 %it should also be replaced once tis file is merged with the others
-function evolution(sys,T)
+function evolution(T)
     figure
-    n = size(sys.age,1);
+    n = size(system.age,1);
     t = 0 ;
     x1 = 0 ;
     x2 = 0;
     step = 0.1 ;
     while(t < T)
-        sys = evolve_sys(sys);
-        b = sum(sys.vaccin(:))/(n*n);
+        system = evolve_sys();
+        b = sum(system.vaccin(:))/(n*n);
         x1 = dynamic_plot(x1,b,t,step,'r'); %plots average vacc rate over time
         hold on
         grid on
@@ -77,15 +77,15 @@ end
 
 %this fct makes very simple time evolutions at each time step
 %it should also be replaced when this file merges with the others
-function [sys]=evolve_sys(sys)
-    n = size(sys.age,1);
-    sys.age = sys.age + 1;
+function [sys]=evolve_sys()
+    n = size(system.age,1);
+    system.age = system.age + 1;
     for i = 1:n
         for j =1:n
-            if(sys.age(i,j) > 100)
-                sys.age(i,j) = 0;
+            if(system.age(i,j) > 100)
+                system.age(i,j) = 0;
             end
-            sys.vaccin(i,j) = round(rand);
+            system.vaccin(i,j) = round(rand);
         end
     end
 end

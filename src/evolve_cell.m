@@ -1,3 +1,6 @@
+function [t] = evolve_cell(t_now, dt, k, l)
+    
+    global system;
 % Function t = evolve_cell(t_now, dt, k, l)
 % 
 % This function evolve one unique cell at the position (k,l) 
@@ -13,10 +16,6 @@
 % 
 % 
 
-function t = evolve_cell(t_now, dt, k, l)
-
-    global system
-
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
@@ -30,16 +29,10 @@ function t = evolve_cell(t_now, dt, k, l)
     alpha=0;
     
     %rewards
-    %nothing happens to a susceptible person
-    r_S0=0;
-    %nothing happens to a infected person
-    r_I0=0;
-    %nothing happens to a recovered person
-    r_R0=0;
     %the person gets the infection
-    r_ill=0;
-    %the person from R becomes again susceptible
-    r_back_to_S=0;   
+    r_ill=0;  
+    %the person recovers
+    r_recover = 2;
     
     if nargin<4 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
        error('ID:invalid_input','The specified indices are out of range.\n')
@@ -78,7 +71,7 @@ function t = evolve_cell(t_now, dt, k, l)
         
         if(p<=gamma)
             % the person recovers
-            system.reward(k,l) = system.reward(k,l);
+            system.reward(k,l) = system.reward(k,l) + r_recover;
             system.state(k,l) = 'R';
         elseif(p>gamma && p<=(gamma+mu))
             % the person dies, we consider a newborn at its place
@@ -96,7 +89,6 @@ function t = evolve_cell(t_now, dt, k, l)
         
         if(p<=alpha)
             % the person becomes again susceptible
-            system.reward(k,l) = system.reward(k,l) + r_back_to_S;
             system.state(k,l) = 'S';
             system.vaccinated(k,l) = false;
         elseif(p>alpha && p<=(alpha+mu))

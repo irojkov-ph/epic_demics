@@ -17,13 +17,12 @@ end
 %draw_vaccinated draws a map of the population, coloured according to their
 %vaccination choice
 function draw_vaccinated()
-
-    global system
+    global system;
 
     n = size(system.vaccin,1);
     x = 1:n;
     y = 1:n;
-    
+
     map = [1 0 0; 0 0 1];
     colormap(map);
     image(x,y,system.vaccin,'CDataMapping','scaled');
@@ -33,8 +32,7 @@ end
 
 %draw_age draws a map of the population, coloured according to their age
 function draw_age()
-
-    global system
+    global system;
 
     n = size(system.age,1);
     x = 1:n;
@@ -49,9 +47,8 @@ end
 
 %draw_state draws a map of the population, coloured according to their state
 function draw_state()
-
-    global system
-
+    global system;
+    
     n = size(system.state,1);
     x = 1:n;
     y = 1:n;
@@ -77,8 +74,7 @@ end
 
 %draw_reward draws a map of the population, coloured according to their reward
 function draw_reward()
-
-    global system
+    global system;
 
     n = size(system.reward,1);
     x = 1:n;
