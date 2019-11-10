@@ -1,4 +1,4 @@
-% Function t = evolution_system(t_now,dt,M,dynamic,N)
+% Function t = evolution_system(t_now,dt,dynamic,M,N,drawsystem)
 % 
 % This function evolve `M` times the whole system for a time interval `dt`
 % with respect to the illness (realized by `evolution_illness.m`) and then
@@ -9,7 +9,7 @@
 %       t = t_now + M*dt;
 % 
 
-function t = evolve_system(t_now,dt,dynamic,N,drawsystem)
+function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem)
     
     if nargin<4
        error('ID:invalid_input','Not enough parameters specified.') 

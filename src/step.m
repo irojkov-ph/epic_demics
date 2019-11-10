@@ -1,12 +1,11 @@
 % Function t = evolution_illness(t_now,dt,dynamic)
 % 
-% This function evolve `M` times the whole system for a time interval `dt`
-% with respect to the illness (realized by `evolution_illness.m`) and then
-% evolves the choices of vaccination of the whole system (realized by
-% `evolution_vaccination.m`).
+% This function evolves `N` times the whole system (illness and
+% vaccination) for a time step M*dt and at each step draws one of the
+% attributes of the system
 % 
 % The function returns the final time after these evolutions, mainly: 
-%       t = t_now + M*dt;
+%       t = t_now + N*M*dt;
 % 
 
 function t = step(t_now,dt,M,dynamic)
