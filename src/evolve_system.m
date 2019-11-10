@@ -1,4 +1,4 @@
-% Function t = evolution_illness(t_now,dt,dynamic)
+% Function t = evolution_system(t_now,dt,M,dynamic,N)
 % 
 % This function evolve `M` times the whole system for a time interval `dt`
 % with respect to the illness (realized by `evolution_illness.m`) and then
@@ -9,22 +9,22 @@
 %       t = t_now + M*dt;
 % 
 
-function t = step(t_now,dt,M,dynamic)
+function t = evolve_system(t_now,dt,dynamic,N,drawsystem)
     
     if nargin<4
        error('ID:invalid_input','Not enough parameters specified.') 
-    elseif dt<=0 || ~isnumeric(M)
+    elseif dt<=0 || ~isnumeric(M)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
-    % M the number of steps in the illness big step
-    % dynamic is a bool allowing the agents to move
-    
-    for i=1:M
-        t_now = evolution_illness(t_now,dt,dynamic);
+    for i=1:N
+        t_now = step(t_now,dt,M,dynamic);
+        if(drawsystem)
+            %choose between 'vaccinated', 'age', 'reward', 'state'
+            draw('vaccinated');
+        end
     end
     
-    evolution_vaccination();
     
     t = t_now;
     
