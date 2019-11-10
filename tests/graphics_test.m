@@ -1,13 +1,13 @@
 addpath('..\src');
 
 
-n = 100; %n*n == number of people
+n = 2000; %n*n == number of people
 S = system_init(n);
 %evolution(S,10);%currently plots average vacc and non-vacc rate over time
 % figure
 % draw(S,'reward');
 figure
-draw(S,"vaccinated");
+draw(S,"age");
 % figure
 % draw(S,'vaccinated');
 % figure
