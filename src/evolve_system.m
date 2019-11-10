@@ -9,9 +9,9 @@
 %       t = t_now + M*dt;
 % 
 
-function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem)
+function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
     
-    if nargin<6
+    if nargin<7
        error('ID:invalid_input','Not enough parameters specified.') 
     elseif dt<=0 || ~isnumeric(M)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
@@ -20,8 +20,8 @@ function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem)
     for i=1:N
         t_now = step(t_now,dt,M,dynamic);
         if(drawsystem)
-            %choose between 'vaccinated', 'age', 'reward', 'state'
-            draw('vaccinated');
+            draw(todraw);
+            pause(0.5);
         end
     end
     
