@@ -1,11 +1,32 @@
-function system = displacement(sys,k,l)
+% Function status = displacement(k,l)
+%
+% This function checks and displaces the cell at the position (k,l)
+% to another one depending on the following conditions: 
+%   - If the cell is "I" (illness) or "R" (recovered) then it displaces the
+%     cell randomly in its neighbourhood.
+%   - If the cell is "S" (safe) then it checks the density of "I" state 
+%     cells around it and displace it in the direction where it is the
+%     minimal.
+% 
+% The function retuns 1 whenever it ended without error and -1 otherwise.
+% 
+
+function status = displacement(k,l)
+    status = -1;
+    global system epic_demics_path
     
-    state_ = sys.state(k,l);
+    N_lin = size(system.age,1);
+    N_col = size(system.age,2);
     
-    N_cell = count_nearest_neighbours(k,l,size(sys,1),size(sys,2));
+    if nargin<2 || k<1 || k>N_lin || l<1 || l>N_col
+       warning('ID:invalid_input',['The specified indices are out of range.\n', ...
+                                   'The function returned without performing any displacement.'])
+       return
+    end
     
-    N_lin = size(sys,1);
-    N_col = size(sys,2);
+    N_cell = count_nearest_neighbours(k,l,size(system.age,1),size(system.age,2));
+    
+    state_ = system.state(k,l);
     
     id_lin = [k-1,k,k+1];
     id_col = [l-1,l,l+1];
@@ -24,14 +45,18 @@ function system = displacement(sys,k,l)
             for j = 1:3
                 if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
                     if(p<=(q*n) && p>(q*(n-1)))
-                        sys = switch_cells(k,l,id_lin(i),id_col(j),sys);
-                        
-                        % Write in logs
-                        fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
-                        fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
-                        fclose(fileID);
-                        
-                        moved = true;
+                        try
+                            switch_cells(k,l,id_lin(i),id_col(j));
+                            
+                            % Write in logs
+                            fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
+                            fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
+                            fclose(fileID);
+
+                            moved = true;
+                        catch
+                            error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
+                        end
                     end
                     n = n + 1;
                     
@@ -42,7 +67,7 @@ function system = displacement(sys,k,l)
         
     elseif(state_ == 'S')
         
-        if(density_ill(sys,k,l)~=0) %if the person is not safe
+        if(density_ill(k,l)~=0) %if the person is not safe
             
             dens_tot = 0;
             
@@ -51,7 +76,7 @@ function system = displacement(sys,k,l)
                 for j = 1:3
                     if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
                         
-                        dens_tot = dens_tot + density_ill(sys,id_lin(i),id_lin(j));
+                        dens_tot = dens_tot + density_ill(id_lin(i),id_lin(j));
                         
                     end
                 end
@@ -66,17 +91,22 @@ function system = displacement(sys,k,l)
                 
                 for j = 1:3
                     if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
-                        if( p>density && p<=(density + density_ill(sys,id_lin(i),id_lin(j))/dens_tot) && ~moved)
-                            sys = switch_cells(k,l,id_lin(i),id_col(j),sys);
-                            
-                            % Write in logs
-                            fileID = fopen(['..',filesep,'logs',filesep,'displacements.txt'],'a+');
-                            fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!']);
-                            fclose(fileID);
-                            
-                            moved = true;
+                        if( p>density && p<=(density + density_ill(id_lin(i),id_lin(j))/dens_tot) && ~moved)
+                            try
+                                switch_cells(k,l,id_lin(i),id_col(j));
+
+                                % Write in logs
+                                fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
+                                fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
+                                fclose(fileID);
+
+                                moved = true;
+                            catch EM
+                                EM
+                                error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
+                            end
                         end
-                        density = density + density_ill(sys,id_lin(i),id_lin(j))/dens_tot;
+                        density = density + density_ill(id_lin(i),id_lin(j))/dens_tot;
                     end
                 end
 
@@ -85,8 +115,8 @@ function system = displacement(sys,k,l)
         end
         
     else
-        error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be displaced!'])
+        error('ID:no_state',strcat("Error! There exist no state '", state_ , "' in this model! It can not be displaced!"))
     end
     
-    system = sys;
+    status = 1;
 end

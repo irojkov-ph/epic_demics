@@ -1,6 +1,21 @@
 function [t] = evolve_cell(t_now, dt, k, l)
     
     global system;
+% Function t = evolve_cell(t_now, dt, k, l)
+% 
+% This function evolve one unique cell at the position (k,l) 
+% for a time interval `dt`. 
+% 
+% All fields of the cell could evolve (even the field `vaccinated` could 
+% change if for instace the cell "die")
+% 
+% More specifically the `state` of the cell evolves following the SIR model
+% whose parameter are specified in the begining of the function.
+% 
+% It returns the evolution of the time, i.e. `t = t_now + dt`.
+% 
+% 
+
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
@@ -15,11 +30,16 @@ function [t] = evolve_cell(t_now, dt, k, l)
     
     %rewards
     %the person gets the infection
-    r_ill = -10;
+    r_ill=0;  
     %the person recovers
     r_recover = 2;
-
     
+    if nargin<4 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
+       error('ID:invalid_input','The specified indices are out of range.\n')
+    end
+    if dt<=0
+       error('ID:invalid_input','The time interval `dt` has to be positiv.\n')
+    end
     
     state_ = system.state(k,l);
     
@@ -42,7 +62,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
         else
-
+            system.reward(k,l) = system.reward(k,l) + r_S0;
         end
         
     elseif(state_ == 'I')
@@ -60,7 +80,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-
+            system.reward(k,l) = system.reward(k,l) + r_I0;
         end
         
     elseif(state_ == 'R')
@@ -78,13 +98,17 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-
+            system.reward(k,l) = system.reward(k,l) + r_R0;
         end
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
     end
     
-    update_ages(dt);
+    try 
+        update_ages(dt);
+    catch
+        error('ID:ages_fail','The execution of ''update_ages'' function failed.')
+    end
     
     t = t_now + dt;
     

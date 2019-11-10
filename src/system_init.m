@@ -1,7 +1,7 @@
-% Function [sys]=system_init() 
+% Function [status]=system_init(n) 
 %
 % This function implement the system as an array of structures.
-% Each structure sys.'field'(i,j) represent the value of the field 'field' 
+% Each structure sys.`field`(i,j) represent the value of the field `field` 
 % for a person from the system which has the position (i,j)
 % The fields and their values could be :
 %       - state:        "S", "I" or "R" 
@@ -13,17 +13,40 @@
 % 
 % To modify one specific field one can do it just by assigning the value to
 % that field, e.g. :
-%       - sys.age = sys.age + 1;    % Increase the age of each person by 1
-%       - sys.age(i,j) = 50;        % Set the age of the (i,j) person to 50
+%    - system.age = system.age + 1; % Increase the age of each person by 1
+%    - system.age(i,j) = 50;        % Set the age of the (i,j) person to 50
 % 
-% This function will take as a parameter an integer n which defines the 
-% size of the square matrix
+% In ordrer to improve efficiency of the simulation, the `system` is 
+% declared as a global variable. Thus this function take as a parameter an 
+% integer `n` which defines the size of the square matrix and return a  
+% status whenever the global variable is well created (status = 1)
+% or not (status = -1).
 % 
 % 
 
-function [sys]=system_init(n)
+function [status] = system_init(n)
+    status = -1;
     
-    % include path for data
+    % Test input is valid
+    if nargin<1
+        error('ID:invalid_input','You have to specify an integer as a parameter.');
+    end
+    n = int8(n);
+    if size(n,1)~=1 || size(n,2)~=1
+        error('ID:invalid_input','''n'' has to be only one interger.');
+    end
+    
+    global epic_demics_path
+    tmp = dir(['..',filesep]).folder;
+    idx = strfind(tmp,'epic_demics');
+    epic_demics_path = tmp(1:idx+11);
+    
+    
+    % Clear all global variables named `system` and create a new one
+    clear global system
+    global system
+    
+    % Include path for data
     addpath('../data/')
 
     % Load data in order to create a probability density function 
@@ -37,7 +60,6 @@ function [sys]=system_init(n)
     
     % Decomment the following line in order to see the probability distribution
     %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
-    
     
     
     % Creating the age matrix (one can remove `round` if we assume decimal ages)
@@ -55,10 +77,16 @@ function [sys]=system_init(n)
     
     
     % Filling the system structure
-    sys.state = state;
-    sys.vaccinated = vaccinated;
-    sys.reward = reward;
-    sys.age = age;    
-
+    system.state = state;
+    system.vaccinated = vaccinated;
+    system.reward = reward;
+    system.age = age;
+    
+    fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
+        'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
+        'A system of size %d x %d was initialized as a \n', ...
+        'global variable named `system`.\n'],n,n);
+     
+    status = 1;
 end
 
