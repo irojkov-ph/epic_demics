@@ -20,11 +20,11 @@ function [t] = evolve_cell(t_now, dt, k, l)
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
-    gamma=0;
+    gamma=0.339;
     % infection rate (to upload if depends seasonally and depends on the neighbours)
     %beta = density_ill(k,l);
     %beta = beta_0(t_now).*density_ill(k,l);
-    beta = 1; %for the test
+    beta = 0.4874; %for the test
     % death rate (fixed)
     mu=0;
     % rate at which the vaccine becomes less effective
@@ -32,7 +32,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
     
     %rewards
     %the person gets the infection
-    r_ill=0;  
+    r_ill=-10;  
     %the person recovers
     r_recover = 2;
     

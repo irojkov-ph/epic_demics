@@ -1,4 +1,4 @@
-% Function t = evolution_illness(t_now,dt,dynamic)
+% Function t = evolution_illness(t_now,dt,M,dynamic)
 % 
 % This function evolves `N` times the whole system (illness and
 % vaccination) for a time step M*dt and at each step draws one of the
@@ -23,7 +23,7 @@ function t = step(t_now,dt,M,dynamic)
         t_now = evolution_illness(t_now,dt,dynamic);
     end
     
-    evolution_vaccination();
+    %evolution_vaccination();
     
     t = t_now;
     

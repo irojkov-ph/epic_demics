@@ -1,13 +1,13 @@
 %this fct plots values b as the system evolves and moves the x axis
 %accordingly
-function y=dynamic_plot(x,b,t,step,colour)
+function y=dynamic_plot(x,b,i,colour)
     y = [ x, b ];
     plot(x,colour);
-    if ((t/step)-50 < 0)
+    if ((i)-10 < 0)
         startSpot = 0;
     else
-        startSpot = (t/step)-50;
+        startSpot = (i)-10;
     end
-    axis([ startSpot, (t/step+10), 0, 1]);
+    axis([ startSpot, (i+10), 0, 1]);
     drawnow;
 end

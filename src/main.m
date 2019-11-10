@@ -16,11 +16,11 @@ function main()
     %current time
     t_now = 0;
     %interval between two SIR steps
-    dt = 0.02;
+    dt = 1;
     %nb of illness step
-    M = 10;
+    M = 7*24;
     %nb of big steps
-    N = 100;
+    N = 52;
     %dynamic evolution of the agents
     dynamic = false;
     %to draw an attribute of the system while evolving
