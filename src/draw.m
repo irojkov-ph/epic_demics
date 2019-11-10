@@ -19,13 +19,13 @@ end
 function draw_vaccinated()
     global system;
 
-    n = size(system.vaccin,1);
+    n = size(system.vaccinated,1);
     x = 1:n;
     y = 1:n;
 
     map = [1 0 0; 0 0 1];
     colormap(map);
-    image(x,y,system.vaccin,'CDataMapping','scaled');
+    image(x,y,system.vaccinated,'CDataMapping','scaled');
     colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
 end
 
@@ -66,9 +66,10 @@ function draw_state()
             end
         end
     end
+    image(x,y,Z,'CDataMapping','scaled');
     map = [1 0 0; 0 1 0; 0 0 1];
     colormap(map);
-    image(x,y,Z,'CDataMapping','scaled');
+    caxis([0,2]);
     colorbar('Ticks',[0,1,2],'TickLabels',{'Infected','Susceptible','Recovered'})
 end
 
@@ -85,7 +86,7 @@ function draw_reward()
            1 0.8 0; 1 0.9 0; 1 1 0; 0.9 1 0; 0.8 1 0; 0.7 1 0; 0.6 1 0; 0.5 1 0;
            0.4 1 0; 0.3 1 0; 0.2 1 0; 0.1 1 0; 0 1 0];
     colormap(map)
-    caxis([0,1]);
+    %caxis([0,1]);
     c = colorbar;
     ylabel(c, 'reward (in arbitrary units)','FontSize',14)
 end

@@ -1,4 +1,4 @@
-function s = evolution_vaccination()
+function evolution_vaccination()
     global system;
     n = size(system.reward,1);
     %r_vacc == reward for vaccination
@@ -143,8 +143,7 @@ function s = evolution_vaccination()
             system.state(n,n) = "R";
             system.reward(n,n) = system.vaccinated(n,n) + r_vacc;
        end
-    end    
-    s = system;
+    end
 end
 
 

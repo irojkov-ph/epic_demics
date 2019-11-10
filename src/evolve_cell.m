@@ -1,6 +1,3 @@
-function [t] = evolve_cell(t_now, dt, k, l)
-    
-    global system;
 % Function t = evolve_cell(t_now, dt, k, l)
 % 
 % This function evolve one unique cell at the position (k,l) 
@@ -16,15 +13,20 @@ function [t] = evolve_cell(t_now, dt, k, l)
 % 
 % 
 
+function [t] = evolve_cell(t_now, dt, k, l)
+    
+    global system;
+
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
-    gamma=0.5;
+    gamma=0;
     % infection rate (to upload if depends seasonally and depends on the neighbours)
-    %beta = beta_0(t_now).*density_ill(sys,k,l);
-    beta = 0.5; %for the test
+    %beta = density_ill(k,l);
+    %beta = beta_0(t_now).*density_ill(k,l);
+    beta = 1; %for the test
     % death rate (fixed)
-    mu=0.5;
+    mu=0;
     % rate at which the vaccine becomes less effective
     alpha=0;
     
@@ -57,12 +59,8 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.reward(k,l) = 0;
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
-        elseif(p>(beta+mu) && p<=(beta+mu+epsilon))
-            system.reward(k,l) = 0;
-            system.age(k,l) = 0;
-            system.vaccinated(k,l) = false;
         else
-            system.reward(k,l) = system.reward(k,l) + r_S0;
+            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'I')
@@ -80,7 +78,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-            system.reward(k,l) = system.reward(k,l) + r_I0;
+            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'R')
@@ -98,7 +96,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-            system.reward(k,l) = system.reward(k,l) + r_R0;
+            system.reward(k,l) = system.reward(k,l);
         end
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])

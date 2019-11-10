@@ -37,7 +37,8 @@ function [status] = system_init(n)
     end
     
     global epic_demics_path
-    tmp = dir(['..',filesep]).folder;
+    a=dir();
+    tmp = a(1).folder;
     idx = strfind(tmp,'epic_demics');
     epic_demics_path = tmp(1:idx+11);
     
