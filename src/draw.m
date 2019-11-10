@@ -25,7 +25,7 @@ function draw_vaccinated()
 
     map = [1 0 0; 0 0 1];
     colormap(map);
-    image(x,y,system.vaccinated,'CDataMapping','scaled');%,'ButtonDownFcn', @keyPressCallback);
+    image(x,y,system.vaccinated,'CDataMapping','scaled');
     colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
 end
 
