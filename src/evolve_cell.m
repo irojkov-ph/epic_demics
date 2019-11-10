@@ -62,7 +62,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
         else
-            system.reward(k,l) = system.reward(k,l) + r_S0;
+            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'I')
@@ -80,7 +80,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-            system.reward(k,l) = system.reward(k,l) + r_I0;
+            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'R')
@@ -98,7 +98,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
         else
-            system.reward(k,l) = system.reward(k,l) + r_R0;
+            system.reward(k,l) = system.reward(k,l);
         end
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])

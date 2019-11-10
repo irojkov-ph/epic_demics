@@ -36,11 +36,11 @@ function [status] = system_init(n)
         error('ID:invalid_input','''n'' has to be only one interger.');
     end
     
-    global epic_demics_path
-    tmp = dir(['..',filesep]).folder;
-    idx = strfind(tmp,'epic_demics');
-    epic_demics_path = tmp(1:idx+11);
-    
+%     global epic_demics_path
+%     tmp = dir(['..',filesep]).folder;
+%     idx = strfind(tmp,'epic_demics');
+%     epic_demics_path = tmp(1:idx+11);
+%     
     
     % Clear all global variables named `system` and create a new one
     clear global system

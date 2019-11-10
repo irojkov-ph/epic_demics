@@ -19,13 +19,13 @@ end
 function draw_vaccinated()
     global system;
 
-    n = size(system.vaccin,1);
+    n = size(system.vaccinated,1);
     x = 1:n;
     y = 1:n;
 
     map = [1 0 0; 0 0 1];
     colormap(map);
-    image(x,y,system.vaccin,'CDataMapping','scaled');
+    image(x,y,system.vaccinated,'CDataMapping','scaled');
     colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
 end
 

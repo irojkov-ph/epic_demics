@@ -26,14 +26,13 @@ function main()
     %to draw an attribute of the system while evolving
     drawsystem = true;
     
-    if nargin<4
-       error('ID:invalid_input','Not enough parameters specified.') 
-    elseif dt<=0 || ~isnumeric(n)|| ~isnumeric(N)
+    
+    if dt<=0 || ~isnumeric(n)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
     system_init(n);
-    t_now = evolue_system(t_now,dt,dynamic,M,N,drawsystem);
+    t_now = evolve_system(t_now,dt,dynamic,M,N,drawsystem);
     
     
     
