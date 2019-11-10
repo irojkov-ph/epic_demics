@@ -12,13 +12,13 @@
 function main()
     
     %number of cells
-    n = 20;
+    n = 100;
     %current time
     t_now = 0;
     %interval between two SIR steps
-    dt = 0.5;
+    dt = 0.02;
     %nb of illness step
-    M = 20;
+    M = 10;
     %nb of big steps
     N = 100;
     %dynamic evolution of the agents

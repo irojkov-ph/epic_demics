@@ -25,8 +25,8 @@ function t = evolution_illness(t_now,dt,dynamic)
     
     global system
     
-    Nlin = size(system,1);
-    Ncol = size(system,2);
+    Nlin = size(system.age,1);
+    Ncol = size(system.age,2);
     
     k = floor(rand.*(Nlin)+1);
     l = floor(rand.*(Ncol)+1);

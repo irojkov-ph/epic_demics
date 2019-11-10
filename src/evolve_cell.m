@@ -1,6 +1,3 @@
-function [t] = evolve_cell(t_now, dt, k, l)
-    
-    global system;
 % Function t = evolve_cell(t_now, dt, k, l)
 % 
 % This function evolve one unique cell at the position (k,l) 
@@ -16,15 +13,20 @@ function [t] = evolve_cell(t_now, dt, k, l)
 % 
 % 
 
+function [t] = evolve_cell(t_now, dt, k, l)
+    
+    global system;
+
     %ATTENTION NORMALISE THE PROBAS
     
     % recovery rate (fixed)
-    gamma=0.5;
+    gamma=0;
     % infection rate (to upload if depends seasonally and depends on the neighbours)
-    %beta = beta_0(t_now).*density_ill(sys,k,l);
-    beta = 0.5; %for the test
+    %beta = density_ill(k,l);
+    %beta = beta_0(t_now).*density_ill(k,l);
+    beta = 1; %for the test
     % death rate (fixed)
-    mu=0.5;
+    mu=0;
     % rate at which the vaccine becomes less effective
     alpha=0;
     
@@ -54,10 +56,6 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.state(k,l) = 'I';
         elseif(p>beta && p<=(beta+mu))
             % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
-            system.age(k,l) = 0;
-            system.vaccinated(k,l) = false;
-        elseif(p>(beta+mu) && p<=(beta+mu+epsilon))
             system.reward(k,l) = 0;
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
