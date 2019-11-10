@@ -147,6 +147,8 @@ function s = evolution_vaccination()
     s = system;
 end
 
+
+
 %distriution function choice 1
 function p=vaccination_probability_1(x)
     a = 2/3;
