@@ -66,10 +66,10 @@ function draw_state()
             end
         end
     end
+    image(x,y,Z,'CDataMapping','scaled');
     map = [1 0 0; 0 1 0; 0 0 1];
     colormap(map);
     caxis([0,2]);
-    image(x,y,Z,'CDataMapping','scaled');
     colorbar('Ticks',[0,1,2],'TickLabels',{'Infected','Susceptible','Recovered'})
 end
 
