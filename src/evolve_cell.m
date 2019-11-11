@@ -32,7 +32,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
     
     %rewards
     %the person gets the infection
-    r_ill=0;  
+    r_ill=-10;  
     %the person recovers
     r_recover = 2;
     

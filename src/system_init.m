@@ -70,7 +70,7 @@ function [status] = system_init(n)
     reward = zeros(n);
     
     % Creating the vaccination matrix
-    vaccinated = round(rand(n));
+    vaccinated = zeros(n);
     
     % Creating the state matrix
     state = string(ones(n));
