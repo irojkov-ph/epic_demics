@@ -33,7 +33,5 @@ function main()
     end
     
     system_init(n);
-    global system;
-    %system.reward(1,1)
     t_now = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw);
 end

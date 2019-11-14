@@ -114,14 +114,16 @@ function evolution_vaccination()
     if(p2 < p)
         system.vaccinated(n,n) = not(system.vaccinated(n,n));
     end  
-    for i = 1:n
-        for j = 1:n
-            if((system.state(i,j) == "S") && (system.vaccinated(i,j) == true))
-                system.state(i,j) = "R";
-                system.reward(i,j) = system.reward(i,j) + r_vacc;
-            end
-        end
-    end
+%     for i = 1:n
+%         for j = 1:n
+%             if((system.state(i,j) == "S") && (system.vaccinated(i,j) == true))
+%                 system.state(i,j) = "R";
+%                 system.reward(i,j) = system.reward(i,j) + r_vacc;
+%             end
+%         end
+%     end
+    system.state((system.state == "S") + (system.vaccinated == 1) > 1) = "R";
+    system.reward = system.reward + ((system.state == "S") + (system.vacc == 1) > 1)*r_vacc;
 end
 
 

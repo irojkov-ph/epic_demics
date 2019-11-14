@@ -10,7 +10,6 @@
 % 
 
 function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
-    global system;
 
     if nargin<7
        error('ID:invalid_input','Not enough parameters specified.') 
@@ -23,10 +22,8 @@ function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
         if(drawsystem)
             draw(todraw);
             pause(0.5);
-            %system.reward(1,1)
         end
     end
-    
     
     t = t_now;
     
