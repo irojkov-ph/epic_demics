@@ -20,7 +20,7 @@ function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
     for i=1:N
         t_now = step(t_now,dt,M,dynamic);
         if(drawsystem)
-            draw(todraw);
+            draw(todraw,t_now);
             pause(0.5);
         end
     end

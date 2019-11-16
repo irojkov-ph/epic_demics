@@ -12,21 +12,21 @@
 function main()
     
     %number of cells
-    n = 10;
+    n = 100;
     %current time
     t_now = 0;
     %interval between two SIR steps
     dt = 0.02;
     %nb of illness step
-    M = 100;
+    M = 10000;
     %nb of big steps
-    N = 100;
+    N = 500;
     %dynamic evolution of the agents
     dynamic = false;
     %to draw an attribute of the system while evolving
     drawsystem = true;
-    %choose between 'vaccinated', 'age', 'reward', 'state'
-    todraw = 'reward';
+    %choose between "vaccinated", "age", "reward", "state", "state_density"
+    todraw = ["state_density";"state";"vaccinated";"reward"];
     
     if dt<=0 || ~isnumeric(n)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
