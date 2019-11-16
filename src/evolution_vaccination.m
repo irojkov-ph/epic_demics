@@ -123,7 +123,7 @@ function evolution_vaccination()
 %         end
 %     end
     system.state((system.state == "S") + (system.vaccinated == 1) > 1) = "R";
-    system.reward = system.reward + ((system.state == "S") + (system.vacc == 1) > 1)*r_vacc;
+    system.reward = system.reward + ((system.state == "S") + (system.vaccinated == 1) > 1)*r_vacc;
 end
 
 
