@@ -10,7 +10,7 @@
 % 
 
 function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
-    
+
     if nargin<7
        error('ID:invalid_input','Not enough parameters specified.') 
     elseif dt<=0 || ~isnumeric(M)|| ~isnumeric(N)
@@ -24,7 +24,6 @@ function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
             pause(0.5);
         end
     end
-    
     
     t = t_now;
     

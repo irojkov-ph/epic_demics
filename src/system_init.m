@@ -42,13 +42,12 @@ function [status] = system_init(n)
     idx = strfind(tmp,'epic_demics');
     epic_demics_path = tmp(1:idx+11);
     
-    
     % Clear all global variables named `system` and create a new one
     clear global system
     global system
     
     % Include path for data
-    addpath('../data/')
+    addpath([epic_demics_path,filesep,'data'])
 
     % Load data in order to create a probability density function 
     pop_table = load('swiss_pop_age_2016.mat');
@@ -70,7 +69,7 @@ function [status] = system_init(n)
     reward = zeros(n);
     
     % Creating the vaccination matrix
-    vaccinated = round(rand(n));
+    vaccinated = zeros(n);
     
     % Creating the state matrix
     state = string(ones(n));

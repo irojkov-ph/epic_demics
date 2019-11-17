@@ -32,7 +32,7 @@ function [t] = evolve_cell(t_now, dt, k, l)
     
     %rewards
     %the person gets the infection
-    r_ill=0;  
+    r_ill=-10;  
     %the person recovers
     r_recover = 2;
     
@@ -55,12 +55,10 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.reward(k,l) = system.reward(k,l) + r_ill;
             system.state(k,l) = 'I';
         elseif(p>beta && p<=(beta+mu))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
-        else
-            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'I')
@@ -72,13 +70,11 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.reward(k,l) = system.reward(k,l) + r_recover;
             system.state(k,l) = 'R';
         elseif(p>gamma && p<=(gamma+mu))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
-        else
-            system.reward(k,l) = system.reward(k,l);
         end
         
     elseif(state_ == 'R')
@@ -90,13 +86,11 @@ function [t] = evolve_cell(t_now, dt, k, l)
             system.state(k,l) = 'S';
             system.vaccinated(k,l) = false;
         elseif(p>alpha && p<=(alpha+mu))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
-        else
-            system.reward(k,l) = system.reward(k,l);
         end
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
