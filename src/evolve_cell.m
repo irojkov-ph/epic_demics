@@ -37,7 +37,7 @@ function [t] = evolve_cell(t_now, k, l)
     Q_mu = n*n*mu;
     Q_alpha = n*n*alpha;
     
-    % beta rate depends on the actual system (i.e. on the density of ill)
+    % beta rate depends on the actual system (i.e. on the density of infected)
     Q_beta = beta.*sum(sum(system.beta));%.*beta_0(t_now);
     
     %beta rate for the test
