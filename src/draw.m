@@ -22,10 +22,11 @@ function draw_vaccinated()
     n = size(system.vaccinated,1);
     x = 1:n;
     y = 1:n;
-
+    
+    image(x,y,system.vaccinated,'CDataMapping','scaled');
     map = [1 0 0; 0 0 1];
     colormap(map);
-    image(x,y,system.vaccinated,'CDataMapping','scaled');
+    caxis([0,1]);
     colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
 end
 

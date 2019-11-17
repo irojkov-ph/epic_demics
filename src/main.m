@@ -12,7 +12,9 @@
 function main()
     
     %number of cells
+
     n = 80;
+
     %current time
     t_now = 0;
     %nb of illness step
@@ -24,15 +26,14 @@ function main()
     %to draw an attribute of the system while evolving
     drawsystem = true;
     %choose between 'vaccinated', 'age', 'reward', 'state'
-    todraw = 'state';
+    todraw = 'reward';
     
     if ~isnumeric(n)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
     system_init(n);
+
     t_now = evolve_system(t_now,dynamic,M,N,drawsystem,todraw);
-    
-    
     
 end

@@ -48,7 +48,6 @@ function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
         end
      end
     
-    
     t = t_now;
     
 end

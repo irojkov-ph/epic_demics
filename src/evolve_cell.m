@@ -75,8 +75,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.reward(k,l) = system.reward(k,l) + r_ill;
             system.state(k,l) = 'I';
         elseif(p>p_ill && p<=(p_ill+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
         end
@@ -98,8 +98,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.reward(k,l) = system.reward(k,l) + r_recover;
             system.state(k,l) = 'R';
         elseif(p>p_recover && p<=(p_recover+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
@@ -122,8 +122,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.state(k,l) = 'S';
             system.vaccinated(k,l) = false;
         elseif(p>p_susc && p<=(p_susc+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
