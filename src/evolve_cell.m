@@ -17,31 +17,34 @@ function [t] = evolve_cell(t_now, dt, k, l)
     
     global system;
 
-    %ATTENTION NORMALISE THE PROBAS
-    
-    % recovery rate (fixed)
-    gamma=.4;
-    % infection rate (to upload if depends seasonally and depends on the neighbours)
-    %beta = density_ill(k,l);
-    %beta = beta_0(t_now).*density_ill(k,l);
-    beta = .6; %for the test
-    % death rate (fixed)
-    mu=.2;
-    % rate at which the vaccine becomes less effective
-    alpha=.3;
-    
-    %rewards
-    %the person gets the infection
-    r_ill=-10;  
-    %the person recovers
-    r_recover = 2;
-    
     if nargin<4 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
        error('ID:invalid_input','The specified indices are out of range.\n')
     end
     if dt<=0
        error('ID:invalid_input','The time interval `dt` has to be positiv.\n')
     end
+
+    %ATTENTION NORMALISE THE PROBAS
+    
+    % recovery rate (fixed) -----------------------------------> 3-5 days adults and 3-10 days children
+    child = 0;
+    if system.age(k,l)<15, child = 1; end
+    gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+    % infection rate (to upload if depends seasonally and depends on the neighbours)
+    %beta = density_ill(k,l);
+    %beta = beta_0(t_now).*density_ill(k,l);
+    %beta = .6; %for the test
+    beta = beta_influenza(t_now,'week');    
+    % death rate (fixed)
+    mu = 0;
+    % rate at which the vaccine becomes less effective --------> 6 months
+    alpha = 1/(6*4);
+    
+    % REWARDS:
+    % the person gets the infection
+    r_ill=-10;  
+    % the person recovers
+    r_recover = 2;
     
     state_ = system.state(k,l);
     
