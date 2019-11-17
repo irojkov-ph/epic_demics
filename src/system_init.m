@@ -33,7 +33,7 @@ function [status] = system_init(n)
     end
     n = int8(n);
     if size(n,1)~=1 || size(n,2)~=1
-        error('ID:invalid_input','''n'' has to be only one interger.');
+        error('ID:invalid_input','''n'' has to be only one integer.');
     end
     
     global epic_demics_path
@@ -76,12 +76,30 @@ function [status] = system_init(n)
     state = string(ones(n));
     state(:,:) = "S";
     
+    % add a Patient Zero at a random position
+    
+    k = floor(rand.*n+1);
+    l = floor(rand.*n+1);
+    
+    state(k,l) = "I";
+    
     
     % Filling the system structure
     system.state = state;
     system.vaccinated = vaccinated;
     system.reward = reward;
     system.age = age;
+    
+    % Creating the infectivity matrix
+    beta = zeros(n);
+    for i=1:n
+        for j=1:n
+            beta(i,j) = density_ill(i,j);
+        end
+    end
+    
+    % Filling the system structure of beta
+    system.beta = beta;
     
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
         'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
