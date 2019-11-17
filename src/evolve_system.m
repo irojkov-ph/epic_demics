@@ -9,27 +9,42 @@
 %       t = t_now + M*dt;
 % 
 
-function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
+function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
     global system;
-    if nargin<7
+    if nargin<6
        error('ID:invalid_input','Not enough parameters specified.') 
-    elseif dt<=0 || ~isnumeric(M)|| ~isnumeric(N)
+    elseif ~isnumeric(M)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
      figure
      n = size(system.age,1);
-     x1 = 0;
-     step_ = 1;
+     x_S = 0;
+     x_I = 0;
+     x_R = 0;
      for i=1:N
-         t_now = step(t_now,dt,M,dynamic);
+         t_now = step(t_now,M,dynamic);
         if(drawsystem)
-            %draw(todraw);
-            s = (system.state == 'I');
-            b = sum(s(:))/(n*n);
-            x1 = dynamic_plot(x1,b,i,'r'); %plots average vacc rate over time
+            
+%             draw(todraw);
+            
+            s_S = (system.state == 'S');
+            b_S = sum(s_S(:))/(n*n);
+            x_S = dynamic_plot(x_S,b_S,i,'g'); %plots average vacc rate over time
             grid on
-            pause(0.05);
+            hold on
+            s_I = (system.state == 'I');
+            b_I = sum(s_I(:))/(n*n);
+            x_I = dynamic_plot(x_I,b_I,i,'r'); %plots average vacc rate over time
+            grid on
+            hold on
+            s_R = (system.state == 'R');
+            b_R = sum(s_R(:))/(n*n);
+            x_R = dynamic_plot(x_R,b_R,i,'b'); %plots average vacc rate over time
+            grid on
+            hold on
+            
+            pause(0.005);
         end
      end
     
