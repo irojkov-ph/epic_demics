@@ -46,6 +46,10 @@ function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
             
             pause(0.005);
         end
+%         if(button_is_pushed)
+%             uiwait(gcf); 
+%             disp('The system is paused until you click Continue');
+%         end
      end
     
     

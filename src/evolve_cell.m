@@ -25,7 +25,7 @@ function [t] = evolve_cell(t_now, k, l)
     % recovery rate (number of recovery per node per unit of time)
     gamma= 0.01;
     % infection rate (number of infections per node per unit of time)
-    beta = 5;
+    beta = 1;
     % number of people who loose the effect of vaccine per node per unit of time
     alpha=0;
     % nothing happens
