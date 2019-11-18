@@ -23,22 +23,32 @@ function [t] = evolve_cell(t_now, k, l)
     dt = 1./(n.^2);
     
     % recovery rate (number of recovery per node per unit of time)
-    gamma= .001;
+    gamma= 0.01;
     % infection rate (number of infections per node per unit of time)
-    beta = .05;
-    % death rate (number of death per node per unit of time)
-    mu=0;
+    beta = 5;
     % number of people who loose the effect of vaccine per node per unit of time
     alpha=0;
+    % nothing happens
+    zero=0.1;
+    
+    % number of nearest neighbours
+    m = count_nearest_neighbours(k,l,n,n);
     
     % those rates, but beta, are independent from the node, then we just sum 
-    % them up by multiplying by N^2
-    Q_gamma = n*n*gamma;
-    Q_mu = n*n*mu;
-    Q_alpha = n*n*alpha;
+    % them up by multiplying by m^2
+    Q_gamma = (m+1)*gamma;
+    Q_alpha = (m+1)*alpha;
+    Q_zero = (m+1)*zero;
     
     % beta rate depends on the actual system (i.e. on the density of infected)
-    Q_beta = beta.*sum(sum(system.beta));%.*beta_0(t_now);
+    Q_beta = beta.*nearest_beta(k,l);%.*beta_0(t_now);
+    
+    % mu rate depends on the actual system (i.e. on the age of agents)
+    %Q_mu = sum(sum(mu_age()));
+    
+    %mu rate for the test
+    mu = 0.01;
+    Q_mu = (m+1)*mu;
     
     %beta rate for the test
     %Q_beta = n*n*beta;
@@ -60,7 +70,7 @@ function [t] = evolve_cell(t_now, k, l)
     
     if(state_ == 'S')
         
-        Q = Q_mu + Q_beta;
+        Q = Q_mu + Q_beta + Q_zero;
         
         if(Q==0)
             t = t_now + dt;
@@ -83,7 +93,7 @@ function [t] = evolve_cell(t_now, k, l)
         
     elseif(state_ == 'I')
         
-        Q = Q_gamma + Q_mu;
+        Q = Q_gamma + Q_mu + Q_zero;
         
         if(Q==0)
             t = t_now + dt;
@@ -107,7 +117,7 @@ function [t] = evolve_cell(t_now, k, l)
         
     elseif(state_ == 'R')
         
-        Q = Q_alpha + Q_mu;
+        Q = Q_alpha + Q_mu + Q_zero;
         
         if(Q==0)
             t = t_now + dt;
