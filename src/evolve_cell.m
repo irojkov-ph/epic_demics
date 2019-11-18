@@ -17,17 +17,26 @@ function [t] = evolve_cell(t_now, k, l)
     
     global system;
     
+    if nargin<3 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
+       error('ID:invalid_input','The specified indices are out of range.\n')
+    end
+    
     n = size(system.age,1);
     
     %if nothing happens the time evolves with dt
     dt = 1./(n.^2);
     
-    % recovery rate (number of recovery per node per unit of time)
-    gamma= 0.01;
+    % recovery rate (fixed) -----------------------------------> 3-5 days adults and 3-10 days children
+    child = 0;
+    if system.age(k,l)<15, child = 1; end
+    gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+    
     % infection rate (number of infections per node per unit of time)
-    beta = 1;
-    % number of people who loose the effect of vaccine per node per unit of time
-    alpha=0;
+    beta = beta_influenza(t_now,'week');
+    
+    % rate at which the vaccine becomes less effective --------> 6 months
+    alpha = 1/(6*4);
+    
     % nothing happens
     zero=0.1;
     
@@ -59,11 +68,6 @@ function [t] = evolve_cell(t_now, k, l)
     %the person recovers
     r_recover = 2;
     
-    
-    if nargin<3 || k<1 || k>size(system.age,1) || l<1 || l>size(system.age,2)
-       error('ID:invalid_input','The specified indices are out of range.\n')
-    end
-    
     state_ = system.state(k,l);
     
     p = rand;
@@ -85,8 +89,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.reward(k,l) = system.reward(k,l) + r_ill;
             system.state(k,l) = 'I';
         elseif(p>p_ill && p<=(p_ill+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
         end
@@ -108,8 +112,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.reward(k,l) = system.reward(k,l) + r_recover;
             system.state(k,l) = 'R';
         elseif(p>p_recover && p<=(p_recover+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';
@@ -132,8 +136,8 @@ function [t] = evolve_cell(t_now, k, l)
             system.state(k,l) = 'S';
             system.vaccinated(k,l) = false;
         elseif(p>p_susc && p<=(p_susc+p_death))
-            % the person dies, we consider a newborn at its place
-            system.reward(k,l) = 0;
+            % the person dies, we consider a newborn at its place keeping
+            % the same reward
             system.age(k,l) = 0;
             system.vaccinated(k,l) = false;
             system.state(k,l) = 'S';

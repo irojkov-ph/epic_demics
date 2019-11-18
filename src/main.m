@@ -1,30 +1,28 @@
 % Function main(t_now,dt,M,dynamic,N)
-% 
-% This function evolve `M` times the whole system for a time interval `dt`
-% with respect to the illness (realized by `evolution_illness.m`) and then
-% evolves the choices of vaccination of the whole system (realized by
-% `evolution_vaccination.m`).
-% 
+%
 % The function returns the final time after these evolutions, mainly: 
-%       t = t_now + M*dt;
+%       t = t_now + N*M*dt;
 % 
 
 function main()
     
-    %number of cells
-    n = 80;
-    %current time
+    % UNITS OF TIME (totaly subjective) -------------> a week 
+
+    %number of cells --------------------------------> 10⁴ persons
+    n = 100;
+    %current time -----------------------------------> 0 (obvious) 
     t_now = 0;
-    %nb of illness step
-    M = 1000;
-    %nb of big steps
-    N = 10000;
+    %nb of illness step -----------------------------> 80% of the population
+    M = 100 * n*n;
+    %nb of big steps --------------------------------> 2 year 
+    N = 104;
+    
     %dynamic evolution of the agents
     dynamic = false;
     %to draw an attribute of the system while evolving
     drawsystem = true;
-    %choose between 'vaccinated', 'age', 'reward', 'state'
-    todraw = 'state';
+    %choose between "vaccinated", "age", "reward", "state", "state_density"
+    todraw = ["state_density";"state";"vaccinated";"reward"];
     
     if ~isnumeric(n)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
@@ -33,6 +31,5 @@ function main()
     system_init(n);
     t_now = evolve_system(t_now,dynamic,M,N,drawsystem,todraw);
     
-    
-    
 end
+
