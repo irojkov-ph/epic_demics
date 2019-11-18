@@ -1,26 +1,27 @@
 % Function main(t_now,dt,M,dynamic,N)
-% 
-% This function evolve `M` times the whole system for a time interval `dt`
-% with respect to the illness (realized by `evolution_illness.m`) and then
-% evolves the choices of vaccination of the whole system (realized by
-% `evolution_vaccination.m`).
-% 
+%
 % The function returns the final time after these evolutions, mainly: 
-%       t = t_now + M*dt;
+%       t = t_now + N*M*dt;
 % 
 
 function main()
     
-    %number of cells
+    % UNITS OF TIME (totaly subjective) -------------> a week 
+
+    %number of cells --------------------------------> 10⁴ persons
     n = 100;
-    %current time
+    %current time -----------------------------------> 0 (obvious) 
     t_now = 0;
+    %nb of illness step -----------------------------> 80% of the population
+    M = .8 * n*n;
+    %time between two evolution_vaccination step ----> 1 week
+    T = 1;
     %interval between two SIR steps
-    dt = 0.02;
-    %nb of illness step
-    M = 10000;
-    %nb of big steps
-    N = 500;
+    dt = T/M;
+    %nb of big steps --------------------------------> 2 year 
+    N = 104;
+    
+    
     %dynamic evolution of the agents
     dynamic = false;
     %to draw an attribute of the system while evolving
@@ -35,3 +36,5 @@ function main()
     system_init(n);
     t_now = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw);
 end
+
+
