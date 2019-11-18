@@ -16,7 +16,7 @@ function main()
     %current time
     t_now = 0;
     %nb of illness step
-    M = 100;
+    M = 1000;
     %nb of big steps
     N = 10000;
     %dynamic evolution of the agents
