@@ -3,29 +3,41 @@ function evolution_vaccination()
     
     n = size(system.reward,1);
     
-    %r_vacc == reward for vaccination
+    % r_vacc == reward for vaccination
     r_vacc = -4;
     
-    
+    % Filter for the convolution
     filter = ones(3);
-    number_of_neighbors = conv2(ones(n),filter,'same')-1;
-    rewards_of_neighbors = conv2(system.reward,filter,'same')-system.reward;
-    rewards_of_neighbors = rewards_of_neighbors ./ number_of_neighbors;
     
+    % Number of nearest neighbors
+%     number_of_neighbors = conv2(ones(n),filter,'same')-1;
+    
+    % Number of NOT vaccinated nearest neighbors
+    number_of_neighbors_NV = conv2(~system.vaccinated,filter,'same')-(~system.vaccinated);
+    % Mean reward of NOT vaccinated neighbors
+    rewards_of_neighbors_NV = conv2(system.reward.*system.vaccinated,filter,'same')-system.reward.*system.vaccinated;
+    rewards_of_neighbors_NV = rewards_of_neighbors_NV ./ number_of_neighbors_NV;
+    
+    % Number of vaccinated nearest neighbors
+    number_of_neighbors_V = conv2(system.vaccinated,filter,'same')-(system.vaccinated);
+    % Mean reward of vaccinated neighbors
+    rewards_of_neighbors_V = conv2(system.reward.*(~system.vaccinated),filter,'same')-system.reward.*(~system.vaccinated);
+    rewards_of_neighbors_V = rewards_of_neighbors_V ./ number_of_neighbors_V;
+    
+    % Uniform distribition to change your state to vaccinated or not
     proba_change_state = rand(n);
+    % Probability to change the vaccination choice
+    proba_vaccination = vaccination_probability_1(rewards_of_neighbors_V-rewards_of_neighbors_NV);
     
-    proba_vaccination = vaccination_probability_1(system.reward-rewards_of_neighbors);
+    % Which cells will change in vaccination
+    indices_to_change = (proba_vaccination>proba_change_state);
     
-    indices_not_vacc = (proba_vaccination>proba_change_state);
-    
-    system.vaccinated(indices_not_vacc) = not(system.vaccinated(indices_not_vacc));
+    % Change the vaccinated state of these cells
+    system.vaccinated(indices_to_change) = not(system.vaccinated(indices_to_change));
 
-    system.state((system.state == "S") + (system.vaccinated == 1) > 1) = "R";
-    system.reward = system.reward + ((system.state == "S") + (system.vaccinated == 1) > 1)*r_vacc;
+    system.state((system.state == "S") & indices_to_change) = "R";
+    system.reward = system.reward + ((system.state == "S") & indices_to_change) * r_vacc;
 end
-
-
-
 
 %distriution function choice 1
 function p=vaccination_probability_1(x)
@@ -46,6 +58,3 @@ function p=vaccination_probability_2(x)
         p = 1 - (x + (1-delta)*b)/(x+b);
     end
 end
-
-    
-    
