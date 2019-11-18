@@ -9,21 +9,27 @@
 %       t = t_now + M*dt;
 % 
 
-function t = evolve_system(t_now,dt,dynamic,M,N,drawsystem,todraw)
 
-    if nargin<7
+function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
+    global system;
+    if nargin<6
        error('ID:invalid_input','Not enough parameters specified.') 
-    elseif dt<=0 || ~isnumeric(M)|| ~isnumeric(N)
+    elseif ~isnumeric(M)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
-    for i=1:N
-        t_now = step(t_now,dt,M,dynamic);
+     figure
+     n = size(system.age,1);
+     x_S = 0;
+     x_I = 0;
+     x_R = 0;
+     for i=1:N
+         t_now = step(t_now,M,dynamic);
         if(drawsystem)
             draw(todraw,t_now);
-            pause(0.5);
+            pause(0.005);
         end
-    end
+     end
     
     t = t_now;
     

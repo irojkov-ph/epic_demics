@@ -10,15 +10,9 @@ function y = beta_0(t)
     sigma=2;
     %period of the variation
     T=30;
-    
-    tmp = t;
-    
-    for i=1:max(size(tmp))
-        while(tmp(i)>T)
-            tmp(i)=tmp(i)-T;
-        end
-    end
-    
+
+    tmp = mod(t,T);
+
     y = gaussmf(tmp,[sigma,m]);
     
 end
