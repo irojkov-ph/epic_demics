@@ -1,6 +1,6 @@
-% Function t = evolution_illness(t_now,dt,dynamic)
+% Function t = evolution_illness(t_now,dynamic)
 % 
-% This function evolve the "whole" system for a time interval `dt`.
+% This function evolve the "whole" system for a time step.
 % 
 % The evolution of the system is programmed randomly, i.e. the cell which
 % will evolve during this time interval is chosen randomly.
@@ -12,15 +12,13 @@
 % 
 
 
-function t = evolution_illness(t_now,dt,dynamic)
+function t = evolution_illness(t_now,dynamic)
     
     % dt is the small time step in which only one evenement happens
     % M (in step.m) is the number of times we choose a random cell
         
-    if nargin<3 
+    if nargin<2
        error('ID:invalid_input','No input specified')
-    elseif dt<=0
-       error('ID:invalid_input','The time interval `dt` has to be positiv.')
     end
     
     global system
@@ -42,7 +40,7 @@ function t = evolution_illness(t_now,dt,dynamic)
         l=Ncol;
     end
         
-    t_now = evolve_cell(t_now,dt,k,l);
+    t_now = evolve_cell(t_now,k,l);
     
     if(dynamic)
         try
