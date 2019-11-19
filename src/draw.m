@@ -45,7 +45,6 @@ function draw_vaccinated()
     else
         im = findobj('Type', 'Image', 'Tag', 'Vaccinated');
         set(im, 'CData', system.vaccinated)
-        refreshdata
     end
 end
 
@@ -92,7 +91,6 @@ function draw_state()
     else
         im = findobj('Type', 'Image', 'Tag', 'State');
         set(im, 'CData', Z)
-        refreshdata
     end  
 end
 
@@ -125,7 +123,6 @@ function draw_reward()
         end
         img = findobj('Type', 'Image', 'Tag', 'Reward');
         set(img,'CData', system.reward)
-        refresh
     end
 end
 
