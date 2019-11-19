@@ -27,10 +27,12 @@ function evolution_vaccination()
     % Uniform distribition to change your state to vaccinated or not
     proba_change_state = rand(n);
     % Probability to change the vaccination choice
-    proba_vaccination = vaccination_probability_1(rewards_of_neighbors_V-rewards_of_neighbors_NV);
+    proba_vaccination = vaccination_probability_1((rewards_of_neighbors_V-rewards_of_neighbors_NV).*number_of_neighbors_V ...
+                            + (rewards_of_neighbors_NV-rewards_of_neighbors_V).*number_of_neighbors_NV);
+%     proba_vaccination = rewards_of_neighbors_V<rewards_of_neighbors_NV;
     
     % Which cells will change in vaccination
-    indices_to_change = (proba_vaccination>proba_change_state);
+    indices_to_change = (proba_vaccination<proba_change_state);
     
     % Change the vaccinated state of these cells
     system.vaccinated(indices_to_change) = not(system.vaccinated(indices_to_change));
