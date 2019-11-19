@@ -18,18 +18,13 @@ function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
         error ('ID:invalid_input','Input parameters are invalid.')
     end
     
-     figure
-     n = size(system.age,1);
-     x_S = 0;
-     x_I = 0;
-     x_R = 0;
-     for i=1:N
-         t_now = step(t_now,M,dynamic);
-        if(drawsystem)
-            draw(todraw,t_now);
-            pause(0.005);
-        end
-     end
+    for i=1:N
+       t_now = step(t_now,M,dynamic);
+       if(drawsystem)
+           draw(todraw,t_now);
+           pause(0.005);
+       end
+    end
     
     t = t_now;
     
