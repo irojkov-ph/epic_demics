@@ -13,7 +13,7 @@ function main()
     %current time -----------------------------------> 0 (obvious) 
     t_now = 0;
     %nb of illness step -----------------------------> 80% of the population
-    M = .8 * n*n;
+    M = 1 * n*n;
     %nb of big steps --------------------------------> 2 year 
     N = 104*7*24;
     
