@@ -35,14 +35,8 @@ function evolution_vaccination()
     proba_change_state = rand(n);
     
     % Probability to change the vaccination choice
-%     size(rewards_of_neighbors_V)
-%     size(number_of_neighbors_V)
-%     size(rewards_of_neighbors_NV)
-%     size(number_of_neighbors_NV)
-%     (rewards_of_neighbors_V-rewards_of_neighbors_NV).*number_of_neighbors_V ...
-%                             + (rewards_of_neighbors_NV-rewards_of_neighbors_V).*number_of_neighbors_NV
-    proba_vaccination = vaccination_probability_1((-rewards_of_neighbors_V+rewards_of_neighbors_NV).*number_of_neighbors_V ...
-                            + (-rewards_of_neighbors_NV+rewards_of_neighbors_V).*number_of_neighbors_NV);
+    proba_vaccination = vaccination_probability_1((rewards_of_neighbors_NV-rewards_of_neighbors_V).*system.vaccinated ...
+                            + (rewards_of_neighbors_V-rewards_of_neighbors_NV).*(~system.vaccinated));
 
     % Which cells will change in vaccination
     indices_to_change = (proba_vaccination.*prop_of_neighbors_I<proba_change_state);
