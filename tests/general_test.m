@@ -8,8 +8,7 @@ tmp = a(1).folder;
 idx = strfind(tmp,'epic_demics');
 global_path = tmp(1:idx+11);
 
-
-% addpath([global_path,filesep,'tests',filesep,'test_functions'])
+addpath([global_path,filesep,'tests',filesep,'test_functions'])
 addpath([global_path,filesep,'src'])
 
 all_test_func = {dir([global_path,filesep,'tests',filesep,'test_functions']).name}.';

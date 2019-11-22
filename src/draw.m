@@ -37,14 +37,14 @@ function draw_vaccinated()
         
         image(x,y,system.vaccinated,'CDataMapping','scaled','Tag', 'Vaccinated');
         
+        
+        colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
         map = [1 0 0; 0 0 1];
         colormap(map);
         caxis([0,1]);
-        colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
     else
         im = findobj('Type', 'Image', 'Tag', 'Vaccinated');
         set(im, 'CData', system.vaccinated)
-        drawnow    
     end
 end
 
@@ -77,20 +77,20 @@ function draw_state()
     Z(system.state == "S") = 1;
     Z(system.state == "R") = 2;
 
+    map = [1 0 0; 0 1 0; 0 0 1];
+    
     if isempty(findobj('Type', 'Figure', 'Name', 'State'))
         h=figure('Name', 'State');
         
-        map = [1 0 0; 0 1 0; 0 0 1];
-        colormap(map);
-        caxis([0,2]);
-        colorbar('Ticks',[0,1,2],'TickLabels',{'Infected','Susceptible','Recovered'})
-        
         image(x,y,Z,'CDataMapping','scaled','Tag','State');
+        
+        colorbar('Ticks',[0,1,2],'TickLabels',{'Infected','Susceptible','Recovered'})
+        colormap(h,map);
+        caxis([0,2]);
         
     else
         im = findobj('Type', 'Image', 'Tag', 'State');
         set(im, 'CData', Z)
-        drawnow
     end  
 end
 
@@ -102,20 +102,25 @@ function draw_reward()
     n = size(system.reward,1);
     x = 1:n;
     y = 1:n;
-    
+        
     if isempty(findobj('Type', 'Figure', 'Name', 'Reward'))
         figure('Name', 'Reward');
-        
         image(x,y,system.reward,'CDataMapping','scaled','Tag','Reward');
+        
+        c = colorbar('Tag','Reward');
+        set(c,'Ylim',[-10,0])
+        ylabel(c, 'reward (in arbitrary units)','FontSize',14)
         
         map = [1 0 0; 1 0.1 0; 1 0.2 0; 1 0.3 0; 1 0.4 0; 1 0.5 0; 1 0.6 0; 1 0.7 0;
                1 0.8 0; 1 0.9 0; 1 1 0; 0.9 1 0; 0.8 1 0; 0.7 1 0; 0.6 1 0; 0.5 1 0;
                0.4 1 0; 0.3 1 0; 0.2 1 0; 0.1 1 0; 0 1 0];
         colormap(map)
         
-        c = colorbar;
-        ylabel(c, 'reward (in arbitrary units)','FontSize',14)
     else
+        c = findobj('Type','ColorBar','Tag','Reward');
+        if min(min(system.reward))< -10
+            set(c,'Ylim',[min(min(system.reward)),0])
+        end
         img = findobj('Type', 'Image', 'Tag', 'Reward');
         set(img,'CData', system.reward)
     end

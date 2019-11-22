@@ -15,17 +15,21 @@ function y = beta_influenza(t,time_units)
     switch time_units
         case 'week'
             week_number = mod(ceil(t),104);
-            if week_number==0, week_number=1; end
-            if week_number <= 52
-                y=influenza_data.influenza_data.infect_17_18(week_number);
-            elseif week_number > 52
-                y=influenza_data.influenza_data.infect_17_18(week_number-52);
-            else
-                error('ID:wrong_output','Something went wrong in beta_influenza.')
-            end
+        case 'hour'
+            week_number = mod(ceil(t/(24*7)),104);
         otherwise
             warning('ID:wrong_units',['beta_influeza(t,',time_units,') do not know this type of units.',...
                                       'It will return beta == 1 !'])
             y=1;
+            return
     end   
+    
+    if week_number==0, week_number=1; end
+    if week_number <= 52
+        y=influenza_data.influenza_data.infect_17_18(week_number);
+    elseif week_number > 52
+        y=influenza_data.influenza_data.infect_17_18(week_number-52);
+    else
+        error('ID:wrong_output','Something went wrong in beta_influenza.')
+    end
 end

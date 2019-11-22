@@ -24,18 +24,18 @@ function [t] = evolve_cell(t_now, k, l)
     n = size(system.age,1);
     
     %if nothing happens the time evolves with dt
-    dt = 1./(n.^2);
+    dt = 1/(n^2);
     
     % recovery rate (fixed) -----------------------------------> 3-5 days adults and 3-10 days children
     child = 0;
     if system.age(k,l)<15, child = 1; end
-    gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+    gamma = 1/((1-child)*(3+2*rand)*24 + child*(3+7*rand)*24);
     
     % infection rate (number of infections per node per unit of time)
-    beta = beta_influenza(t_now,'week');
+    beta = beta_influenza(t_now,'hour');
     
     % rate at which the vaccine becomes less effective --------> 6 months
-    alpha = 1/(6*4);
+    alpha = 1/(6*4*7*24);
     
     % nothing happens
     zero=0.1;
@@ -149,7 +149,7 @@ function [t] = evolve_cell(t_now, k, l)
     update_betas(k,l);
     
     epsilon = rand;
-    dt = -1./Q.*log(1-epsilon);
+    dt = -log(1-epsilon)/Q;
     
     try 
         update_ages(dt);
@@ -157,7 +157,7 @@ function [t] = evolve_cell(t_now, k, l)
         error('ID:ages_fail','The execution of ''update_ages'' function failed.')
     end
     
-    
+    % Usually dt ~ 1 so one will set that a dt has units of hours
     t = t_now + dt;
     
 end
