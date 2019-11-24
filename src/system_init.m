@@ -31,7 +31,7 @@ function [status] = system_init(n)
     if nargin<1
         error('ID:invalid_input','You have to specify an integer as a parameter.');
     end
-    n = int8(n);
+    n = round(n);
     if size(n,1)~=1 || size(n,2)~=1
         error('ID:invalid_input','''n'' has to be only one integer.');
     end
