@@ -27,18 +27,34 @@ function [t] = evolve_cell(t_now, k, l)
     dt = 1/(n^2);
     
     % recovery rate (fixed) -----------------------------------> 3-5 days adults and 3-10 days children
-    child = 0;
-    if system.age(k,l)<15, child = 1; end
-    gamma = 1/((1-child)*(3+2*rand)*24 + child*(3+7*rand)*24);
+    if isfield(system.cfg,'gamma') && ~isnan(system.cfg.gamma)
+        gamma = system.cfg.gamma;
+    else
+        child = 0;
+        if system.age(k,l)<15, child = 1; end
+        gamma = 1/((1-child)*(3+2*rand)*24*60 + child*(3+7*rand)*24*60);
+    end
     
     % infection rate (number of infections per node per unit of time)
-    beta = beta_influenza(t_now,'hour');
+    if isfield(system.cfg,'beta') && ~isnan(system.cfg.beta)
+        beta = system.cfg.beta;
+    else
+        beta = beta_influenza(t_now,'hour');
+    end
     
-    % rate at which the vaccine becomes less effective --------> 6 months
-    alpha = 1/(6*4*7*24);
+    % rate at which the vaccine becomes less effective
+    if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
+        alpha = system.cfg.alpha;
+    else
+        alpha = 1/(6*4*7*24*60);
+    end
     
     % nothing happens
-    zero=0.1;
+    if isfield(system.cfg,'zero') && ~isnan(system.cfg.zero)
+        zero = system.cfg.zero;
+    else
+        zero=0.1;
+    end
     
     % number of nearest neighbours
     m = count_nearest_neighbours(k,l,n,n);
@@ -50,23 +66,30 @@ function [t] = evolve_cell(t_now, k, l)
     Q_zero = (m+1)*zero;
     
     % beta rate depends on the actual system (i.e. on the density of infected)
-    Q_beta = beta.*nearest_beta(k,l);%.*beta_0(t_now);
+    Q_beta = beta.*nearest_beta(k,l); %.*beta_0(t_now);
     
-    % mu rate depends on the actual system (i.e. on the age of agents)
-    %Q_mu = sum(sum(mu_age()));
-    
-    %mu rate for the test
-    mu = 0.01;
-    Q_mu = (m+1)*mu;
-    
-    %beta rate for the test
-    %Q_beta = n*n*beta;
+    % mu rate for the test
+    if isfield(system.cfg,'mu') && ~isnan(system.cfg.mu)
+        mu = system.cfg.mu;
+        Q_mu = (m+1)*mu;
+    else
+        Q_mu = mu_age(k,l);
+    end
     
     %rewards
     %the person gets the infection
-    r_ill=-10;  
+    if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
+        r_ill = system.cfg.r_ill;
+    else
+        r_ill=-10;
+    end
+    
     %the person recovers
-    r_recover = 2;
+    if isfield(system.cfg,'r_recover') && ~isnan(system.cfg.r_recover)
+        r_recover = system.cfg.r_recover;
+    else
+        r_recover = 2;
+    end
     
     state_ = system.state(k,l);
     
@@ -152,12 +175,12 @@ function [t] = evolve_cell(t_now, k, l)
     dt = -log(1-epsilon)/Q;
     
     try 
-        update_ages(dt);
+        update_ages(dt,'minute');
     catch
         error('ID:ages_fail','The execution of ''update_ages'' function failed.')
     end
     
-    % Usually dt ~ 1 so one will set that a dt has units of hours
+    % Usually dt ~ 1 so one will set that a dt has units of minutes
     t = t_now + dt;
     
 end

@@ -11,10 +11,16 @@ function draw(attributes,varargin)
                 draw_state();
             case 'state_density'
                 if ~(nargin<2)
-                    draw_state_density(varargin{1});
+                    draw_state_density(varargin{1}/(7*24*60));
                 else
                     error('ID:invalid_input','Missing arguments to draw the densities.')
-                end            
+                end
+            case 'mean_age'
+                if ~(nargin<2)
+                    draw_mean_age(varargin{1}/(7*24*60));
+                else
+                    error('ID:invalid_input','Missing arguments to draw the densities.')
+                end
             otherwise
                 error('ID:invalid_input',['The attribute',attributes(i),' does not exist or cannot be drawn.'])
         end
@@ -32,8 +38,8 @@ function draw_vaccinated()
     x = 1:n;
     y = 1:n;
     
-    if isempty(findobj('Type', 'Figure', 'Name', 'Vaccinated'))
-        figure('Name', 'Vaccinated');
+    if isempty(findobj('Type', 'Figure', 'Name', 'vaccinated'))
+        figure('Name', 'vaccinated');
         
         image(x,y,system.vaccinated,'CDataMapping','scaled','Tag', 'Vaccinated');
         
@@ -57,11 +63,19 @@ function draw_age()
     x = 1:n;
     y = 1:n;
     
-    image(x,y,system.age,'CDataMapping','scaled');
-    colormap(winter)
-    caxis([0,100]);
-    c = colorbar;
-    ylabel(c, 'age (in years)','FontSize',14)
+    
+    if isempty(findobj('Type', 'Figure', 'Name', 'age'))
+        h=figure('Name', 'age');
+        
+        image(x,y,system.age,'CDataMapping','scaled','Tag','Age');
+        colormap(h,winter)
+        caxis([0,100]);
+        c = colorbar;
+        ylabel(c, 'age (in years)','FontSize',14)
+    else
+        im = findobj('Type', 'Image', 'Tag', 'Age');
+        set(im, 'CData', system.age)
+    end
 end
 
 %draw_state draws a map of the population, coloured according to their state
@@ -79,8 +93,8 @@ function draw_state()
 
     map = [1 0 0; 0 1 0; 0 0 1];
     
-    if isempty(findobj('Type', 'Figure', 'Name', 'State'))
-        h=figure('Name', 'State');
+    if isempty(findobj('Type', 'Figure', 'Name', 'state'))
+        h=figure('Name', 'state');
         
         image(x,y,Z,'CDataMapping','scaled','Tag','State');
         
@@ -103,8 +117,8 @@ function draw_reward()
     x = 1:n;
     y = 1:n;
         
-    if isempty(findobj('Type', 'Figure', 'Name', 'Reward'))
-        figure('Name', 'Reward');
+    if isempty(findobj('Type', 'Figure', 'Name', 'reward'))
+        figure('Name', 'reward');
         image(x,y,system.reward,'CDataMapping','scaled','Tag','Reward');
         
         c = colorbar('Tag','Reward');
@@ -127,8 +141,8 @@ function draw_reward()
 end
 
 function draw_state_density(t_now)
-    if isempty(findobj('Type', 'Figure', 'Name', 'Densities'))
-        figure('Name', 'Densities')
+    if isempty(findobj('Type', 'Figure', 'Name', 'state_density'))
+        figure('Name', 'state_density')
         h_I=animatedline('Tag','Density_I','Color','Red');
         h_S=animatedline('Tag','Density_S','Color','Green');
         h_R=animatedline('Tag','Density_R','Color','Blue');
@@ -153,5 +167,21 @@ function draw_state_density(t_now)
 
 end
 
+function draw_mean_age(t_now)
+    if isempty(findobj('Type', 'Figure', 'Name', 'mean_age'))
+        figure('Name', 'mean_age')
+        h_MA=animatedline('Tag','Mean_age','Color','Black');
+    else
+        h_MA=findobj('Type', 'AnimatedLine', 'Tag', 'Mean_age');
+    end
+
+    global system
+    
+    MA = mean(mean(system.age));
+    
+    addpoints(h_MA,t_now,MA);
+    drawnow;
+
+end
 
 

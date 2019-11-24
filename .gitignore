@@ -19,3 +19,5 @@ my_*
 
 # The folder `./doc/papers/`
 papers/
+logs/*.fig
+logs/*.mat

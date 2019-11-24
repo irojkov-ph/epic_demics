@@ -17,6 +17,8 @@ function y = beta_influenza(t,time_units)
             week_number = mod(ceil(t),104);
         case 'hour'
             week_number = mod(ceil(t/(24*7)),104);
+        case 'minute'
+            week_number = mod(ceil(t/(60*24*7)),104);
         otherwise
             warning('ID:wrong_units',['beta_influeza(t,',time_units,') do not know this type of units.',...
                                       'It will return beta == 1 !'])

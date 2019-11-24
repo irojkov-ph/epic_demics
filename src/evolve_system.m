@@ -11,7 +11,6 @@
 
 
 function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
-    global system;
     if nargin<6
        error('ID:invalid_input','Not enough parameters specified.') 
     elseif ~isnumeric(M)|| ~isnumeric(N)
@@ -22,7 +21,7 @@ function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
        t_now = step(t_now,M,dynamic);
        if(drawsystem)
            draw(todraw,t_now);
-           pause(0.005);
+           pause(0.0005);
        end
     end
     

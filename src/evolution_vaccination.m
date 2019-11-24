@@ -4,7 +4,11 @@ function evolution_vaccination()
     n = size(system.reward,1);
     
     % r_vacc == reward for vaccination
-    r_vacc = -4;
+    if isfield(system.cfg,'r_vacc') && ~isnan(system.cfg.r_vacc)
+        r_vacc = system.cfg.r_vacc;
+    else
+        r_vacc = -4;
+    end
     
     % Filter for the convolution
     filter = ones(3);
@@ -29,7 +33,7 @@ function evolution_vaccination()
     % Number of infected nearest neighbors
     indices_of_I = system.state=="I";
     number_of_neighbors_I = conv2(indices_of_I,filter,'same')-(indices_of_I);    
-    prop_of_neighbors_I = 1- number_of_neighbors_I./number_of_neighbors;
+    prop_of_neighbors_I = 1 - number_of_neighbors_I ./ number_of_neighbors;
     
     % Uniform distribition to change your state to vaccinated or not
     proba_change_state = rand(n);
