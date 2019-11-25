@@ -21,50 +21,57 @@ function evolution_vaccination()
     % Mean reward of NOT vaccinated neighbors
     rewards_of_neighbors_NV = conv2(system.reward.*(~system.vaccinated),filter,'same')-system.reward.*(~system.vaccinated);
     rewards_of_neighbors_NV = rewards_of_neighbors_NV ./ number_of_neighbors_NV;
-    rewards_of_neighbors_NV (isnan(rewards_of_neighbors_NV)) = 0;
+    %If all neighbours have the same choice this variable is marked true
+    are_neighbours_uniform = zeros(n);
+    are_neighbours_uniform(number_of_neighbors_NV == 0) = true;
     
     % Number of vaccinated nearest neighbors
     number_of_neighbors_V = conv2(system.vaccinated,filter,'same')-(system.vaccinated);
     % Mean reward of vaccinated neighbors
     rewards_of_neighbors_V = conv2(system.reward.*system.vaccinated,filter,'same')-system.reward.*system.vaccinated;
     rewards_of_neighbors_V = rewards_of_neighbors_V ./ number_of_neighbors_V;
-    rewards_of_neighbors_V (isnan(rewards_of_neighbors_V)) = 0;
+    %If all neighbours have the same choice this variable is marked true
+    are_neighbours_uniform(number_of_neighbors_V == 0) = true;
     
     % Number of infected nearest neighbors
-    indices_of_I = system.state=="I";
+    indices_of_I = (system.state=="I");
     number_of_neighbors_I = conv2(indices_of_I,filter,'same')-(indices_of_I);    
-    prop_of_neighbors_I = 1 - number_of_neighbors_I ./ number_of_neighbors;
+    prop_of_neighbors_NI = 1- number_of_neighbors_I./number_of_neighbors;
     
     % Uniform distribition to change your state to vaccinated or not
     proba_change_state = rand(n);
     
     % Probability to change the vaccination choice
-    proba_vaccination = vaccination_probability_1((rewards_of_neighbors_NV-rewards_of_neighbors_V).*system.vaccinated ...
-                            + (rewards_of_neighbors_V-rewards_of_neighbors_NV).*(~system.vaccinated));
+    proba_vaccination = vaccination_probability_1(((-rewards_of_neighbors_NV+rewards_of_neighbors_V).*system.vaccinated ...
+                            + (-rewards_of_neighbors_V+rewards_of_neighbors_NV).*(~system.vaccinated)),n);
+    %If all neighbours have the same choice, then we consider that the two
+    %choices have equal reward and thus compute the function for \Delta r=0
+    proba_vaccination(are_neighbours_uniform == true) = vaccination_probability_1(0,n);
 
     % Which cells will change in vaccination
-    indices_to_change = (proba_vaccination.*prop_of_neighbors_I<proba_change_state);
-%     indices_to_change = (proba_vaccination < proba_change_state);
+    %indices_to_change = (proba_vaccination>proba_change_state.*prop_of_neighbors_NI);
+    indices_to_change = (proba_vaccination > proba_change_state);
     
     % Change the vaccinated state of these cells
     system.vaccinated(indices_to_change) = ~(system.vaccinated(indices_to_change));
     
-    system.reward = system.reward + ((system.state == "S") & indices_to_change) * r_vacc;
-    system.state((system.state == "S") & indices_to_change) = "R";
+    %Only susceptible and vaccination-choosing people get vaccinated
+    system.reward = system.reward + ((system.state == "S") & (system.vaccinated == true)) * r_vacc;
+    system.state((system.state == "S") & (system.vaccinated == true)) = "R";
 end
 
 %distriution function choice 1
-function p=vaccination_probability_1(x)
-    a = 2/3;
-    delta = 0.99; %p = delta when x = 0
+function p=vaccination_probability_1(x,n)
+    a = 1;
+    delta = 1/(n*n); %p = delta when x = 0
     b = log(1/delta - 1);
     p = 1./(exp(a.*x+b)+1);
 end
 
 %distribution function choice 2
-function p=vaccination_probability_2(x)
+function p=vaccination_probability_2(x,n)
     a = 2;
-    delta = 0.1; %p = delta when x = 0
+    delta = 1/(n*n); %p = delta when x = 0
     b = 1;
     if(x<=0)
         p = (-x + delta*a)/(-x + a);

@@ -25,6 +25,6 @@ function t = step(t_now,M,dynamic)
         t = evolution_illness(t,dynamic);
     end
     
-    evolution_vaccination();
+    %evolution_vaccination();
     
 end
