@@ -4,7 +4,11 @@ function evolution_vaccination()
     n = size(system.reward,1);
     
     % r_vacc == reward for vaccination
-    r_vacc = -4;
+    if isfield(system.cfg,'r_vacc') && ~isnan(system.cfg.r_vacc)
+        r_vacc = system.cfg.r_vacc;
+    else
+        r_vacc = -4;
+    end
     
     % Filter for the convolution
     filter = ones(3);
