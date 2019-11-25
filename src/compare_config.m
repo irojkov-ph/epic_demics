@@ -11,7 +11,7 @@ function status = compare_config(varargin)
     
     default_config.gamma = NaN;
     default_config.beta = NaN;
-    default_config.alpha = 1/(6*4*7*24*60);
+    default_config.alpha = 1/(6*4);
     default_config.zero = 0.1;
     default_config.mu = NaN;
     

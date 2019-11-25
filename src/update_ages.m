@@ -12,12 +12,12 @@ function status = update_ages(dt,unit)
     
     if nargin<2 || size(dt,1)~=1 || size(dt,2)~=1 || ~isnumeric(dt) || ~ischar(unit)
        error('ID:invalid_input',['The function has to take a double `dt` as a parameter \n.'...
-                                'As well as a char unit of time (minute, hour, day or year; default minute)'])
+                                'As well as a char unit of time (week, hour, day or year; default week)'])
     end
         
     switch unit
-        case 'minute'
-            coeff = 1/(365*24*60);
+        case 'week'
+            coeff = 1/(52);
         case 'hour'
             coeff = 1/(365*24);
         case 'day'

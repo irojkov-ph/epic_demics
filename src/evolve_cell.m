@@ -32,21 +32,21 @@ function [t] = evolve_cell(t_now, k, l)
     else
         child = 0;
         if system.age(k,l)<15, child = 1; end
-        gamma = 1/((1-child)*(3+2*rand)*24*60 + child*(3+7*rand)*24*60);
+        gamma = 1/((1-child)*(3+2*rand) + child*(3+7*rand));
     end
     
     % infection rate (number of infections per node per unit of time)
     if isfield(system.cfg,'beta') && ~isnan(system.cfg.beta)
         beta = system.cfg.beta;
     else
-        beta = beta_influenza(t_now,'hour');
+        beta = beta_influenza(t_now,'week');
     end
     
     % rate at which the vaccine becomes less effective
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
-        alpha = 1/(6*4*7*24*60);
+        alpha = 1/(6*4);
     end
     
     % nothing happens
@@ -61,17 +61,17 @@ function [t] = evolve_cell(t_now, k, l)
     
     % those rates, but beta, are independent from the node, then we just sum 
     % them up by multiplying by m^2
-    Q_gamma = (m+1)*gamma;
-    Q_alpha = (m+1)*alpha;
-    Q_zero = (m+1)*zero;
+    Q_gamma = gamma*n*n;
+    Q_alpha = alpha*n*n;
+    Q_zero = zero*n*n;
     
     % beta rate depends on the actual system (i.e. on the density of infected)
-    Q_beta = beta.*nearest_beta(k,l); %.*beta_0(t_now);
+    Q_beta = 10*beta.*density_ill(k,l)*n*n; %.*beta_0(t_now);
     
     % mu rate for the test
     if isfield(system.cfg,'mu') && ~isnan(system.cfg.mu)
         mu = system.cfg.mu;
-        Q_mu = (m+1)*mu;
+        Q_mu = mu*n*n;
     else
         Q_mu = mu_age(k,l);
     end
@@ -175,7 +175,7 @@ function [t] = evolve_cell(t_now, k, l)
     dt = -log(1-epsilon)/Q;
     
     try 
-        update_ages(dt,'minute');
+        update_ages(dt,'week');
     catch
         error('ID:ages_fail','The execution of ''update_ages'' function failed.')
     end

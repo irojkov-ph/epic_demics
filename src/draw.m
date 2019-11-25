@@ -11,13 +11,13 @@ function draw(attributes,varargin)
                 draw_state();
             case 'state_density'
                 if ~(nargin<2)
-                    draw_state_density(varargin{1}/(7*24*60));
+                    draw_state_density(varargin{1});
                 else
                     error('ID:invalid_input','Missing arguments to draw the densities.')
                 end
             case 'mean_age'
                 if ~(nargin<2)
-                    draw_mean_age(varargin{1}/(7*24*60));
+                    draw_mean_age(varargin{1});
                 else
                     error('ID:invalid_input','Missing arguments to draw the densities.')
                 end
@@ -140,7 +140,7 @@ function draw_reward()
     end
 end
 
-function draw_state_density(t_now)
+function draw_state_density(t)
     if isempty(findobj('Type', 'Figure', 'Name', 'state_density'))
         figure('Name', 'state_density')
         h_I=animatedline('Tag','Density_I','Color','Red');
@@ -160,14 +160,14 @@ function draw_state_density(t_now)
     rho_S = sum(sum(system.state == "S"))/nb_tot;
     rho_R = sum(sum(system.state == "R"))/nb_tot;
     
-    addpoints(h_I,t_now,rho_I);
-    addpoints(h_S,t_now,rho_S);
-    addpoints(h_R,t_now,rho_R);
+    addpoints(h_I,t,rho_I);
+    addpoints(h_S,t,rho_S);
+    addpoints(h_R,t,rho_R);
     drawnow;
 
 end
 
-function draw_mean_age(t_now)
+function draw_mean_age(t)
     if isempty(findobj('Type', 'Figure', 'Name', 'mean_age'))
         figure('Name', 'mean_age')
         h_MA=animatedline('Tag','Mean_age','Color','Black');
@@ -179,7 +179,7 @@ function draw_mean_age(t_now)
     
     MA = mean(mean(system.age));
     
-    addpoints(h_MA,t_now,MA);
+    addpoints(h_MA,t,MA);
     drawnow;
 
 end

@@ -19,12 +19,12 @@ function t = step(t_now,M,dynamic)
     % M the number of steps in the illness big step
     % dynamic is a bool allowing the agents to move
     
-    for i=1:M
-        t_now = evolution_illness(t_now,dynamic);
+    t = t_now;
+    
+    while t - t_now < 1
+        t = evolution_illness(t,dynamic);
     end
     
     evolution_vaccination();
-    
-    t = t_now;
     
 end
