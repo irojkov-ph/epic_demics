@@ -2,7 +2,6 @@ function status = compare_config(varargin)
     status = -1;
 
     default_config.nb_cell = 100;
-    default_config.nb_illness_step = 100*100;
     default_config.nb_decision_step = 104;
     default_config.dynamic = false;
     default_config.drawsystem = true;

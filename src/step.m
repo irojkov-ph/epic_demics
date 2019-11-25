@@ -1,19 +1,17 @@
-% Function t = evolution_illness(t_now,M,dynamic)
+% Function t = evolution_illness(t_now,dynamic)
 % 
 % This function evolves `N` times the whole system (illness and
 % vaccination) for M "illness time steps" and at each step draws one of the
 % attributes of the system
 % 
 % The function returns the final time after these evolutions, mainly: 
-%       t = t_now + N*M*dt;
+%       t = t_now + N*dt;
 % 
 
-function t = step(t_now,M,dynamic)
+function t = step(t_now,dynamic)
     
-    if nargin<3
+    if nargin<2
        error('ID:invalid_input','Not enough parameters specified.') 
-    elseif ~isnumeric(M)
-        error ('ID:invalid_input','Input parameters are invalid.')
     end
     
     % M the number of steps in the illness big step
@@ -25,6 +23,6 @@ function t = step(t_now,M,dynamic)
         t = evolution_illness(t,dynamic);
     end
     
-    %evolution_vaccination();
+    evolution_vaccination();
     
 end

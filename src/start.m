@@ -37,8 +37,6 @@ function start(varargin)
     n = system.cfg.nb_cell;
     %current time  
     t_now = 0;
-    %nb of illness step 
-    M = system.cfg.nb_illness_step;
     %nb of big steps  
     N = system.cfg.nb_decision_step;
     
@@ -55,7 +53,7 @@ function start(varargin)
     
     system_init(n);
         
-    t_now = evolve_system(t_now,dynamic,M,N,drawsystem,todraw);
+    t_now = evolve_system(t_now,dynamic,N,drawsystem,todraw);
     
     
     if system.cfg.tosave

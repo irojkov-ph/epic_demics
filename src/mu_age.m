@@ -17,10 +17,9 @@ function mu = mu_age(k,l)
     age = floor(system.age(k,l));
     
     if(age>98)
-        %if the person is older than 98 we put a large value to
-        %mortalit.y
-        mu = 1;
+        %if the person is older than 98 we put a large value to mu
+        mu = size(system.age,1)*size(system.age,1);
     else
-        mu = mortality_data(age+1)*size(system.age,1)*size(system.age,1)/52;
+        mu = mortality_data(age+1)*300/52;
     end
 end
