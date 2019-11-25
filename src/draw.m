@@ -163,8 +163,8 @@ function draw_state_density(t_now)
 end
 
 function draw_vaccination_density(t_now)
-    if isempty(findobj('Type', 'Figure', 'Name', 'Vaccination'))
-        figure('Name', 'Vaccination')
+    if isempty(findobj('Type', 'Figure', 'Name', 'vaccination_density'))
+        figure('Name', 'vaccination_density')
         h_V=animatedline('Tag','Density_V','Color','Green');
         h_NV=animatedline('Tag','Density_NV','Color','Red');
     else
