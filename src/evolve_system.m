@@ -19,10 +19,14 @@ function t = evolve_system(t_now,dynamic,M,N,drawsystem,todraw)
     end
     
     for i=1:N
+       if(mod(i,52) == 0)
+           new_season();
+       end
        t_now = step(t_now,M,dynamic);
+       evolution_vaccination();
        if(drawsystem)
-           draw(todraw,t_now);
-           pause(0.005);
+           draw(todraw,i);
+           pause(0.0005);
        end
     end
     

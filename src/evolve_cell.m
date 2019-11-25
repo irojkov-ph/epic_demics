@@ -56,7 +56,7 @@ function [t] = evolve_cell(t_now, k, l)
     %Q_mu = sum(sum(mu_age()));
     
     %mu rate for the test
-    mu = 0.01;
+    mu = 0;%0.01;
     Q_mu = (m+1)*mu;
     
     %beta rate for the test

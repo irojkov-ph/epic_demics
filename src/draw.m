@@ -14,7 +14,13 @@ function draw(attributes,varargin)
                     draw_state_density(varargin{1});
                 else
                     error('ID:invalid_input','Missing arguments to draw the densities.')
-                end            
+                end      
+            case 'vaccination_density'
+                if ~(nargin<2)
+                    draw_vaccination_density(varargin{1});
+                else
+                    error('ID:invalid_input','Missing arguments to draw the densities.')
+                end    
             otherwise
                 error('ID:invalid_input',['The attribute',attributes(i),' does not exist or cannot be drawn.'])
         end
@@ -121,6 +127,9 @@ function draw_reward()
         if min(min(system.reward))< -10
             set(c,'Ylim',[min(min(system.reward)),0])
         end
+        if max(max(system.reward))> 0
+            set(c,'Ylim',[-10,max(max(system.reward))])
+        end
         img = findobj('Type', 'Image', 'Tag', 'Reward');
         set(img,'CData', system.reward)
     end
@@ -149,6 +158,29 @@ function draw_state_density(t_now)
     addpoints(h_I,t_now,rho_I);
     addpoints(h_S,t_now,rho_S);
     addpoints(h_R,t_now,rho_R);
+    drawnow;
+
+end
+
+function draw_vaccination_density(t_now)
+    if isempty(findobj('Type', 'Figure', 'Name', 'vaccination_density'))
+        figure('Name', 'vaccination_density')
+        h_V=animatedline('Tag','Density_V','Color','Green');
+        h_NV=animatedline('Tag','Density_NV','Color','Red');
+    else
+        h_V=findobj('Type', 'AnimatedLine', 'Tag', 'Density_V');
+        h_NV=findobj('Type', 'AnimatedLine', 'Tag', 'Density_NV');
+    end
+
+    global system
+    
+    nb_tot = size(system.state,1)^2;
+    
+    rho_I = sum(sum(system.vaccinated == 1))/nb_tot;
+    rho_S = sum(sum(system.vaccinated == 0))/nb_tot;
+    
+    addpoints(h_V,t_now,rho_I);
+    addpoints(h_NV,t_now,rho_S);
     drawnow;
 
 end

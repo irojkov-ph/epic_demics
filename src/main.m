@@ -8,21 +8,22 @@ function main()
     
     % UNITS OF TIME (totaly subjective) -------------> a week 
 
-    %number of cells --------------------------------> 10â´ persons
-    n = 100;
+    %number of cells --------------------------------> 10â?´ persons
+    n = 40;
     %current time -----------------------------------> 0 (obvious) 
     t_now = 0;
     %nb of illness step -----------------------------> 80% of the population
     M = 1 * n*n;
     %nb of big steps --------------------------------> 2 year 
-    N = 104*7*24;
+    N = 52*20;
     
     %dynamic evolution of the agents
     dynamic = false;
     %to draw an attribute of the system while evolving
     drawsystem = true;
-    %choose between "vaccinated", "age", "reward", "state", "state_density"
-    todraw = ["state_density";"state";"vaccinated";"reward"];
+    %choose between "vaccinated", "age", "reward", "state",
+    %"state_density", "vaccination_density"
+    todraw = ["vaccination_density";"state_density";"state"];
     
     if ~isnumeric(n)|| ~isnumeric(N)
         error ('ID:invalid_input','Input parameters are invalid.')
