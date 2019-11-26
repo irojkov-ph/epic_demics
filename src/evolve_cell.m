@@ -65,11 +65,11 @@ function [t] = evolve_cell(t_now, k, l)
     end
     
     % Defining rates per latice:
-    Q_gamma = gamma*n*n;
-    Q_alpha = alpha*n*n;
-    Q_zero = zero*n*n;
-    Q_mu = mu*n*n;
-    Q_beta = beta*n*n;
+    Q_gamma = gamma;
+    Q_alpha = alpha;
+    Q_mu = mu;
+    Q_beta = beta*8*1000/(n*n);
+    Q_zero = 8/10;%max([Q_beta,Q_gamma,Q_alpha,Q_mu]);
     
     % Reward of a person to get infected
     if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
@@ -165,7 +165,7 @@ function [t] = evolve_cell(t_now, k, l)
     
     update_betas(k,l);
     
-    dt = -log(1-p)/Q;
+    dt = -log(1-p)/(Q*n*n);
     
     try 
         update_ages(dt,'week');

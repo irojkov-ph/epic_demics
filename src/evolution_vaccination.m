@@ -63,7 +63,7 @@ end
 %distriution function choice 1
 function p=vaccination_probability_1(x,n)
     a = 1;
-    delta = 1/(n*n); %p = delta when x = 0
+    delta = 0.01;%1/(n*n); %p = delta when x = 0
     b = log(1/delta - 1);
     p = 1./(exp(a.*x+b)+1);
 end

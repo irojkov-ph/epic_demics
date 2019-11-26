@@ -36,7 +36,7 @@ function start(varargin)
     %number of cells 
     n = system.cfg.nb_cell;
     %current time  
-    t_now = 0;
+    t_now = 50;
     %nb of big steps  
     N = system.cfg.nb_decision_step;
     
