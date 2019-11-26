@@ -89,9 +89,9 @@ function status = displacement(k,l)
                             switch_cells(k,l,id_lin(i),id_col(j));
                             
                             % Write in logs
-                            fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
-                            fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
-                            fclose(fileID);
+%                             fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
+%                             fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
+%                             fclose(fileID);
 
                             moved = true;
                         catch EM
