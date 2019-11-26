@@ -76,12 +76,11 @@ function [status] = system_init(n)
     state(:,:) = "S";
     
     % add a Patient Zero at a random position
-    
+
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
     
     state(k,l) = "I";
-    
     
     % The data table used was found on the site of the United Nations
     % https://population.un.org/wpp/Download/SpecialAggregates/EconomicTrading/
