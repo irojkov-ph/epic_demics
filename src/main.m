@@ -8,7 +8,7 @@ function main()
     
     % UNITS OF TIME (totaly subjective) -------------> a week 
 
-    %number of cells --------------------------------> 10â´ persons
+    %number of cells --------------------------------> 10â?´ persons
     n = 100;
     %current time -----------------------------------> 0 (obvious) 
     t_now = 0;
@@ -18,7 +18,7 @@ function main()
     N = 104*7*24;
     
     %dynamic evolution of the agents
-    dynamic = false;
+    dynamic = true;
     %to draw an attribute of the system while evolving
     drawsystem = true;
     %choose between "vaccinated", "age", "reward", "state", "state_density"
