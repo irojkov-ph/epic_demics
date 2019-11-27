@@ -1,3 +1,14 @@
+% Function evolution_vaccination()
+% 
+% This function goes through the whole grid and for each person decides
+% whether to change its vaccination state. 
+% 
+% 
+% 
+% 
+
+
+
 function evolution_vaccination()
     global system;
     
@@ -21,7 +32,7 @@ function evolution_vaccination()
     % Mean reward of NOT vaccinated neighbors
     rewards_of_neighbors_NV = conv2(system.reward.*(~system.vaccinated),filter,'same');
     rewards_of_neighbors_NV = rewards_of_neighbors_NV ./ number_of_neighbors_NV;
-    %If all neighbours have the same choice this variable is marked true
+    % If all neighbours have the same choice this variable is marked true
     are_neighbours_uniform = zeros(n);
     are_neighbours_uniform(number_of_neighbors_NV == 0) = true;
     
@@ -30,7 +41,7 @@ function evolution_vaccination()
     % Mean reward of vaccinated neighbors
     rewards_of_neighbors_V = conv2(system.reward.*system.vaccinated,filter,'same');
     rewards_of_neighbors_V = rewards_of_neighbors_V ./ number_of_neighbors_V;
-    %If all neighbours have the same choice this variable is marked true
+    % If all neighbours have the same choice this variable is marked true
     are_neighbours_uniform(number_of_neighbors_V == 0) = true;    
     
     % Number of infected nearest neighbors
@@ -44,7 +55,7 @@ function evolution_vaccination()
     % Probability to change the vaccination choice
     proba_vaccination = vaccination_probability_1(((-rewards_of_neighbors_NV+rewards_of_neighbors_V).*system.vaccinated ...
                            + (-rewards_of_neighbors_V+rewards_of_neighbors_NV).*(~system.vaccinated)),n);
-    %If all neighbours have the same choice, then we consider that the two
+    % If all neighbours have the same choice, then we consider that the two
     %choices have equal reward and thus compute the function for \Delta r=0
     proba_vaccination(are_neighbours_uniform == true) = vaccination_probability_1(0,n);
 
@@ -55,7 +66,7 @@ function evolution_vaccination()
     % Change the vaccinated state of these cells
     system.vaccinated(indices_to_change) = ~(system.vaccinated(indices_to_change));
     
-    %Only susceptible and vaccination-choosing people get vaccinated
+    % Only susceptible and vaccination-choosing people get vaccinated
     system.reward = system.reward + ((system.state == "S") & (system.vaccinated == true)) * r_vacc;
     system.state((system.state == "S") & (system.vaccinated == true)) = "R";
 end

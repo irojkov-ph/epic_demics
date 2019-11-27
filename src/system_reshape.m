@@ -1,6 +1,6 @@
 % Function [reshaped_sys] = system_reshape() 
 %
-% This function reshape the system as it is initialized by the
+% This function reshapes the system as it is initialized by the
 % `system_init.m` function. The aim of this function is to provide a more
 % instinctive way to look at the system.
 % 
@@ -8,7 +8,7 @@
 % in the system and have the following fields:
 %       - state:        'S', 'I' or 'R' 
 %       - vaccinated:    0 or 1
-%       - reward:       a double that represents the reward of the persont 
+%       - reward:       a double that represents the reward of the person 
 %       - age:          the age of the person
 %
 % E.g.:

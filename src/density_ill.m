@@ -1,8 +1,8 @@
 % Function y = density_ill(k,l)
 %
-% This function takes as inputs two indices `k` and `l` and return a 
+% This function takes as inputs two indices `k` and `l` and returns a 
 % quantity `y` which corresponds to the local density of cells in state 
-% "I" (illness) around the position (k,l).
+% "I" (Infected) around the position (k,l).
 % 
 
 

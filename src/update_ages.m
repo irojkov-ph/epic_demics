@@ -1,8 +1,8 @@
-% Function status = update_ages(dt)
+% Function status = update_ages(dt,unit)
 %
-% This fuction updates the age of each cell by an amount `dt`.
+% This fuction updates the age of each cell by an amount `dt` given in "unit".
 % The return value is either 1 if the function ended correctly or -1 if it
-% does not. 
+% did not. 
 % 
 % 
 

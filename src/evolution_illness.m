@@ -1,21 +1,22 @@
 % Function t = evolution_illness(t_now,dynamic)
 % 
-% This function evolve the "whole" system for a time step.
+% This function evolves the illness on the "whole" system for a time step.
 % 
 % The evolution of the system is programmed randomly, i.e. the cell which
-% will evolve during this time interval is chosen randomly.
+% will evolve during this time interval is chosen randomly using two 
+% uniform variables.
 % 
 % As it is meant in the title of the function, it evolves only the illness
 % throughout the system at not the vaccination choices.
+% 
+% If the ´dynamic´ bool variable is true, then the agents have the
+% possibility to change position during the simulation
 % 
 % The function returns the time returned by `evolve_cell.m`
 % 
 
 
 function t = evolution_illness(t_now,dynamic)
-    
-    % dt is the small time step in which only one evenement happens
-    % M (in step.m) is the number of times we choose a random cell
         
     if nargin<2
        error('ID:invalid_input','No input specified')
@@ -26,6 +27,8 @@ function t = evolution_illness(t_now,dynamic)
     Nlin = size(system.age,1);
     Ncol = size(system.age,2);
     
+    % the cell to evolve is chosen randomly following two uniform random
+    % variables
     k = floor(rand.*(Nlin)+1);
     l = floor(rand.*(Ncol)+1);
     
@@ -39,9 +42,12 @@ function t = evolution_illness(t_now,dynamic)
     elseif(l>Ncol)
         l=Ncol;
     end
-        
+    
+    % The (k,l) cell is evolved
     t_now = evolve_cell(t_now,k,l);
     
+    % If the dynamic mode was chosen, (k,l) cell has the opportunity to
+    % displace
     if(dynamic)
         try
             displacement(k,l);

@@ -1,12 +1,10 @@
-% Function t = evolution_system(t_now,dt,dynamic,N,drawsystem)
+% Function t = evolution_system(t_now,dynamic,N, drawsystem, todraw)
 % 
-% This function evolve `M` times the whole system for a time interval `dt`
-% with respect to the illness (realized by `evolution_illness.m`) and then
-% evolves the choices of vaccination of the whole system (realized by
-% `evolution_vaccination.m`).
+% This function evolves `N` times the whole system and, if the bool
+% variable ´drawsystem´ is set to true, draws the parameters given in
+% string vector ´todraw´ at each step.
 % 
-% The function returns the final time after these evolutions, mainly: 
-%       t = t_now + dt;
+% The function returns the final time t after these evolutions
 % 
 
 

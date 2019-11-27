@@ -1,10 +1,10 @@
 % Function t = evolve_cell(t_now, k, l)
 % 
-% This function evolve one unique cell at the position (k,l) 
+% This function evolves one unique cell at the position (k,l) 
 % for a time step (exponentially chosen) `dt`. 
 % 
-% All fields of the cell could evolve (even the field `vaccinated` could 
-% change if for instace the cell "die")
+% All fields of the cell can change (even the field `vaccinated` can 
+% change if for instace the cell "dies")
 % 
 % More specifically the `state` of the cell evolves following the SIR model
 % whose parameter are specified in the begining of the function.
@@ -23,10 +23,10 @@ function [t] = evolve_cell(t_now, k, l)
     
     n = size(system.age,1);
     
-    %if nothing happens the time evolves with dt
+    % If the total rate Q is 0 the time evolves with this dt (see below)
     dt = 1/(n^2);
     
-    % recovery rate (fixed)
+    % Recovery rate (by default different for children and adults)
     if isfield(system.cfg,'gamma') && ~isnan(system.cfg.gamma)
         gamma = system.cfg.gamma;
     else
@@ -35,29 +35,29 @@ function [t] = evolve_cell(t_now, k, l)
         gamma = 1/((1-child)*(3+5*rand)/7 + child*(5+5*rand)/7);
     end
     
-    % infection rate (number of infections per node per unit of time)
-    % depends on the local situation (i.e. on the density of infected)
+    % Infection rate (number of infections per node per unit of time)
+    % It depends on the local situation (i.e. on the density of infected)
     if isfield(system.cfg,'beta') && ~isnan(system.cfg.beta)
         beta = system.cfg.beta*density_ill(k,l);
     else
         beta = beta_influenza(t_now,'week')*density_ill(k,l);
     end
     
-    % rate at which the vaccine becomes less effective
+    % Rate at which the vaccine becomes less effective
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
         alpha = 1/(4*6);
     end
     
-    % rate at which a person die  
+    % Rate at which a person dies
     if isfield(system.cfg,'mu') && ~isnan(system.cfg.mu)
         mu = system.cfg.mu;
     else
         mu = mu_age(k,l);
     end
     
-    % nothing happens
+    % Zero evenement: nothing happens
     if isfield(system.cfg,'zero') && ~isnan(system.cfg.zero)
         zero = system.cfg.zero;
     else
@@ -70,17 +70,17 @@ function [t] = evolve_cell(t_now, k, l)
     Q_gamma = gamma;
     Q_alpha = alpha;
     Q_mu = mu;
-    Q_beta = beta*8*3000/(n*n); %slightly larger than Q_alpha at peak
+    Q_beta = beta*8*3000/(n*n); % it is slightly larger than Q_alpha at peak
     Q_zero = zero;
     
-    % Reward of a person to get infected
+    % Reward of a person who gets infected
     if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
         r_ill = system.cfg.r_ill;
     else
         r_ill=-10;
     end
     
-    % Rewards of a person who recovers
+    % Reward of a person who recovers
     if isfield(system.cfg,'r_recover') && ~isnan(system.cfg.r_recover)
         r_recover = system.cfg.r_recover;
     else
@@ -162,9 +162,7 @@ function [t] = evolve_cell(t_now, k, l)
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
     end
-    
-    update_betas(k,l);
-    
+        
     dt = -log(1-p)/(Q*n*n);
     
     try 
@@ -173,7 +171,6 @@ function [t] = evolve_cell(t_now, k, l)
         error('ID:ages_fail','The execution of ''update_ages'' function failed.')
     end
     
-    % Usually dt ~ 1 so one will set that a dt has units of minutes
     t = t_now + dt;
     
 end

@@ -2,16 +2,14 @@
 % or
 % Function start(config)
 %
-% This function initialize, simulate, plot and save the system. If it takes
-% no parameters, it will execute the simulation with default configuration.
-%
-% If on the otherhand it take a structure `config` as a parameter it will 
-% replace default configuration parameters with the same name by the new 
-% ones.
-%
+% This function initializes, simulates, plots and saves the system. 
+% If it takes no parameter, it will execute the simulation with default 
+% configuration.
+% If on the other hand it takes a structure `config` as a parameter,
+% it will replace default configuration parameters with the same name 
+% by the new ones.
+% 
 % (See `compare_config.m` for all existing parameters)
-%
-% The function returns the final time.
 % 
 
 function start(varargin)
@@ -33,28 +31,28 @@ function start(varargin)
         
     global system
     
-    %number of cells 
+    % Number of cells 
     n = system.cfg.nb_cell;
-    %current time  
+    % Current time  
     t_now = 0;
-    %nb of big steps  
+    % Number of decision steps  
     N = system.cfg.nb_decision_step;
     
-    %dynamic evolution of the agents
+    % Dynamics of the agents (false: static, true: dynamic)
     dynamic = system.cfg.dynamic;
-    %to draw an attribute of the system while evolving
+    % Drawing condition (false: no drawing, true: drawing the system during evolution)
     drawsystem = system.cfg.drawsystem;
-    %choose between "vaccinated", "age", "reward", "state", "state_density", "mean_age"
+    % Attributes to draw while the system evolves
+    % Choose "vaccinated", "age", "reward", "state", "state_density", "mean_age"
     todraw = system.cfg.todraw;
     
-    if ~isnumeric(n)|| ~isnumeric(N)
-        error ('ID:invalid_input','Input parameters are invalid.')
-    end
-    
+    % Initialize the system of size n
     system_init(n);
-        
+    
+    % Let the system evolve
     t_now = evolve_system(t_now,dynamic,N,drawsystem,todraw);
     
+    % Save all the figures and the system in `./logs/` folder
     if system.cfg.tosave
         global epic_demics_path
         name = num2str(round(posixtime(datetime('now'))));

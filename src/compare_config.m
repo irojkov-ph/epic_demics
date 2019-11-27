@@ -1,3 +1,11 @@
+% Function status = compare_config(varargin)
+% 
+% This function compares the given configuration to the default one and 
+% sets a default value if it is missing in the given configuration.
+%
+% It returns a status 1 if the execution is successful, 0 otherwise.
+%
+
 function status = compare_config(varargin)
     status = -1;
 
