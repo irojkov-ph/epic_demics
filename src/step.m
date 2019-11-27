@@ -10,10 +10,6 @@
 
 function t = step(t_now,dynamic)
     
-    global system;
-    
-    n = size(system.age,1);
-    
     if nargin<2
        error('ID:invalid_input','Not enough parameters specified.') 
     end
@@ -23,19 +19,9 @@ function t = step(t_now,dynamic)
     
     t = t_now;
     
-    x = randi([1,n]);
-    y = randi([1,n]);
-    system.state(x,y) = 'I';
-    system.reward(x,y) = system.reward(x,y) - 10;
-    
-    i=0;
-    
     while t - t_now < 1
         t = evolution_illness(t,dynamic);
-        i = i+1;
     end
-    i
-    evolution_vaccination();
-    sum(sum(system.vaccinated))
+    %evolution_vaccination();
     
 end

@@ -32,7 +32,7 @@ function [t] = evolve_cell(t_now, k, l)
     else
         child = 0;
         if system.age(k,l)<15, child = 1; end
-        gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+        gamma = 1/((1-child)*(7+3*rand)/7 + child*(7+7*rand)/7);
     end
     
     % infection rate (number of infections per node per unit of time)
@@ -47,7 +47,7 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
-        alpha = 1/(6*4);
+        alpha = 1/(4*4);
     end
     
     % rate at which a person die  
