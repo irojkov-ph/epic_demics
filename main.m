@@ -5,6 +5,7 @@ addpath('src/');
 % config.mu = 0.0001;
 config.nb_decision_step = 10000;
 config.todraw = ["state_density";"mean_age";"state"];
+config.dynamic = true;
 start(config);
 
 % for i=1:20
