@@ -47,7 +47,7 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
-        alpha = 1/(4*4);
+        alpha = 1/(4*6);
     end
     
     % rate at which a person die  
@@ -71,7 +71,7 @@ function [t] = evolve_cell(t_now, k, l)
     Q_alpha = alpha;
     Q_mu = mu;
     Q_beta = beta*8*3000/(n*n); %slightly larger than Q_alpha at peak
-    Q_zero = zero; 
+    Q_zero = zero;
     
     % Reward of a person to get infected
     if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
