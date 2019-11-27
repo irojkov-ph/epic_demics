@@ -81,7 +81,7 @@ function [status] = system_init(n)
     system.state = state;
     system.vaccinated = vaccinated;
     system.reward = reward;
-    system.age = age;        
+    system.age = age;    
     
     % Creating the infectivity matrix
     % (needs the system to be already filled to use the function density_ill)

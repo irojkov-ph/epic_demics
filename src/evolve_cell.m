@@ -32,7 +32,7 @@ function [t] = evolve_cell(t_now, k, l)
     else
         child = 0;
         if system.age(k,l)<15, child = 1; end
-        gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+        gamma = 1/((1-child)*(3+5*rand)/7 + child*(5+5*rand)/7);
     end
     
     % infection rate (number of infections per node per unit of time)
@@ -47,7 +47,7 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
-        alpha = 1/(6*4);
+        alpha = 1/(4*6);
     end
     
     % rate at which a person die  
@@ -61,15 +61,17 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'zero') && ~isnan(system.cfg.zero)
         zero = system.cfg.zero;
     else
-        zero=0.1;
+        zero=1;
     end
     
+    state_ = system.state(k,l);
+    
     % Defining rates per latice:
-    Q_gamma = gamma*n*n;
-    Q_alpha = alpha*n*n;
-    Q_zero = zero*n*n;
-    Q_mu = mu*n*n;
-    Q_beta = beta*n*n;
+    Q_gamma = gamma;
+    Q_alpha = alpha;
+    Q_mu = mu;
+    Q_beta = beta*8*3000/(n*n); %slightly larger than Q_alpha at peak
+    Q_zero = zero;
     
     % Reward of a person to get infected
     if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
@@ -84,8 +86,6 @@ function [t] = evolve_cell(t_now, k, l)
     else
         r_recover = 2;
     end
-    
-    state_ = system.state(k,l);
     
     p = rand;
     
@@ -165,7 +165,7 @@ function [t] = evolve_cell(t_now, k, l)
     
     update_betas(k,l);
     
-    dt = -log(1-p)/Q;
+    dt = -log(1-p)/(Q*n*n);
     
     try 
         update_ages(dt,'week');

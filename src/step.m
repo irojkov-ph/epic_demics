@@ -18,11 +18,9 @@ function t = step(t_now,dynamic)
     % dynamic is a bool allowing the agents to move
     
     t = t_now;
-    
     while t - t_now < 1
         t = evolution_illness(t,dynamic);
     end
-    
     evolution_vaccination();
     
 end
