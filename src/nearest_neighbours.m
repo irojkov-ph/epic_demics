@@ -11,7 +11,7 @@ function [id_lin, id_col] = nearest_neighbours(k,l)
     
     n = size(system.age,1);
     
-    if nargin<4
+    if nargin<2
        error('ID:invalid_input','The function has to take 4 parameters.')
     end
     

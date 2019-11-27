@@ -25,12 +25,11 @@ function status = displacement(k,l)
        return
     end
     
-    N_cell = count_nearest_neighbours(k,l,size(system.age,1),size(system.age,2));
+    N_cell = count_nearest_neighbours(k,l);
     
     state_ = system.state(k,l);
     
-    id_lin = [k-1,k,k+1];
-    id_col = [l-1,l,l+1];
+    [id_lin,id_col] = nearest_neighbours(k,l);
     
     moved = false;
     
@@ -41,10 +40,10 @@ function status = displacement(k,l)
         
         n=1;
         
-        for i = 1:3
+        for i = 1:size(id_lin,2)
 
-            for j = 1:3
-                if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
+            for j = 1:size(id_col,2)
+                if((i~=2 || j~=2))
                     if(p<=(q*n) && p>(q*(n-1)))
                         try
                             switch_cells(k,l,id_lin(i),id_col(j));
@@ -72,14 +71,10 @@ function status = displacement(k,l)
             
             dens_tot = 0;
             
-            for i = 1:3
+            for i = 1:size(id_lin,2)
                 
-                for j = 1:3
-                    if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
-                        
-                        dens_tot = dens_tot + density_ill(id_lin(i),id_lin(j));
-                        
-                    end
+                for j = 1:1:size(id_col,2)
+                        dens_tot = dens_tot + density_ill(id_lin(i),id_col(j));
                 end
 
             end
@@ -88,11 +83,10 @@ function status = displacement(k,l)
             
             density = 0;
             
-            for i = 1:3
+            for i = 1:size(id_lin,2)
                 
-                for j = 1:3
-                    if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
-                        if( p>density && p<=(density + density_ill(id_lin(i),id_lin(j))/dens_tot) && ~moved)
+                for j = 1:size(id_col,2)
+                        if( p>density && p<=(density + density_ill(id_lin(i),id_col(j))/dens_tot) && ~moved)
                             try
                                 switch_cells(k,l,id_lin(i),id_col(j));
 
@@ -107,8 +101,7 @@ function status = displacement(k,l)
                                 error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                             end
                         end
-                        density = density + density_ill(id_lin(i),id_lin(j))/dens_tot;
-                    end
+                        density = density + density_ill(id_lin(i),id_col(j))/dens_tot;
                 end
 
             end
