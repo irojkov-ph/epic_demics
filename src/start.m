@@ -2,16 +2,14 @@
 % or
 % Function start(config)
 %
-% This function initialize, simulate, plot and save the system. If it takes
-% no parameters, it will execute the simulation with default configuration.
-%
-% If on the otherhand it take a structure `config` as a parameter it will 
-% replace default configuration parameters with the same name by the new 
-% ones.
+% This function initializes, simulates, plots and saves the system. 
+% If it takes no parameter, it will execute the simulation with default 
+% configuration.
+% If on the other hand it takes a structure `config` as a parameter,
+% it will replace default configuration parameters with the same name 
+% by the new ones.
 %
 % (See `compare_config.m` for all existing parameters)
-%
-% The function returns the final time.
 % 
 
 function start(varargin)

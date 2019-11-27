@@ -1,25 +1,25 @@
 % Function [status]=system_init(n) 
 %
-% This function implement the system as an array of structures.
-% Each structure sys.`field`(i,j) represent the value of the field `field` 
-% for a person from the system which has the position (i,j)
+% This function implements the system as an array of structures.
+% Each structure sys.`field`(i,j) represents the value of the field `field` 
+% for a person from the system which is in the position (i,j)
 % The fields and their values could be :
 %       - state:        "S", "I" or "R" 
 %       - vaccinated:    0 or 1
-%       - reward:       a double that represents the reward of the persont 
+%       - reward:       a double that represents the reward of the person 
 %       - age:          the age of the person
-% That means the command sys.age would give you the matrice of ages and
-% sys.r matrice of rewards.
+% That means the command sys.age will give the matrix of ages and
+% sys.r the matrix of rewards.
 % 
 % To modify one specific field one can do it just by assigning the value to
-% that field, e.g. :
+% that field, i.e. :
 %    - system.age = system.age + 1; % Increase the age of each person by 1
 %    - system.age(i,j) = 50;        % Set the age of the (i,j) person to 50
 % 
-% In ordrer to improve efficiency of the simulation, the `system` is 
-% declared as a global variable. Thus this function take as a parameter an 
-% integer `n` which defines the size of the square matrix and return a  
-% status whenever the global variable is well created (status = 1)
+% In order to improve efficiency of the simulation, the `system` is 
+% declared as a global variable. Thus this function takes as a parameter an 
+% integer `n`, which defines the size of the square matrix, and returns a  
+% status giving whether the global variable was well created (status = 1)
 % or not (status = -1).
 % 
 % 
@@ -72,7 +72,7 @@ function [status] = system_init(n)
     state = string(ones(n));
     state(:,:) = "S";
     
-    % add a Patient Zero at a random position
+    % Adding a Patient Zero at a random position
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
     state(k,l) = "I";
@@ -81,18 +81,7 @@ function [status] = system_init(n)
     system.state = state;
     system.vaccinated = vaccinated;
     system.reward = reward;
-    system.age = age;        
-    
-    % Creating the infectivity matrix
-    % (needs the system to be already filled to use the function density_ill)
-    beta = zeros(n);
-    for i=1:n
-        for j=1:n
-            beta(i,j) = density_ill(i,j);
-        end
-    end
-    system.beta = beta;
-    
+    system.age = age;
     
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
         'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...

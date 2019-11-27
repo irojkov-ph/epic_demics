@@ -1,10 +1,17 @@
+% Function y=beta_influenza(t,time_units)
+% 
+% This function returns the value of infectivity y for the influenza
+% based on data in Switzerland in years 2017 - 2019. The time has to be 
+% given in units ´time_units´.
+%
+
 function y = beta_influenza(t,time_units)
 
     if t<0 || ~isnumeric(t)|| ~isstr(time_units)
         error ('ID:invalid_input','Input parameters for beta_influenza are invalid.')
     end
 
-    %ATTENTION the function should be such that max beta_0 <= 1 and min >=0
+    
     global influenza_data system
     
     if isempty(influenza_data)

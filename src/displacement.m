@@ -2,11 +2,12 @@
 %
 % This function checks and displaces the cell at the position (k,l)
 % to another one depending on the following conditions: 
-%   - If the cell is "I" (illness) or "R" (recovered) then it displaces the
-%     cell randomly in its neighbourhood.
-%   - If the cell is "S" (safe) then it checks the density of "I" state 
-%     cells around it and displace it in the direction where it is the
-%     minimal.
+%   - If the cell is "I" (Infected) or "R" (Recovered) then it displaces 
+%     the cell randomly in its neighbourhood (random walk) but with a
+%     probability to stay at its place
+%   - If the cell is "S" (Susceptible) then it checks the density of 
+%     "I" state cells around it and displaces it in the direction where 
+%     such density is minimised.
 % 
 % The function retuns 1 whenever it ended without error and -1 otherwise.
 % 

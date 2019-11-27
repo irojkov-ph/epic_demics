@@ -1,3 +1,12 @@
+% Function draw(attributes,varargin)
+% 
+% This function draws the ´attributes´ in the given list. Varargin gives
+% the current time
+% 
+% It calls the corresponding functions ´draw_age()´, ´draw_vaccinated()´,
+% ´draw_reward()´, ´draw_state()´, ´draw_state_density(t)´,
+% ´draw_mean_age(t)´, ´draw_vaccination_density(t)´ defined below
+
 function draw(attributes,varargin)
     for i=1:length(attributes)
         switch attributes(i)
@@ -33,9 +42,12 @@ function draw(attributes,varargin)
     end
 end
 
+% Function draw_vaccinated()
+% 
+% This function draws a map of the population, coloured according to their
+% vaccination choice
+% 
 
-%draw_vaccinated draws a map of the population, coloured according to their
-%vaccination choice
 function draw_vaccinated()
 
     global system;
@@ -60,8 +72,13 @@ function draw_vaccinated()
     end
 end
 
+% Function draw_age()
+% 
+% This function draws a map of the population, coloured according to their
+% age
+%
 
-%draw_age draws a map of the population, coloured according to their age
+
 function draw_age()
     global system;
 
@@ -84,7 +101,13 @@ function draw_age()
     end
 end
 
-%draw_state draws a map of the population, coloured according to their state
+% Function draw_state()
+% 
+% This function draws a map of the population, coloured according to their
+% state
+%
+
+
 function draw_state()
     global system;
     
@@ -114,7 +137,13 @@ function draw_state()
     end  
 end
 
-%draw_reward draws a map of the population, coloured according to their reward
+% Function draw_reward()
+% 
+% This function draws a map of the population, coloured according to their
+% reward
+%
+
+
 function draw_reward()
 
     global system;
@@ -149,6 +178,11 @@ function draw_reward()
     end
 end
 
+% Function draw_state_density(t)
+% 
+% This function draws the state densities from inital time up to time t
+%
+
 function draw_state_density(t)
     if isempty(findobj('Type', 'Figure', 'Name', 'state_density'))
         figure('Name', 'state_density')
@@ -176,7 +210,13 @@ function draw_state_density(t)
 
 end
 
-function draw_vaccination_density(t_now)
+% Function draw_vaccination_density(t)
+% 
+% This function draws the vaccination densities from inital time up to 
+% time t
+%
+
+function draw_vaccination_density(t)
     if isempty(findobj('Type', 'Figure', 'Name', 'vaccination_density'))
         figure('Name', 'vaccination_density')
         h_V=animatedline('Tag','Density_V','Color','Green');
@@ -193,12 +233,16 @@ function draw_vaccination_density(t_now)
     rho_I = sum(sum(system.vaccinated == 1))/nb_tot;
     rho_S = sum(sum(system.vaccinated == 0))/nb_tot;
     
-    addpoints(h_V,t_now,rho_I);
-    addpoints(h_NV,t_now,rho_S);
+    addpoints(h_V,t,rho_I);
+    addpoints(h_NV,t,rho_S);
     drawnow;
 
 end
 
+% Function draw_mean_age(t)
+% 
+% This function draws the mean age from inital time up to time t
+%
 
 function draw_mean_age(t)
     if isempty(findobj('Type', 'Figure', 'Name', 'mean_age'))
