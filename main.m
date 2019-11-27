@@ -1,10 +1,10 @@
-
 addpath('src/');
 
 % config.zero = 0;
 % config.mu = 0.0001;
 config.nb_decision_step = 10000;
-config.todraw = ["state_density";"mean_age";"state"];
+config.todraw = ["state_density";"vaccination_density";"state"];
+config.dynamic = true;
 start(config);
 
 % for i=1:20
@@ -27,4 +27,3 @@ start(config);
 %         close all;
 %     end
 % end
-
