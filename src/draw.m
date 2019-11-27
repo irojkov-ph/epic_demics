@@ -60,6 +60,7 @@ function draw_vaccinated()
         figure('Name', 'vaccinated');
         
         image(x,y,system.vaccinated,'CDataMapping','scaled','Tag', 'Vaccinated');
+        set(gca,'visible','off');
         
         
         colorbar('Ticks',[0,1],'TickLabels',{'Not vacc.','Vacc.'})
@@ -91,6 +92,7 @@ function draw_age()
         h=figure('Name', 'age');
         
         image(x,y,system.age,'CDataMapping','scaled','Tag','Age');
+        set(gca,'visible','off');
         colormap(h,winter)
         caxis([0,100]);
         c = colorbar;
@@ -126,6 +128,7 @@ function draw_state()
         h=figure('Name', 'state');
         
         image(x,y,Z,'CDataMapping','scaled','Tag','State');
+        set(gca,'visible','off');
         
         colorbar('Ticks',[0,1,2],'TickLabels',{'Infected','Susceptible','Recovered'})
         colormap(h,map);
@@ -155,6 +158,7 @@ function draw_reward()
     if isempty(findobj('Type', 'Figure', 'Name', 'reward'))
         figure('Name', 'reward');
         image(x,y,system.reward,'CDataMapping','scaled','Tag','Reward');
+        set(gca,'visible','off');
         
         c = colorbar('Tag','Reward');
         set(c,'Ylim',[-10,0])

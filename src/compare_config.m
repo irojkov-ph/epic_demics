@@ -1,13 +1,15 @@
-% Function compare_config(varargin)
+% Function status = compare_config(varargin)
 % 
 % This function compares the given configuration to the default one and 
-% sets a default value if it is missing in the given configuration
+% sets a default value if it is missing in the given configuration.
+%
+% It returns a status 1 if the execution is successful, 0 otherwise.
 %
 
 function status = compare_config(varargin)
     status = -1;
 
-    default_config.nb_cell = 100;
+    default_config.nb_cell = 40;
     default_config.nb_decision_step = 104;
     default_config.dynamic = false;
     default_config.drawsystem = true;
@@ -16,8 +18,8 @@ function status = compare_config(varargin)
     
     default_config.gamma = NaN;
     default_config.beta = NaN;
-    default_config.alpha = 1/(6*4);
-    default_config.zero = 0.1;
+    default_config.alpha = 1/(4*6);
+    default_config.zero = 1;
     default_config.mu = NaN;
     
     default_config.r_ill = -10;

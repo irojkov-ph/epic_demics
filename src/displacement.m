@@ -25,39 +25,40 @@ function status = displacement(k,l)
        return
     end
     
-    N_cell = count_nearest_neighbours(k,l,size(system.age,1),size(system.age,2));
-    
     state_ = system.state(k,l);
     
-    id_lin = [k-1,k,k+1];
-    id_col = [l-1,l,l+1];
+    [id_lin, id_col] = nearest_neighbours(k,l,N_lin,N_col);
+    
+    N_cell = count_nearest_neighbours(k,l,N_lin,N_col);
+    
+    N_lin_nn = size(id_lin,2);
+    N_col_nn = size(id_col,2);
     
     moved = false;
     
     if(state_ == 'I' || state_ == 'R')
         
         p = rand;
+        
+        %probability to change cell
         q = 0.5/N_cell;
         
         n=1;
         
-        for i = 1:3
+        for i = 1:N_lin_nn
+            for j = 1:N_col_nn
+                if(p<=(q*n) && p>(q*(n-1)))
+                    try
+                        switch_cells(k,l,id_lin(i),id_col(j));
 
-            for j = 1:3
-                if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col && (i~=2 || j~=2) )
-                    if(p<=(q*n) && p>(q*(n-1)))
-                        try
-                            switch_cells(k,l,id_lin(i),id_col(j));
-                            
-                            % Write in logs
-                            fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
-                            fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
-                            fclose(fileID);
+                        % Write in logs
+                        fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
+                        fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
+                        fclose(fileID);
 
-                            moved = true;
-                        catch
-                            error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
-                        end
+                        moved = true;
+                    catch
+                        error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                     end
                     n = n + 1;
                     
@@ -72,49 +73,39 @@ function status = displacement(k,l)
             
             dens_tot = 0;
             
-            for i = 1:3
-                
-                for j = 1:3
-                    if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
-                        
-                        dens_tot = dens_tot + density_ill(id_lin(i),id_lin(j));
-                        
-                    end
+            for i = 1:N_lin_nn
+                for j = 1:N_col_nn
+                    dens_tot = dens_tot + density_ill(id_lin(i),id_col(j));
                 end
-
             end
             
             p = rand;
             
             density = 0;
             
-            for i = 1:3
-                
-                for j = 1:3
-                    if(id_lin(i)>=1 && id_lin(i)<=N_lin && id_col(j)>=1 && id_col(j)<=N_col )
-                        if( p>density && p<=(density + density_ill(id_lin(i),id_lin(j))/dens_tot) && ~moved)
-                            try
-                                switch_cells(k,l,id_lin(i),id_col(j));
+            for i = 1:N_lin_nn
+                for j = 1:N_col_nn
+                    if( p>density && p<=(density + density_ill(id_lin(i),id_col(j))/dens_tot) && ~moved)
+                        try
+                            switch_cells(k,l,id_lin(i),id_col(j));
+                            
+                            % Write in logs
+%                             fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
+%                             fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
+%                             fclose(fileID);
 
-                                % Write in logs
-                                fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
-                                fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
-                                fclose(fileID);
-
-                                moved = true;
-                            catch EM
-                                EM
-                                error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
-                            end
+                            moved = true;
+                        catch EM
+                            EM
+                            error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                         end
-                        density = density + density_ill(id_lin(i),id_lin(j))/dens_tot;
+                        density = density + density_ill(id_lin(i),id_col(j))/dens_tot;
                     end
                 end
 
             end
             
-        end
-        
+        end   
     else
         error('ID:no_state',strcat("Error! There exist no state '", state_ , "' in this model! It can not be displaced!"))
     end

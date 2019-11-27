@@ -1,8 +1,8 @@
 % Function [status]=system_init(n) 
 %
 % This function implements the system as an array of structures.
-% Each structure sys.`field`(i,j) represents the value of the field `field` 
-% for a person from the system which is in the position (i,j)
+% Each structure system.`field`(i,j) represents the value of the field `field` 
+% for a person from the system which is in the position (i,j).  
 % The fields and their values could be :
 %       - state:        "S", "I" or "R" 
 %       - vaccinated:    0 or 1
@@ -24,10 +24,10 @@
 % 
 % 
 
-function [status] = system_init(n)
+function status = system_init(n)
     status = -1;
     
-    % Test input is valid
+    % Testing input is valid
     if nargin<1
         error('ID:invalid_input','You have to specify an integer as a parameter.');
     end
@@ -41,19 +41,16 @@ function [status] = system_init(n)
     idx = strfind(tmp,'epic_demics');
     epic_demics_path = tmp(1:idx+10);
     
-    % Clear all global variables named `system` and create a new one
-    global system
-    
-    % Include path for data
+    % Including path for data
     addpath([epic_demics_path,filesep,'data'])
 
-    % Load data in order to create a probability density function 
+    % Loading data in order to create a probability density function 
     pop_table = load('swiss_pop_age_2016.mat');
     x = [0 pop_table.data.age.'];
     x(2)=1e-3;
     Fx = [0 cumsum(pop_table.data.tot_per.')];
     
-    % Create the probability distribution of age
+    % Creating the probability distribution of age
     pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
 
     % Decomment the following line in order to see the probability distribution
@@ -78,6 +75,7 @@ function [status] = system_init(n)
     state(k,l) = "I";
     
     % Filling the system structure
+    global system
     system.state = state;
     system.vaccinated = vaccinated;
     system.reward = reward;

@@ -2,7 +2,7 @@
 % 
 % This function evolves the whole system (illness, realized by 
 % `evolution_illness.m` and vaccination, realised by 
-% `evolution_vaccination.m`) for one ´vaccination step´.
+% `evolution_vaccination.m`) for one ï¿½vaccination stepï¿½.
 % The vaccination decision is taken every week.
 % The bool variable dynamic gives wether we want the agents to be able
 % to displace during the simulation or not

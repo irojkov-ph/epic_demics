@@ -6,10 +6,8 @@
 % All fields of the cell can change (even the field `vaccinated` can 
 % change if for instace the cell "dies")
 % 
-% More specifically the `state` of the cell evolves following the SIRS 
-% model whose parameter alpha, beta, gamma, mu and zero are specified at 
-% the begining of the function. The SIRS model was implemented
-% stochastically.
+% More specifically the `state` of the cell evolves following the SIR model
+% whose parameter are specified in the begining of the function.
 % 
 % It returns the evolution of the time, i.e. `t = t_now + dt`.
 % 
@@ -28,13 +26,13 @@ function [t] = evolve_cell(t_now, k, l)
     % If the total rate Q is 0 the time evolves with this dt (see below)
     dt = 1/(n^2);
     
-    % Recovery rate (different for children and adults)
+    % Recovery rate (by default different for children and adults)
     if isfield(system.cfg,'gamma') && ~isnan(system.cfg.gamma)
         gamma = system.cfg.gamma;
     else
         child = 0;
         if system.age(k,l)<15, child = 1; end
-        gamma = 1/((1-child)*(3+2*rand)/7 + child*(3+7*rand)/7);
+        gamma = 1/((1-child)*(3+5*rand)/7 + child*(5+5*rand)/7);
     end
     
     % Infection rate (number of infections per node per unit of time)
@@ -49,10 +47,10 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'alpha') && ~isnan(system.cfg.alpha)
         alpha = system.cfg.alpha;
     else
-        alpha = 1/(6*4);
+        alpha = 1/(4*6);
     end
     
-    % Rate at which a person dies 
+    % Rate at which a person dies
     if isfield(system.cfg,'mu') && ~isnan(system.cfg.mu)
         mu = system.cfg.mu;
     else
@@ -63,15 +61,17 @@ function [t] = evolve_cell(t_now, k, l)
     if isfield(system.cfg,'zero') && ~isnan(system.cfg.zero)
         zero = system.cfg.zero;
     else
-        zero=0.1;
+        zero=1;
     end
     
-    % Defining rates on the whole lattice:
-    Q_gamma = gamma*n*n;
-    Q_alpha = alpha*n*n;
-    Q_zero = zero*n*n;
-    Q_mu = mu*n*n;
-    Q_beta = beta*n*n;
+    state_ = system.state(k,l);
+    
+    % Defining rates per latice:
+    Q_gamma = gamma;
+    Q_alpha = alpha;
+    Q_mu = mu;
+    Q_beta = beta*8*3000/(n*n); % it is slightly larger than Q_alpha at peak
+    Q_zero = zero;
     
     % Reward of a person who gets infected
     if isfield(system.cfg,'r_ill') && ~isnan(system.cfg.r_ill)
@@ -87,11 +87,6 @@ function [t] = evolve_cell(t_now, k, l)
         r_recover = 2;
     end
     
-    % State of the current person
-    state_ = system.state(k,l);
-    
-    % The evenement which happens will be chosen randomly following a
-    % distribution which depends on the rates Q_j
     p = rand;
     
     if(state_ == 'S')
@@ -167,8 +162,8 @@ function [t] = evolve_cell(t_now, k, l)
     else
         error('ID:no_state',['Error! There exist no state "', state_ , ' " in this model! It can not be evolved!'])
     end
-    
-    dt = -log(1-p)/Q;
+        
+    dt = -log(1-p)/(Q*n*n);
     
     try 
         update_ages(dt,'week');
