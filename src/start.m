@@ -23,7 +23,7 @@ function start(varargin)
     
     % Clear all global variables
     clear global
-    
+
     % Set configuration for the system
     if nargin == 1
         compare_config(varargin{1});
@@ -36,7 +36,7 @@ function start(varargin)
     %number of cells 
     n = system.cfg.nb_cell;
     %current time  
-    t_now = 50;
+    t_now = 0;
     %nb of big steps  
     N = system.cfg.nb_decision_step;
     
@@ -54,7 +54,6 @@ function start(varargin)
     system_init(n);
         
     t_now = evolve_system(t_now,dynamic,N,drawsystem,todraw);
-    
     
     if system.cfg.tosave
         global epic_demics_path
