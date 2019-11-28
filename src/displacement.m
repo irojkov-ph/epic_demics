@@ -78,7 +78,7 @@ function status = displacement(k,l)
             
             for i = 1:N_lin_nn
                 for j = 1:N_col_nn
-                    dens_tot = dens_tot + density_ill(id_lin(i),id_col(j));
+                    dens_tot = dens_tot + (1-density_ill(id_lin(i),id_col(j)));
                 end
             end
             
@@ -88,7 +88,7 @@ function status = displacement(k,l)
             
             for i = 1:N_lin_nn
                 for j = 1:N_col_nn
-                    if( p>density && p<=(density + density_ill(id_lin(i),id_col(j))/dens_tot) && ~moved)
+                    if( p>density && p<=(density + (1-density_ill(id_lin(i),id_col(j)))/dens_tot) && ~moved)
                         try
                             switch_cells(k,l,id_lin(i),id_col(j));
                             
@@ -102,7 +102,7 @@ function status = displacement(k,l)
                             EM
                             error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                         end
-                        density = density + density_ill(id_lin(i),id_col(j))/dens_tot;
+                        density = density + (1-density_ill(id_lin(i),id_col(j)))/dens_tot;
 
                     end
                     
@@ -110,7 +110,7 @@ function status = displacement(k,l)
 
             end
             
-        end   
+        end 
     else
         error('ID:no_state',strcat("Error! There exist no state '", state_ , "' in this model! It can not be displaced!"))
     end
