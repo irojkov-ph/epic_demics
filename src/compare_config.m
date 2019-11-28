@@ -9,12 +9,19 @@
 function status = compare_config(varargin)
     status = -1;
 
+    default_config.name = '';
+    
     default_config.nb_cell = 40;
     default_config.nb_decision_step = 104;
+    default_config.vaccination = true;
     default_config.dynamic = false;
+    
     default_config.drawsystem = true;
     default_config.todraw = ["state_density";"state";"vaccinated";"reward";"age";"mean_age"];
     default_config.tosave = true;
+    
+    default_config.patient_zero_coord = NaN;
+    default_config.p_zero_plus_neighbours = true;
     
     default_config.gamma = NaN;
     default_config.beta = NaN;

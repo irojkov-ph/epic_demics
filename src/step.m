@@ -1,16 +1,17 @@
-% Function t = evolution_illness(t_now,dynamic)
+% Function t = evolution_illness(t_now,vaccination,dynamic)
 % 
 % This function evolves the whole system (illness, realized by 
 % `evolution_illness.m` and vaccination, realised by 
-% `evolution_vaccination.m`) for one �vaccination step�.
+% `evolution_vaccination.m`) for one vaccination step.
 % The vaccination decision is taken every week.
-% The bool variable dynamic gives wether we want the agents to be able
-% to displace during the simulation or not
+%
+% `vaccination` and `dynamic` are boolean determining whether the agents
+% can vaccinate and/or move in the system.
 % 
 % The function returns the final time t after these evolutions, mainly
 % 
 
-function t = step(t_now,dynamic)
+function t = step(t_now,vaccination,dynamic)
     
     if nargin<2
        error('ID:invalid_input','Not enough parameters specified.') 
@@ -24,6 +25,7 @@ function t = step(t_now,dynamic)
     end
     
     % The agents decide wether to vaccinate or not
-    evolution_vaccination();
-    
+    if vaccination
+        evolution_vaccination();
+    end
 end
