@@ -3,8 +3,8 @@ addpath('src/');
 % config.zero = 0;
 % config.mu = 0.0001;
 config.nb_decision_step = 10000;
-config.todraw = ["state_density";"vaccination_density";"state"];
-config.dynamic = true;
+config.todraw = ["state_density";"vaccination_density";"state";"max_area_infection"];
+config.dynamic = false;
 start(config);
 
 % for i=1:20

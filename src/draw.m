@@ -1,11 +1,11 @@
 % Function draw(attributes,varargin)
 % 
-% This function draws the ´attributes´ in the given list. Varargin gives
+% This function draws the "attributes" in the given list. Varargin gives
 % the current time
 % 
-% It calls the corresponding functions ´draw_age()´, ´draw_vaccinated()´,
-% ´draw_reward()´, ´draw_state()´, ´draw_state_density(t)´,
-% ´draw_mean_age(t)´, ´draw_vaccination_density(t)´ defined below
+% It calls the corresponding functions "draw_age()", "draw_vaccinated()",
+% "draw_reward()", "draw_state()", "draw_state_density(t)",
+% "draw_mean_age(t)", "draw_vaccination_density(t)" defined below
 
 function draw(attributes,varargin)
     for i=1:length(attributes)
@@ -35,6 +35,12 @@ function draw(attributes,varargin)
                     draw_vaccination_density(varargin{1});
                 else
                     error('ID:invalid_input','Missing arguments to draw vaccination density.')
+                end
+            case 'max_area_infection'
+                if ~(nargin<2)
+                    draw_max_area_infection(varargin{1});
+                else
+                    error('ID:invalid_input','Missing arguments to draw the maximal area of infection.')
                 end    
             otherwise
                 error('ID:invalid_input',['The attribute',attributes(i),' does not exist or cannot be drawn.'])
@@ -264,3 +270,32 @@ function draw_mean_age(t)
     drawnow;
 
 end
+
+% Function draw_max_area_infection(t)
+% 
+% This function draws the instanteneous maximal area of the illness 
+% (i.e. area of the biggest blob of infected people) from inital time
+% up to time t.
+%
+
+function draw_max_area_infection(t)
+    if isempty(findobj('Type', 'Figure', 'Name', 'max_area_infection'))
+        figure('Name', 'max_area_infection')
+        h_MAI=animatedline('Tag','max_area_infection','Color','Black');
+    else
+        h_MAI=findobj('Type', 'AnimatedLine', 'Tag', 'max_area_infection');
+    end
+
+    global system
+    
+    CR = bwlabel(system.age=="I");
+    Meas = regionprops(CR,'Area');
+    Areas = [Meas.Area];
+    MAI = max(Areas);    
+    
+    addpoints(h_MAI,t,MAI);
+    drawnow;
+
+end
+
+
