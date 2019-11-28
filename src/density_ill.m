@@ -8,18 +8,15 @@
 
 function y = density_ill(k,l)
     global system
-
-    N_lin = size(system.age,1);
-    N_col = size(system.age,2);
     
-    if k<1 || k>N_lin || l<1 || l>N_col
+    if k<1 || l<1
        warning('ID:invalid_input',['The specified indices are out of range.\n', ...
                                    'The density is therefore null.'])
        y=0;
        return
     end
     
-    [id_lin,id_col] = nearest_neighbours(k,l,N_lin,N_col);
+    [id_lin,id_col] = nearest_neighbours(k,l);
     
     N_cells = 0;
     N_I = 0;
