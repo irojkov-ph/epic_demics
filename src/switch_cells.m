@@ -22,6 +22,7 @@ function status = switch_cells(k,l,m,n)
     
     % Iterating over all fields of the system structure
     n_fields = fieldnames(system);
+
     for i=1:numel(n_fields)
         if ~strcmp('cfg',n_fields{i})
             tmp =  system.(n_fields{i}); 
