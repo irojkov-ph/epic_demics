@@ -1,14 +1,18 @@
 addpath('src/');
 
+%%
 % <<<<<<< NICO
 % config.zero = 0;
 % config.mu = 0.0001;
-config.nb_decision_step = 1000;
+config.nb_cell = 80;
+config.nb_decision_step = 200;
 config.todraw = ["state_density";"vaccination_density";"state"];
 %config.beta = 4.8;
 config.r_ill = -10;
 config.r_vacc = -4;
 default_config.alpha = 1/(4*6);
+config.p_zero_plus_neighbours = false;
+config.patient_zero_coord = [40,40];
 start(config);
 
 % for i=1:20
@@ -32,20 +36,21 @@ start(config);
 %     end
 % end
 
+%% <<<<<<< IVAN
+% config.zero = 0;
+% config.mu = 0.0001;
+config.name = 'test';
+config.nb_cell = 80;
+config.nb_decision_step = 200;
+config.todraw = ["state";"distance_from_patient_zero"];
+config.dynamic = true;
+config.patient_zero_coord = [40,40];
+config.p_zero_plus_neighbours = false;
 
-% <<<<<<< IVAN
-% % config.zero = 0;
-% % config.mu = 0.0001;
-% config.name = 'test';
-% config.nb_cell = 200;
-% config.nb_decision_step = 10;
-% config.todraw = ["state";"distance_from_patient_zero"];
-% config.dynamic = false;
-% config.patient_zero_coord = [100,100];
-% start(config);
+start(config);
 
 
-%% Variation of beta (starting from i=11)
+%% Variation of beta
 for i=11:20
     try
         config.name = 'var_beta';

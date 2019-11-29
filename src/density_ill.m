@@ -24,7 +24,7 @@ function y = density_ill(k,l)
     for i = 1:size(id_lin,2)
         for j = 1:size(id_col,2)
             % If not in (k,l)
-            if(id_lin(i)~=id_col(j))
+            if(id_lin(i)~=k || id_col(j)~=l)
                 N_cells = N_cells + 1;
                 if(system.state(id_lin(i),id_col(j)) == 'I')
                     N_I = N_I + 1;
