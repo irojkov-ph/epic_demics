@@ -28,16 +28,25 @@ function start(varargin)
     elseif nargin == 0
         compare_config();
     end
-        
+    
+    % Create a global path for the simulation
+    global epic_demics_path
+    tmp = pwd;
+    idx = strfind(tmp,'epic_demics');
+    epic_demics_path = tmp(1:idx+10);
+    
+    % Include this path for data
+    addpath([epic_demics_path,filesep,'data'])
+    
+    
     global system
     
-    % Number of cells 
-    n = system.cfg.nb_cell;
     % Current time  
     t_now = 0;
     % Number of decision steps  
     N = system.cfg.nb_decision_step;
-    
+    % Vaccination of the agents (false: no vaccin, true: vaccin)
+    vaccination = system.cfg.vaccination;
     % Dynamics of the agents (false: static, true: dynamic)
     dynamic = system.cfg.dynamic;
     % Drawing condition (false: no drawing, true: drawing the system during evolution)
@@ -46,22 +55,21 @@ function start(varargin)
     % Choose "vaccinated", "age", "reward", "state", "state_density", "mean_age"
     todraw = system.cfg.todraw;
     
-    % Initialize the system of size n
-    system_init(n);
+    % Initialize the system
+    system_init();
     
     % Let the system evolve
-    t_now = evolve_system(t_now,dynamic,N,drawsystem,todraw);
+    t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,todraw);
     
     % Save all the figures and the system in `./logs/` folder
     if system.cfg.tosave
-        global epic_demics_path
         name = num2str(round(posixtime(datetime('now'))));
         
-        save([epic_demics_path,filesep,'logs',filesep,name,'_system.mat'],'system');
+        save([epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_system.mat'],'system');
         
         for i=1:length(todraw)
            h=findobj('Type', 'Figure', 'Name', todraw(i));
-           saveas(h,[epic_demics_path,filesep,'logs',filesep,name,'_',char(todraw(i)),'.fig']);
+           saveas(h,[epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_',char(todraw(i)),'.fig']);
            close(h);
         end
         
