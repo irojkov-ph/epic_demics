@@ -1,4 +1,4 @@
-% Function [status]=system_init(n) 
+% Function [status]=system_init() 
 %
 % This function implements the system as an array of structures.
 % Each structure system.`field`(i,j) represents the value of the field `field` 
@@ -16,33 +16,22 @@
 %    - system.age = system.age + 1; % Increase the age of each person by 1
 %    - system.age(i,j) = 50;        % Set the age of the (i,j) person to 50
 % 
-% In order to improve efficiency of the simulation, the `system` is 
-% declared as a global variable. Thus this function takes as a parameter an 
-% integer `n`, which defines the size of the square matrix, and returns a  
-% status giving whether the global variable was well created (status = 1)
+% This function takes no parameters and returns a status giving whether
+% the global variable `system` was well created (status = 1)
 % or not (status = -1).
 % 
 % 
 
-function status = system_init(n)
+function status = system_init()
     status = -1;
     
-    % Testing input is valid
-    if nargin<1
-        error('ID:invalid_input','You have to specify an integer as a parameter.');
-    end
-    n = round(n);
-    if size(n,1)~=1 || size(n,2)~=1
-        error('ID:invalid_input','''n'' has to be only one integer.');
+    global system
+
+    if ~isnumeric(system.cfg.nb_cell) && system.cfg.nb_cell < 0
+        error('ID:invalid_input','''nb_cell'' from the configuration parameters has to be integer.');
     end
     
-    global epic_demics_path
-    tmp = pwd;
-    idx = strfind(tmp,'epic_demics');
-    epic_demics_path = tmp(1:idx+10);
-    
-    % Including path for data
-    addpath([epic_demics_path,filesep,'data'])
+    n = round(system.cfg.nb_cell);
 
     % Loading data in order to create a probability density function 
     pop_table = load('swiss_pop_age_2016.mat');
@@ -73,10 +62,22 @@ function status = system_init(n)
     % Adding a Patient Zero at a random position
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
+    if ~isnan(system.cfg.patient_zero_coord) & isnumeric(system.cfg.patient_zero_coord)
+        coord = round(system.cfg.patient_zero_coord);
+        coord = coord(:);
+        if coord(1)>0 && coord(1)<n+1 && coord(2)>0 && coord(2)<n+1
+            k=coord(1);
+            l=coord(2);
+            system.cfg.patient_zero_coord = [k,l]; 
+        else
+            system.cfg.patient_zero_coord = NaN;
+        end
+    else
+        system.cfg.patient_zero_coord = NaN;
+    end
     state(k,l) = "I";
     
     % Filling the system structure
-    global system
     system.state = state;
     system.vaccinated = vaccinated;
     system.reward = reward;

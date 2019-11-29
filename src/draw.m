@@ -1,11 +1,12 @@
 % Function draw(attributes,varargin)
 % 
-% This function draws the ´attributes´ in the given list. Varargin gives
+% This function draws the "attributes" in the given list. Varargin gives
 % the current time
 % 
-% It calls the corresponding functions ´draw_age()´, ´draw_vaccinated()´,
-% ´draw_reward()´, ´draw_state()´, ´draw_state_density(t)´,
-% ´draw_mean_age(t)´, ´draw_vaccination_density(t)´ defined below
+% It calls the corresponding functions "draw_age()", "draw_vaccinated()",
+% "draw_reward()", "draw_state()", "draw_state_density(t)",
+% "draw_mean_age(t)", "draw_vaccination_density(t)", "draw_max_area_infection(t)"
+% "draw_distance_from_patient_zero(t)" defined below
 
 function draw(attributes,varargin)
     for i=1:length(attributes)
@@ -41,7 +42,19 @@ function draw(attributes,varargin)
                     draw_local_vaccination_density(varargin{1});
                 else
                     error('ID:invalid_input','Missing arguments to draw local vaccination density.')
-                end  
+                end
+            case 'max_area_infection'
+                if ~(nargin<2)
+                    draw_max_area_infection(varargin{1});
+                else
+                    error('ID:invalid_input','Missing arguments to draw the maximal area of infection.')
+                end
+            case 'distance_from_patient_zero'
+                if ~(nargin<2)
+                    draw_distance_from_patient_zero(varargin{1});
+                else
+                    error('ID:invalid_input','Missing arguments to draw the distance from patient zero.')
+                end
             otherwise
                 error('ID:invalid_input',['The attribute',attributes(i),' does not exist or cannot be drawn.'])
         end
@@ -302,3 +315,67 @@ function draw_mean_age(t)
     drawnow;
 
 end
+
+% Function draw_max_area_infection(t)
+% 
+% This function draws the instanteneous maximal area of the illness 
+% (i.e. area of the biggest blob of infected people) from inital time
+% up to time t.
+% (holes in blobs are not taken into account)
+%
+
+function draw_max_area_infection(t)
+    if isempty(findobj('Type', 'Figure', 'Name', 'max_area_infection'))
+        figure('Name', 'max_area_infection')
+        h_MAI=animatedline('Tag','max_area_infection','Color','Black');
+    else
+        h_MAI=findobj('Type', 'AnimatedLine', 'Tag', 'max_area_infection');
+    end
+
+    global system
+    
+    CR = bwconncomp(system.state=="I");
+    Meas = regionprops(CR,'Area');
+    Areas = [Meas.Area];
+    if ~isempty(Areas), MAI = max(Areas); else, MAI=0; end   
+    
+    addpoints(h_MAI,t,MAI);
+    drawnow;
+
+end
+
+% Function draw_distance_from_patient_zero(t)
+% 
+% This function draws the instanteneous maximal distance from patient zero  
+% to an infected agent from inital time up to time t.
+% 
+
+function draw_distance_from_patient_zero(t)
+    global system    
+
+    if isempty(findobj('Type', 'Figure', 'Name', 'distance_from_patient_zero'))
+        if isnan(system.cfg.patient_zero_coord)
+           warning('ID:no_patient_zero','No zero patient defined. The system will not draw distance_from_patient_zero.')
+           system.cfg.todraw(strcmp(system.cfg.todraw, "distance_from_patient_zero")) = [];
+           return
+        end
+        figure('Name', 'distance_from_patient_zero')
+        h_DPZ=animatedline('Tag','distance_from_patient_zero','Color','Black');
+    else
+        h_DPZ=findobj('Type', 'AnimatedLine', 'Tag', 'distance_from_patient_zero');
+    end
+
+    coord = system.cfg.patient_zero_coord;
+    
+    [row,col] = find(system.state=="I");
+    if ~isempty(row) 
+        DPZ = max(sqrt((row-coord(1)).^2+(col-coord(2)).^2));
+    else
+        DPZ = 0;
+    end   
+    
+    addpoints(h_DPZ,t,DPZ);
+    drawnow;
+
+end
+
