@@ -28,8 +28,8 @@ function start(varargin)
     elseif nargin == 0
         compare_config();
     end
-        
-    global system
+       
+    global system;
     
     % Number of cells 
     n = system.cfg.nb_cell;

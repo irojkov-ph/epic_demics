@@ -36,6 +36,12 @@ function draw(attributes,varargin)
                 else
                     error('ID:invalid_input','Missing arguments to draw vaccination density.')
                 end    
+            case 'local_vaccination_density'
+                if ~(nargin<2)
+                    draw_local_vaccination_density(varargin{1});
+                else
+                    error('ID:invalid_input','Missing arguments to draw local vaccination density.')
+                end  
             otherwise
                 error('ID:invalid_input',['The attribute',attributes(i),' does not exist or cannot be drawn.'])
         end
@@ -239,6 +245,38 @@ function draw_vaccination_density(t)
     
     addpoints(h_V,t,rho_I);
     addpoints(h_NV,t,rho_S);
+    drawnow;
+
+end
+
+function draw_local_vaccination_density(t)
+    if isempty(findobj('Type', 'Figure', 'Name', 'local_vaccination_density'))
+        figure('Name', 'local_vaccination_density')
+        h_tr=animatedline('Tag','Density_top_right','Color','Green');
+        h_tl=animatedline('Tag','Density_top_left','Color','Red');
+        h_br=animatedline('Tag','Density_bottom_right','Color','Blue');
+        h_bl=animatedline('Tag','Density_bottom_left','Color','Magenta');
+    else
+        h_tr=findobj('Type', 'AnimatedLine', 'Tag', 'Density_top_right');
+        h_tl=findobj('Type', 'AnimatedLine', 'Tag', 'Density_top_left');
+        h_br=findobj('Type', 'AnimatedLine', 'Tag', 'Density_bottom_right');
+        h_bl=findobj('Type', 'AnimatedLine', 'Tag', 'Density_bottom_left');
+    end
+
+    global system
+    
+    n = size(system.state,1);
+    nb_tot = size(system.state,1)^2;
+    
+    rho_tl = 4*sum(sum(system.vaccinated(1:floor(n/2),1:floor(n/2))))/nb_tot;
+    rho_tr = 4*sum(sum(system.vaccinated(1:floor(n/2),floor(n/2)+1:n)))/nb_tot;
+    rho_bl = 4*sum(sum(system.vaccinated(floor(n/2)+1:n,1:floor(n/2))))/nb_tot;
+    rho_br = 4*sum(sum(system.vaccinated(floor(n/2)+1:n,floor(n/2)+1:n)))/nb_tot;
+    
+    addpoints(h_tr,t,rho_tr);
+    addpoints(h_tl,t,rho_tl);
+    addpoints(h_bl,t,rho_bl);
+    addpoints(h_br,t,rho_br);
     drawnow;
 
 end

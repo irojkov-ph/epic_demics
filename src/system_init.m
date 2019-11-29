@@ -61,6 +61,7 @@ function status = system_init(n)
     
     % Creating the rewards matrix
     reward = zeros(n);
+    reward2 = zeros(n);
     
     % Creating the vaccination matrix
     vaccinated = zeros(n);
@@ -80,6 +81,7 @@ function status = system_init(n)
     system.vaccinated = vaccinated;
     system.reward = reward;
     system.age = age;
+    system.reward2 = reward2;
     
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
         'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...

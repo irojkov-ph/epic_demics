@@ -2,9 +2,12 @@ addpath('src/');
 
 % config.zero = 0;
 % config.mu = 0.0001;
-config.nb_decision_step = 10000;
+config.nb_decision_step = 1000;
 config.todraw = ["state_density";"vaccination_density";"state"];
-config.dynamic = true;
+%config.beta = 4.8;
+config.r_ill = -10;
+config.r_vacc = -4;
+default_config.alpha = 1/(4*6);
 start(config);
 
 % for i=1:20

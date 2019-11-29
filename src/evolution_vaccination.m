@@ -39,7 +39,7 @@ function evolution_vaccination()
     % Number of vaccinated nearest neighbors
     number_of_neighbors_V = conv2(system.vaccinated,filter,'same');
     % Mean reward of vaccinated neighbors
-    rewards_of_neighbors_V = conv2(system.reward.*system.vaccinated,filter,'same');
+    rewards_of_neighbors_V = conv2(system.reward2.*system.vaccinated,filter,'same');
     rewards_of_neighbors_V = rewards_of_neighbors_V ./ number_of_neighbors_V;
     % If all neighbours have the same choice this variable is marked true
     are_neighbours_uniform(number_of_neighbors_V == 0) = true;    
@@ -67,7 +67,7 @@ function evolution_vaccination()
     system.vaccinated(indices_to_change) = ~(system.vaccinated(indices_to_change));
     
     % Only susceptible and vaccination-choosing people get vaccinated
-    system.reward = system.reward + ((system.state == "S") & (system.vaccinated == true)) * r_vacc;
+    system.reward2 = system.reward2 + ((system.state == "S") & (system.vaccinated == true)) * r_vacc;
     system.state((system.state == "S") & (system.vaccinated == true)) = "R";
 end
 
