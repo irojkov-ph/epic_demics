@@ -1,7 +1,7 @@
 % Standardize the current figure and axes
 % Graph constants used for all graphs
 
-POSITION = [200 200 1000 550];
+POSITION = [200 200 1000 300];
 FONTSIZE   = 20;
 MARKERSIZE = 14;
 LINEWIDTH  = 1.5;

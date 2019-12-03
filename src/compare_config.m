@@ -11,8 +11,9 @@ function status = compare_config(varargin)
 
     default_config.name = '';
     
-    default_config.nb_cell = 40;
-    default_config.nb_decision_step = 104;
+    default_config.nb_cell = 50;
+    default_config.nb_decision_step = 50;
+
     default_config.vaccination = true;
     default_config.dynamic = false;
     
@@ -21,13 +22,12 @@ function status = compare_config(varargin)
     default_config.tosave = true;
     
     default_config.patient_zero_coord = NaN;
-    default_config.p_zero_plus_neighbours = true;
     
-    default_config.gamma = NaN;
     default_config.beta = NaN;
+    default_config.gamma = NaN;
     default_config.alpha = 1/(4*6);
-    default_config.zero = 1;
     default_config.mu = NaN;
+    default_config.zero = 1;
     
     default_config.r_ill = -10;
     default_config.r_recover = 2;
