@@ -21,17 +21,20 @@ It is a project mainly written in MatLab and it will be developped during the fo
 |---------------------------------------------------|:--------------:|:--------------------------:|:-------------:|
 | Number of cells along <br> one side of the system | nb_cell        | `config.nb_cell`           | 50            |
 | Number of decision steps                          | N              | `config.nb_decision_step`  | 50            |
-| <br> | | | |
+| <br>                                              |                |                            |               |
 | Allow agents to vaccinate themself                | vaccination    | `config.vaccination`       | true          |
 | Allow agents to move in the system                | dynamic        | `config.dynamic`           | false         |
+| <br>                                              |                |                            |               |
 | Infection rate                                    | beta           | `config.beta`              | NaN           |
 | Recovery rate                                     | gamma          | `config.gamma`             | NaN           |
 | Rate at which becomes <br> ineffective            | alpha          | `config.alpha`             | 1/(4*6)       |
 | Mortality rate                                    | mu             | `config.mu`                | NaN           |
 | Rate of zero event <br> (nothing happens event)   | zero           | `config.zero`              | 1             |
+| <br>                                              |                |                            |               |
 | Getting infected reward                           | r_ill          | `config.r_ill`             | -10           |
 | Recovery reward                                   | r_recover      | `config.r_recovery`        | 2             |
 | Vaccination reward                                | r_vacc         | `config.r_vacc`            | -4            |
+| <br>                                              |                |                            |               |
 | Patient zero coordinates                          | patient zero   | `config.patient_zero_coord`| NaN           |
 
 cf. './src/compare_config.m' file for further details
