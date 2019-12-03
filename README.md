@@ -21,7 +21,7 @@ It is a project mainly written in MatLab and it will be developped during the fo
 |---------------------------------------------------|:--------------:|:--------------------------:|:-------------:|
 | Number of cells along <br> one side of the system | nb_cell        | `config.nb_cell`           | 50            |
 | Number of decision steps                          | N              | `config.nb_decision_step`  | 50            |
-| <br>                                              |                |                            |               |
+| <td bgcolor="#FF0000"></td>                                             |                |                            |               |
 | Allow agents to vaccinate themself                | vaccination    | `config.vaccination`       | true          |
 | Allow agents to move in the system                | dynamic        | `config.dynamic`           | false         |
 | <br>                                              |                |                            |               |
