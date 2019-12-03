@@ -1,13 +1,15 @@
 # epic_demics
-This repository is made for a group project in the context of the Agent-Based Modeling and Social System Simulation course of ETH Zürich. 
 
-The theme of this project is Epidemics & Immunizations
+Epic_Demics is a MATLAB &copy; (R2019b, The MathWorks, Inc.) project and is part of the Agent-Based Modeling and Social System Simulation course (Fall 2019) of ETH Zürich [1].
 
-It is a project mainly written in MatLab and it will be developped during the following weeks.
+## Autors
 
+ - Group name : Epic Demics
+ - Group members : Nicholas Delmotte [@nicdel-git](https://github.com/nicdel-git), Loris Pedrelli [@lpedrelli](https://github.com/lpedrelli), Ivan Rojkov [@irojkov-ph](https://github.com/irojkov-ph)
+ - Project title :  
 
 ## Introduction
-
+The 11th of March the World Health Organisation (WHO) launched the Global Influenza Strategy for 2019-2030 aimed at preventing seasonal influenza with vaccines, control the spread of influenza from animals to humans and prepare for the next influenza pandemics. Seasonal influenza (commonly called flu) is a viral disease which affects worldwide about 3 to 5 million people and causes about 290'000 to 650'000 respiratory deaths [2]. In this report the effect of vaccine and the importance of collective behaviour in front of the decision whether to vaccinate or not will be studied by implementing a SIRS model mixed with an agent based model which simulates the social human behaviour.
 
 ## Model
 
@@ -21,7 +23,7 @@ It is a project mainly written in MatLab and it will be developped during the fo
 |---------------------------------------------------|:--------------:|:--------------------------:|:-------------:|
 | Number of cells along <br> one side of the system | nb_cell        | `config.nb_cell`           | 50            |
 | Number of decision steps                          | N              | `config.nb_decision_step`  | 50            |
-| <br>                                             |                |                            |               |
+| <br>                                              |                |                            |               |
 | Allow agents to vaccinate themself                | vaccination    | `config.vaccination`       | true          |
 | Allow agents to move in the system                | dynamic        | `config.dynamic`           | false         |
 | <br>                                              |                |                            |               |
@@ -37,12 +39,13 @@ It is a project mainly written in MatLab and it will be developped during the fo
 | <br>                                              |                |                            |               |
 | Patient zero coordinates                          | patient zero   | `config.patient_zero_coord`| NaN           |
 
-cf. './src/compare_config.m' file for further details
+
+cf. `./src/compare_config.m` file for further details
 
 ## Refereces
 
-
-
+[1] Agent-Based Modeling and Social System Simulation, _Computational Social Science_, ETH Zürich, <br>  url:[https://coss.ethz.ch/education/agentBased.html](https://coss.ethz.ch/education/agentBased.html)
+[2] Ask the expert: Influenza Q&A, _WHO - Influenza (Seasonal)_,  6 November 2018, <br> url:[https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)](https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)), Last consulted 03.12.2019
 
 
 
