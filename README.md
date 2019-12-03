@@ -45,6 +45,7 @@ cf. `./src/compare_config.m` file for further details
 ## Refereces
 
 [1] Agent-Based Modeling and Social System Simulation, _Computational Social Science_, ETH Zürich, <br>  url:[https://coss.ethz.ch/education/agentBased.html](https://coss.ethz.ch/education/agentBased.html)
+
 [2] Ask the expert: Influenza Q&A, _WHO - Influenza (Seasonal)_,  6 November 2018, <br> url:[https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)](https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)), Last consulted 03.12.2019
 
 
