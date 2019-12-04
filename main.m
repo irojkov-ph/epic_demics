@@ -1,4 +1,4 @@
-addpath('src/');
+addpath(['.',filesep,'src',filesep]);
 
 % %%
 % % <<<<<<< LORIS
