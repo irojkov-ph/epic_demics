@@ -19,9 +19,9 @@ The 11th of March the World Health Organisation (WHO) launched the Global Influe
 ## Reproductibility
 
 For the purpose of reproductibility, we make this project public. You can either download the project or clone it directly using git as following:
-
-``` git clone https://github.com/irojkov-ph/epic_demics.git ```
-
+```
+git clone https://github.com/irojkov-ph/epic_demics.git
+```
 Then open MATLAB &copy; in the right folder and enter the following commands in the command line:
 ```
 cd epic_demics
