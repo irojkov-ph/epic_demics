@@ -20,21 +20,21 @@ The 11th of March the World Health Organisation (WHO) launched the Global Influe
 
 For the purpose of reproductibility, we make this project public. You can either download the project or clone it directly using git as following:
 
-* git clone https://github.com/irojkov-ph/epic_demics.git
+``` git clone https://github.com/irojkov-ph/epic_demics.git ```
 
 Then open MATLAB &copy; in the right folder and enter the following commands in the command line:
-
-* cd epic_demics
-* main
-
+```
+cd epic_demics
+main
+```
 This command will execute a basic simulation. For other particular simulations you can either decomment the appropriate section in the `main.m` script or create your own simulation as following:
-
-* addpath(['.',filesep,'src',filesep]);
-* config.parameter1 = value1;
-* config.parameter2 = value2;
-* ...
-* start(config);
-
+```
+addpath(['.',filesep,'src',filesep]);
+config.parameter1 = value1;
+config.parameter2 = value2;
+...
+start(config);
+```
 Where [`parameter`,`value`] couples are the values of different parameter implemented in the project.
 
 ## Parameters that can be simulated
