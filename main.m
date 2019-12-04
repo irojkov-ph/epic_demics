@@ -51,31 +51,32 @@ addpath('src/');
 
 
 %% Variation of beta (1 to 10)
-Bet = [0.97];
+Bet = [1];
 clear config
 for i=1:length(Bet)
-    try
-        config.name = 'var_beta';
-        config.nb_cell = 100;
+    %try
+        config.name = 'test';
+        config.nb_cell = 80;
         config.nb_decision_step = 200;
         config.patient_zero_coord = [50,50];
         config.p_zero_plus_neighbours = false;
         config.beta = Bet(i);
         config.todraw = ["state_density";"state";"vaccination_density";"max_area_infection";"distance_from_patient_zero"];
         start(config);
-    catch ME
-        global epic_demics_path system
-        name = num2str(round(posixtime(datetime('now'))));
-        save([epic_demics_path,filesep,'logs',filesep,config.name,name,'_system_error.mat'],'system');
+    % catch ME
+    %     ME
+    %     global epic_demics_path system
+    %     name = num2str(round(posixtime(datetime('now'))));
+    %     save([epic_demics_path,filesep,'logs',filesep,config.name,name,'_system_error.mat'],'system');
         
-        % Write in logs
-        fileID = fopen([epic_demics_path,filesep,'logs',filesep,'errors.txt'],'a+');
-        fprintf(fileID,['\n ERROR in simulation ',config.name,name,'! Here is the log of the error: \n',...
-                        ME.identifier,'\n',ME.message,'\n']);
-        fclose(fileID);
+    %     % Write in logs
+    %     fileID = fopen([epic_demics_path,filesep,'logs',filesep,'errors.txt'],'a+');
+    %     fprintf(fileID,['\n ERROR in simulation ',config.name,name,'! Here is the log of the error: \n',...
+    %                     ME.identifier,'\n',ME.message,'\n']);
+    %     fclose(fileID);
         
-        close all;
-    end
+    %     close all;
+    % end
 end
 
 %% Variation of nb_cell (6 to 180 )

@@ -53,13 +53,12 @@ function start(varargin)
     drawsystem = system.cfg.drawsystem;
     % Attributes to draw while the system evolves
     % Choose "vaccinated", "age", "reward", "state", "state_density", "mean_age"
-    todraw = system.cfg.todraw;
     
     % Initialize the system
     system_init();
     
     % Let the system evolve
-    t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,todraw);
+    t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,system.cfg.todraw);
     
     % Save all the figures and the system in `./logs/` folder
     if system.cfg.tosave

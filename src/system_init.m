@@ -24,6 +24,7 @@
 
 function status = system_init()
     status = -1;
+    war_msg = {};
     
     global system
 
@@ -32,7 +33,6 @@ function status = system_init()
     end
     
     n = round(system.cfg.nb_cell);
-
 
     if license( 'test', 'Signal_Toolbox' )
         % Loading data in order to create a probability density function 
@@ -50,12 +50,15 @@ function status = system_init()
         % Creating the age matrix (one can remove `round` if we assume decimal ages)
         tmp_age = round(random(pda,n));
     else
-        tmp_age = round(rand(n).*100)
+        tmp_age = round(rand(n).*100);
+        war_msg{end+1} = ['No Signal Processing Toolbox installed. The system will', ...
+                          ' initialize a population with uniform distribution of ages.', ...
+                          'If you want the actual swiss population age distribution, please install the toolbox'];
     end
 
     age = tmp_age;
 
-    % Creating the rewards matrix
+    % Creating the rewards matrices
     reward = zeros(n);
     reward_vacc = zeros(n);
     
@@ -79,11 +82,20 @@ function status = system_init()
         else
             system.cfg.patient_zero_coord = NaN;
         end
-    else
+    elseif isnan(system.cfg.patient_zero_coord) & find(strcmp(system.cfg.todraw, "distance_from_patient_zero"))
         system.cfg.patient_zero_coord = NaN;
+        system.cfg.todraw(strcmp(system.cfg.todraw, "distance_from_patient_zero")) = [];
+        war_msg{end+1} = 'No zero patient defined. The system will not draw `distance_from_patient_zero`.';
     end
     state(k,l) = "I";
     
+    % Checking if Image Processing Toolbox is installed
+    if find(strcmp(system.cfg.todraw, "max_area_infection")) && ~license('test','Image_Toolbox')
+        system.cfg.todraw(strcmp(system.cfg.todraw, "max_area_infection")) = [];
+        war_msg{end+1} = 'No Image Processing Toolbox installed. The system will not draw `max_area_infection`.';
+    end
+
+
     % Filling the system structure
     system.state = state;
     system.vaccinated = vaccinated;
@@ -91,11 +103,20 @@ function status = system_init()
     system.age = age;
     system.reward_vacc = reward_vacc;
     
+    % Printing the initialization success message
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
         'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
         'A system of size %d x %d was initialized as a \n', ...
         'global variable named `system`.\n'],n,n);
-     
+    
+    % Sending warning if there exist some config restrictions
+    for msg_id=1:size(war_msg,2)
+        warning off backtrace
+        warning('ID:config_restriction',war_msg{msg_id});
+        warning on backtrace
+    end
+    
+    
     status = 1;
 end
 
