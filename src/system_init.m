@@ -33,24 +33,31 @@ function status = system_init()
     
     n = round(system.cfg.nb_cell);
 
-    % Loading data in order to create a probability density function 
-    pop_table = load('swiss_pop_age_2016.mat');
-    x = [0 pop_table.data.age.'];
-    x(2)=1e-3;
-    Fx = [0 cumsum(pop_table.data.tot_per.')];
-    
-    % Creating the probability distribution of age
-    pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
 
-    % Decomment the following line in order to see the probability distribution
-    %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
-    
-    % Creating the age matrix (one can remove `round` if we assume decimal ages)
-    age = round(random(pda,n));
-    
+    if license( 'test', 'Signal_Toolbox' )
+        % Loading data in order to create a probability density function 
+        pop_table = load('swiss_pop_age_2016.mat');
+        x = [0 pop_table.data.age.'];
+        x(2)=1e-3;
+        Fx = [0 cumsum(pop_table.data.tot_per.')];
+        
+        % Creating the probability distribution of age
+        pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
+
+        % Decomment the following line in order to see the probability distribution
+        %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
+        
+        % Creating the age matrix (one can remove `round` if we assume decimal ages)
+        tmp_age = round(random(pda,n));
+    else
+        tmp_age = round(rand(n).*100)
+    end
+
+    age = tmp_age;
+
     % Creating the rewards matrix
     reward = zeros(n);
-    reward2 = zeros(n);
+    reward_vacc = zeros(n);
     
     % Creating the vaccination matrix
     vaccinated = zeros(n);
@@ -82,7 +89,7 @@ function status = system_init()
     system.vaccinated = vaccinated;
     system.reward = reward;
     system.age = age;
-    system.reward2 = reward2;
+    system.reward_vacc = reward_vacc;
     
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
         'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...

@@ -13,9 +13,21 @@ The 11th of March the World Health Organisation (WHO) launched the Global Influe
 
 ## Model
 
+license( 'test', 'Signal_Toolbox' )
+license( 'test', 'Image_Toolbox' )
+
+
+
 ## Reproductibility
 
-## File structure
+For the purpose of reproductibility, we make this project public. You can either download the project or clone it directly using git as following:
+
+* git clone https://github.com/irojkov-ph/epic_demics.git
+
+Then open MATLAB &copy; in the right  and enter the following commands in the command line:
+
+* cd epic_demics
+* main
 
 ## Parameters that can be simulated
 
@@ -46,7 +58,7 @@ cf. `./src/compare_config.m` file for further details
 
 [1] Agent-Based Modeling and Social System Simulation, _Computational Social Science_, ETH Zürich, <br>  url:[https://coss.ethz.ch/education/agentBased.html](https://coss.ethz.ch/education/agentBased.html)
 
-[2] Ask the expert: Influenza Q&A, _WHO - Influenza (Seasonal)_,  6 November 2018, <br> url:[https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)](https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)), Last consulted 03.12.2019
+[2] Ask the expert: Influenza Q&A, _WHO - Influenza (Seasonal)_,  6 November 2018, <br> url:[https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)](https://www.who.int/en/news-room/fact-sheets/detail/influenza-(seasonal)), Last consulted 03.12.2019.
 
 
 
