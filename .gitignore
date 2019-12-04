@@ -9,7 +9,10 @@
 # Temporary Matlab files are ignored :
 *.asv
 *.m~
-	
+
+# Ignore the `main.m` script because it vary with simulations
+main.m
+
 # Compressed files are ignored :
 *.rar
 *.zip
