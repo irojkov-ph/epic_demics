@@ -1,6 +1,38 @@
 addpath('src/');
 
 %%
+% <<<<<<< LORIS
+config.name = 'only_dynamic';
+    
+config.nb_cell = 100;
+config.nb_decision_step = 1000000;
+config.vaccination = false;
+config.dynamic = true;
+
+config.drawsystem = true;
+% "age"; "vaccinated"; "reward"; "state"; "state_density"; "mean_age";
+% "vaccination_density"; "local_vaccination_density"; "max_area_infection";
+% "distance_from_patient_zero"
+config.todraw = ["state"];
+config.tosave = true;
+
+% config.patient_zero_coord = [39,39];
+% config.p_zero_plus_neighbours = true;
+
+config.gamma = 0;
+config.beta = 0;
+config.alpha = 0;
+config.zero = 0;
+config.mu = 0;
+
+% config.r_ill = -10;
+% config.r_recover = 2;
+% config.r_vacc = -4;
+
+start(config);
+
+
+%%
 % <<<<<<< NICO
 % config.zero = 0;
 % config.mu = 0.0001;
@@ -10,7 +42,7 @@ config.todraw = ["state_density";"vaccination_density";"state"];
 %config.beta = 4.8;
 config.r_ill = -10;
 config.r_vacc = -4;
-default_config.alpha = 1/(4*6);
+config.alpha = 1/(4*6);
 config.p_zero_plus_neighbours = false;
 config.patient_zero_coord = [40,40];
 start(config);
