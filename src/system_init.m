@@ -73,7 +73,7 @@ function status = system_init()
 
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
-    if ~isnan(system.cfg.patient_zero_coord) && isnumeric(system.cfg.patient_zero_coord)
+    if ~isnan(system.cfg.patient_zero_coord) & isnumeric(system.cfg.patient_zero_coord)
         coord = round(system.cfg.patient_zero_coord);
         coord = coord(:);
         if coord(1)>0 && coord(1)<n+1 && coord(2)>0 && coord(2)<n+1
