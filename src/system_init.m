@@ -34,6 +34,14 @@ function status = system_init()
     
     n = round(system.cfg.nb_cell);
 
+    %%% Some checkpoints
+    % Checking if Image Processing Toolbox is installed
+    if sum( version('-release') >= '2017b' ) ~= 3
+        war_msg{end+1} = ['Your MATLAB version is anterior to R2017b.\n',...
+                          'We do not guarantee the proper execution of the following simulation.'];
+    end
+
+    % Checking if Signal Processing Toolbox is installed
     if license( 'test', 'Signal_Toolbox' )
         % Loading data in order to create a probability density function 
         pop_table = load('swiss_pop_age_2016.mat');
@@ -47,15 +55,23 @@ function status = system_init()
         % Decomment the following line in order to see the probability distribution
         %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
         
-        % Creating the age matrix (one can remove `round` if we assume decimal ages)
         tmp_age = round(random(pda,n));
     else
         tmp_age = round(rand(n).*100);
         war_msg{end+1} = ['No Signal Processing Toolbox installed. The system will', ...
-                          ' initialize a population with uniform distribution of ages.', ...
-                          'If you want the actual swiss population age distribution, please install the toolbox'];
+                          ' initialize a population with uniform distribution of ages.\n', ...
+                          'If you want the actual swiss population age distribution, please install the toolbox.'];
     end
 
+    % Checking if Image Processing Toolbox is installed
+    if find(strcmp(system.cfg.todraw, "max_area_infection")) && ~license('test','Image_Toolbox')
+        system.cfg.todraw(strcmp(system.cfg.todraw, "max_area_infection")) = [];
+        war_msg{end+1} = 'No Image Processing Toolbox installed. The system will not draw `max_area_infection`.';
+    end
+
+    
+    %%% Defining system's fields
+    % Creating the age matrix (one can remove `round` if we assume decimal ages)
     age = tmp_age;
 
     % Creating the rewards matrices
@@ -70,7 +86,6 @@ function status = system_init()
     state(:,:) = "S";
     
     % Adding a Patient Zero at a random position
-
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
     if ~isnan(system.cfg.patient_zero_coord) & isnumeric(system.cfg.patient_zero_coord)
@@ -89,13 +104,6 @@ function status = system_init()
         war_msg{end+1} = 'No zero patient defined. The system will not draw `distance_from_patient_zero`.';
     end
     state(k,l) = "I";
-    
-    % Checking if Image Processing Toolbox is installed
-    if find(strcmp(system.cfg.todraw, "max_area_infection")) && ~license('test','Image_Toolbox')
-        system.cfg.todraw(strcmp(system.cfg.todraw, "max_area_infection")) = [];
-        war_msg{end+1} = 'No Image Processing Toolbox installed. The system will not draw `max_area_infection`.';
-    end
-
 
     % Filling the system structure
     system.state = state;
@@ -113,7 +121,7 @@ function status = system_init()
     % Sending warning if there exist some config restrictions
     for msg_id=1:size(war_msg,2)
         warning off backtrace
-        warning('ID:config_restriction',war_msg{msg_id});
+        warning('ID:config_warning',war_msg{msg_id});
         warning on backtrace
     end
     

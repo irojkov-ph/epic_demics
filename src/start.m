@@ -38,7 +38,7 @@ function start(varargin)
     % Include this path for data
     addpath([epic_demics_path,filesep,'data'])
     
-    
+    % Create a global structure system
     global system
     
     % Current time  
@@ -51,8 +51,6 @@ function start(varargin)
     dynamic = system.cfg.dynamic;
     % Drawing condition (false: no drawing, true: drawing the system during evolution)
     drawsystem = system.cfg.drawsystem;
-    % Attributes to draw while the system evolves
-    % Choose "vaccinated", "age", "reward", "state", "state_density", "mean_age"
     
     % Initialize the system
     system_init();
