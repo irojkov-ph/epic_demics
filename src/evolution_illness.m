@@ -29,9 +29,10 @@ function t = evolution_illness(t_now,dynamic)
     
     % the cell to evolve is chosen randomly following two uniform random
     % variables
-    k = floor(rand.*(Nlin)+1);
-    l = floor(rand.*(Ncol)+1);
     
+    k=randi([1,Nlin]);
+    l=randi([1,Ncol]);
+
     if(k<1)
        k=1; 
     elseif(k>Nlin)
