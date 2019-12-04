@@ -49,10 +49,10 @@ function status = displacement(k,l)
         
         for i = 1:N_lin_nn
             for j = 1:N_col_nn
-              if((i~=2 || j~=2))
+              if((id_lin(i)~=k || id_col(j)~=l))
                 if(p<=(q*n) && p>(q*(n-1)))
                     try
-                        switch_cells(k,l,id_lin(i),id_col(j));
+                        %switch_cells(k,l,id_lin(i),id_col(j));
 
                         % Write in logs
                         %fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
@@ -64,31 +64,27 @@ function status = displacement(k,l)
                         error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                     end
                     n = n + 1;
-                  end  
-                end
+                end  
+              end
             end
 
         end
         
     elseif(state_ == 'S')
-        
         if(density_ill(k,l)~=0) %if the person is not safe
-            
             dens_tot = 0;
-            
             for i = 1:N_lin_nn
                 for j = 1:N_col_nn
                     dens_tot = dens_tot + (1-density_ill(id_lin(i),id_col(j)));
                 end
             end
-            
-            p = rand;
+            p = rand*dens_tot;
             
             density = 0;
             
             for i = 1:N_lin_nn
                 for j = 1:N_col_nn
-                    if( p>density && p<=(density + (1-density_ill(id_lin(i),id_col(j)))/dens_tot) && ~moved)
+                    if( p>density && p<=(density + (1-density_ill(id_lin(i),id_col(j)))) && ~moved)
                         try
                             switch_cells(k,l,id_lin(i),id_col(j));
                             
@@ -102,13 +98,13 @@ function status = displacement(k,l)
                             EM
                             error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
                         end
-                        density = density + (1-density_ill(id_lin(i),id_col(j)))/dens_tot;
-
+                        
                     end
-                    
+                    density = density + (1-density_ill(id_lin(i),id_col(j)));
                 end
-
+                
             end
+            
             
         end 
     else
