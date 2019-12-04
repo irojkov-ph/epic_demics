@@ -26,7 +26,7 @@ function status = system_init()
     status = -1;
     war_msg = {};
     
-    global system
+    global system epic_demics_path
 
     if ~isnumeric(system.cfg.nb_cell) && system.cfg.nb_cell < 0
         error('ID:invalid_input','''nb_cell'' from the configuration parameters has to be integer.');
@@ -36,7 +36,7 @@ function status = system_init()
 
     %%% Some checkpoints
     % Checking if Image Processing Toolbox is installed
-    if sum( version('-release') >= '2017b' ) ~= 3
+    if sum( version('-release') >= '2017b' ) ~= 5
         war_msg{end+1} = ['Your MATLAB version is anterior to R2017b.\n',...
                           'We do not guarantee the proper execution of the following simulation.'];
     end
@@ -44,7 +44,8 @@ function status = system_init()
     % Checking if Signal Processing Toolbox is installed
     if license( 'test', 'Signal_Toolbox' )
         % Loading data in order to create a probability density function 
-        pop_table = load('swiss_pop_age_2016.mat');
+        pop_table = load([epic_demics_path,filesep,'src',filesep,'swiss_statistic',...
+                          filesep,'swiss_pop_age_2016.mat']);
         x = [0 pop_table.data.age.'];
         x(2)=1e-3;
         Fx = [0 cumsum(pop_table.data.tot_per.')];

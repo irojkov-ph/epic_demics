@@ -35,9 +35,6 @@ function start(varargin)
     idx = strfind(tmp,'epic_demics');
     epic_demics_path = tmp(1:idx+10);
     
-    % Include this path for data
-    addpath([epic_demics_path,filesep,'data'])
-    
     % Create a global structure system
     global system
     

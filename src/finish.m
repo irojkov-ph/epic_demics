@@ -10,15 +10,15 @@ function status = finish()
 
   global system epic_demics_path
 
-  % Save all the figures and the system in `./logs/` folder
+  % Save all the figures and the system in `./data/` folder
   if system.cfg.tosave
     name = num2str(round(posixtime(datetime('now'))));
     
-    save([epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_system.mat'],'system');
+    save([epic_demics_path,filesep,'data',filesep,char(system.cfg.name),name,'_system.mat'],'system');
     
     for i=1:length(system.cfg.todraw)
        h=findobj('Type', 'Figure', 'Name', system.cfg.todraw(i));
-       saveas(h,[epic_demics_path,filesep,'logs',...
+       saveas(h,[epic_demics_path,filesep,'data',...
                 filesep,char(system.cfg.name),name,'_',char(system.cfg.todraw(i)),'.fig']);
        close(h);
     end

@@ -5,7 +5,8 @@ function mu = mu_age(k,l)
     
     if isempty(mortality_data)
         global epic_demics_path
-        data = load([epic_demics_path,filesep,'data',filesep,'swiss_mortality_data_2016-2018.mat']);
+        data = load([epic_demics_path,filesep,'src',filesep,'swiss_statistic',...
+                     filesep,'swiss_mortality_data_2016-2018.mat']);
                
         % Mortality calculated as death per total number of people (w.r.t. age)
         % in Switzerland for 2016 (2017 and 2018 are also available)
