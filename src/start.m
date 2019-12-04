@@ -15,8 +15,8 @@
 function start(varargin)
     
     if nargin > 1 || (nargin==1 && ~isstruct(varargin{1}))
-        error('ID:invalid_input',['Input parameters are wrong. \n',...
-                                  'main(config) has to take a structure `config` containing configuration parameters.'])
+        error('ID:invalid_input',['Input parameters are wrong.',...
+                                  '`start(config)` has to take a structure `config` containing configuration parameters.'])
     end
     
     % Clear all global variables
@@ -60,17 +60,7 @@ function start(varargin)
     % Let the system evolve
     t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,system.cfg.todraw);
     
-    % Save all the figures and the system in `./logs/` folder
-    if system.cfg.tosave
-        name = num2str(round(posixtime(datetime('now'))));
-        
-        save([epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_system.mat'],'system');
-        
-        for i=1:length(todraw)
-           h=findobj('Type', 'Figure', 'Name', todraw(i));
-           saveas(h,[epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_',char(todraw(i)),'.fig']);
-           close(h);
-        end
-        
-    end
+    % Finish and save the current simulation 
+    finish();
+
 end

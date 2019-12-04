@@ -90,7 +90,7 @@ for i=1:length(Bet)
     %try
         config.name = 'test';
         config.nb_cell = 80;
-        config.nb_decision_step = 200;
+        config.nb_decision_step = 20;
         config.patient_zero_coord = [50,50];
         config.p_zero_plus_neighbours = false;
         config.beta = Bet(i);
