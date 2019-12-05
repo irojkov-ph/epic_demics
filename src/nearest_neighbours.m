@@ -1,4 +1,4 @@
-% Function N_cells = count_nearest_neighbours(k,l)
+% Function N_cells = nearest_neighbours(k,l)
 %
 % This function returns the valid indices of the nearest neighbours 
 % of cell (k,l)

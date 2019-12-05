@@ -20,11 +20,15 @@ The structure of the code is as following:
     |         |      |             |          |
     |         |      |             |          |--- beta_influenza.m
     |         |      |             |          |--- mu_age.m
-    |         |      |             |          |--- density_ill.m
     |         |      |             |          |--- update_ages.m
+    |         |      |             |          |--- density_ill.m
+    |         |      |             |                     |
+    |         |      |             |                     |--- nearest_neighbours.m
     |         |      |             |          
     |         |      |             |--- displacement.m
     |         |      |                        |
+    |         |      |                        |--- nearest_neighbours.m
+    |         |      |                        |--- count_nearest_neighbours.m
     |         |      |                        |--- switch_cells.m
     |         |      |
     |         |      |--- evolution_vaccination.m
