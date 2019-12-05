@@ -35,10 +35,6 @@ function t = evolve_system(t_now,N,vaccination,dynamic,drawsystem,todraw)
                 x = system.cfg.patient_zero_coord(1);
                 y = system.cfg.patient_zero_coord(2);
                 [x_n, y_n] = nearest_neighbours(x,y);
-                if system.cfg.p_zero_plus_neighbours
-                    system.state(x_n,y_n) = 'I';
-                    system.reward(x_n,y_n) = system.reward(x_n,y_n) + r_ill;
-                end
             else
                 x = randi([1,n]);
                 y = randi([1,n]);
@@ -49,7 +45,6 @@ function t = evolve_system(t_now,N,vaccination,dynamic,drawsystem,todraw)
         t_now = step(t_now,vaccination,dynamic);
         if(drawsystem)
             draw(todraw,t_now);
-            pause(0.0005);
         end
     end
     

@@ -1,6 +1,6 @@
 # epic_demics
 
-Epic_Demics is a MATLAB &copy; (R2019b, The MathWorks, Inc.) project and is part of the Agent-Based Modeling and Social System Simulation course (Fall 2019) of ETH Zürich [1].
+Epic_Demics is a MATLAB &copy; (The MathWorks, Inc.) project and is part of the Agent-Based Modeling and Social System Simulation course (Fall 2019) of ETH Zürich [1].
 
 ## Autors
 
