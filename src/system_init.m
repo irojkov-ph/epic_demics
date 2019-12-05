@@ -125,8 +125,7 @@ function status = system_init()
         warning('ID:config_warning',war_msg{msg_id});
         warning on backtrace
     end
-    
-    
+       
     status = 1;
 end
 

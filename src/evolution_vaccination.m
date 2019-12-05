@@ -44,12 +44,12 @@ function evolution_vaccination()
     % Probability to change the vaccination choice
     proba_vaccination = vaccination_probability_1(((-rewards_of_neighbors_NV+rewards_of_neighbors_V).*system.vaccinated ...
                            + (-rewards_of_neighbors_V+rewards_of_neighbors_NV).*(~system.vaccinated)),n);
+
     % If all neighbours have the same choice, then we consider that the two
     %choices have equal reward and thus compute the function for \Delta r=0
     proba_vaccination(are_neighbours_uniform == true) = vaccination_probability_1(0,n);
 
     % Which cells will change in vaccination
-    %indices_to_change = (proba_vaccination>proba_change_state.*prop_of_neighbors_NI);
     indices_to_change = (proba_vaccination > proba_change_state);
     
     % Change the vaccinated state of these cells
@@ -60,7 +60,7 @@ function evolution_vaccination()
     system.state((system.state == "S") & (system.vaccinated == true)) = "R";
 end
 
-% Distriution function
+% Distribution function
 function p=vaccination_probability_1(x,n)
     a = 1;
     delta = 1/(n*n); %p = delta when x = 0
