@@ -52,13 +52,7 @@ function status = displacement(k,l)
               if((id_lin(i)~=k || id_col(j)~=l))
                 if(p<=(q*n) && p>(q*(n-1)))
                     try
-                        %switch_cells(k,l,id_lin(i),id_col(j));
-
-                        % Write in logs
-                        %fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
-                        %fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
-                        %fclose(fileID);
-                        
+                        switch_cells(k,l,id_lin(i),id_col(j));
                         moved = true;
                     catch
                         error('ID:switch_fail','The execution of ''switch_cells'' function failed.')
@@ -87,12 +81,6 @@ function status = displacement(k,l)
                     if( p>density && p<=(density + (1-density_ill(id_lin(i),id_col(j)))) && ~moved)
                         try
                             switch_cells(k,l,id_lin(i),id_col(j));
-                            
-                            % Write in logs
-%                             fileID = fopen([epic_demics_path,filesep,'logs',filesep,'displacements.txt'],'a+');
-%                             fprintf(fileID,['Displacement switching cells(',num2str(k),',',num2str(l),') and (',num2str(id_lin(i)),',',num2str(id_col(j)),')!\n']);
-%                             fclose(fileID);
-
                             moved = true;
                         catch EM
                             EM

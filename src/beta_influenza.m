@@ -15,7 +15,8 @@ function y = beta_influenza(t,time_units)
     
     if isempty(influenza_data)
         global epic_demics_path
-        influenza_data = load([epic_demics_path,filesep,'data',filesep,'swiss_influenza_2017-2018_2018-2019.mat']);
+        influenza_data = load([epic_demics_path,filesep,'src',filesep,'swiss_statistic',...
+                               filesep,'swiss_influenza_2017-2018_2018-2019.mat']);
     end
         
     switch time_units

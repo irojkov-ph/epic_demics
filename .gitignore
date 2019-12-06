@@ -23,7 +23,7 @@ my_*
 # The folder `./doc/papers/`
 papers/
 
-# The certain files in folder `./logs/`
-logs/*.fig
-logs/*.mat
-logs/displacements.*
+# The certain files in folder `./data/`
+data/*.fig
+data/*.mat
+data/*.txt

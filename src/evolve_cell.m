@@ -13,7 +13,7 @@
 % 
 % 
 
-function [t] = evolve_cell(t_now, k, l)
+function t = evolve_cell(t_now, k, l)
     
     global system;
     

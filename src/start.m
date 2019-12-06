@@ -15,8 +15,8 @@
 function start(varargin)
     
     if nargin > 1 || (nargin==1 && ~isstruct(varargin{1}))
-        error('ID:invalid_input',['Input parameters are wrong. \n',...
-                                  'main(config) has to take a structure `config` containing configuration parameters.'])
+        error('ID:invalid_input',['Input parameters are wrong.',...
+                                  '`start(config)` has to take a structure `config` containing configuration parameters.'])
     end
     
     % Clear all global variables
@@ -35,10 +35,7 @@ function start(varargin)
     idx = strfind(tmp,'epic_demics');
     epic_demics_path = tmp(1:idx+10);
     
-    % Include this path for data
-    addpath([epic_demics_path,filesep,'data'])
-    
-    
+    % Create a global structure system
     global system
     
     % Current time  
@@ -51,27 +48,14 @@ function start(varargin)
     dynamic = system.cfg.dynamic;
     % Drawing condition (false: no drawing, true: drawing the system during evolution)
     drawsystem = system.cfg.drawsystem;
-    % Attributes to draw while the system evolves
-    % Choose "vaccinated", "age", "reward", "state", "state_density", "mean_age"
-    todraw = system.cfg.todraw;
     
     % Initialize the system
     system_init();
     
     % Let the system evolve
-    t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,todraw);
+    t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,system.cfg.todraw);
     
-    % Save all the figures and the system in `./logs/` folder
-    if system.cfg.tosave
-        name = num2str(round(posixtime(datetime('now'))));
-        
-        save([epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_system.mat'],'system');
-        
-        for i=1:length(todraw)
-           h=findobj('Type', 'Figure', 'Name', todraw(i));
-           saveas(h,[epic_demics_path,filesep,'logs',filesep,char(system.cfg.name),name,'_',char(todraw(i)),'.fig']);
-           close(h);
-        end
-        
-    end
+    % Finish and save the current simulation 
+    finish();
+
 end

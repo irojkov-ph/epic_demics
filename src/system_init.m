@@ -24,8 +24,9 @@
 
 function status = system_init()
     status = -1;
+    war_msg = {};
     
-    global system
+    global system epic_demics_path
 
     if ~isnumeric(system.cfg.nb_cell) && system.cfg.nb_cell < 0
         error('ID:invalid_input','''nb_cell'' from the configuration parameters has to be integer.');
@@ -33,24 +34,50 @@ function status = system_init()
     
     n = round(system.cfg.nb_cell);
 
-    % Loading data in order to create a probability density function 
-    pop_table = load('swiss_pop_age_2016.mat');
-    x = [0 pop_table.data.age.'];
-    x(2)=1e-3;
-    Fx = [0 cumsum(pop_table.data.tot_per.')];
-    
-    % Creating the probability distribution of age
-    pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
+    %%% Some checkpoints
+    % Checking if Image Processing Toolbox is installed
+    if sum( version('-release') >= '2017b' ) ~= 5
+        war_msg{end+1} = ['Your MATLAB version is anterior to R2017b.\n',...
+                          'We do not guarantee the proper execution of the following simulation.'];
+    end
 
-    % Decomment the following line in order to see the probability distribution
-    %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
+    % Checking if Signal Processing Toolbox is installed
+    if license( 'test', 'Signal_Toolbox' )
+        % Loading data in order to create a probability density function 
+        pop_table = load([epic_demics_path,filesep,'src',filesep,'swiss_statistic',...
+                          filesep,'swiss_pop_age_2016.mat']);
+        x = [0 pop_table.data.age.'];
+        x(2)=1e-3;
+        Fx = [0 cumsum(pop_table.data.tot_per.')];
+        
+        % Creating the probability distribution of age
+        pda = makedist('PiecewiseLinear','x',x,'Fx',Fx);
+
+        % Decomment the following line in order to see the probability distribution
+        %figure; plot([1:0.001:98],pdf(pda,[1:0.001:98])); 
+        
+        tmp_age = round(random(pda,n));
+    else
+        tmp_age = round(rand(n).*100);
+        war_msg{end+1} = ['No Signal Processing Toolbox installed. The system will', ...
+                          ' initialize a population with uniform distribution of ages.\n', ...
+                          'If you want the actual swiss population age distribution, please install the toolbox.'];
+    end
+
+    % Checking if Image Processing Toolbox is installed
+    if ismember(1,strcmp(system.cfg.todraw, "max_area_infection")) & ~license('test','Image_Toolbox')
+        system.cfg.todraw(strcmp(system.cfg.todraw, "max_area_infection")) = [];
+        war_msg{end+1} = 'No Image Processing Toolbox installed. The system will not draw `max_area_infection`.';
+    end
+
     
+    %%% Defining system's fields
     % Creating the age matrix (one can remove `round` if we assume decimal ages)
-    age = round(random(pda,n));
-    
-    % Creating the rewards matrix
+    age = tmp_age;
+
+    % Creating the rewards matrices
     reward = zeros(n);
-    reward2 = zeros(n);
+    reward_vacc = zeros(n);
     
     % Creating the vaccination matrix
     vaccinated = zeros(n);
@@ -60,10 +87,9 @@ function status = system_init()
     state(:,:) = "S";
     
     % Adding a Patient Zero at a random position
-
     k = floor(rand.*n+1);
     l = floor(rand.*n+1);
-    if ~isnan(system.cfg.patient_zero_coord) && isnumeric(system.cfg.patient_zero_coord)
+    if ~isnan(system.cfg.patient_zero_coord) & isnumeric(system.cfg.patient_zero_coord)
         coord = round(system.cfg.patient_zero_coord);
         coord = coord(:);
         if coord(1)>0 && coord(1)<n+1 && coord(2)>0 && coord(2)<n+1
@@ -73,8 +99,10 @@ function status = system_init()
         else
             system.cfg.patient_zero_coord = NaN;
         end
-    else
+    elseif isnan(system.cfg.patient_zero_coord) & find(strcmp(system.cfg.todraw, "distance_from_patient_zero"))
         system.cfg.patient_zero_coord = NaN;
+        system.cfg.todraw(strcmp(system.cfg.todraw, "distance_from_patient_zero")) = [];
+        war_msg{end+1} = 'No zero patient defined. The system will not draw `distance_from_patient_zero`.';
     end
     state(k,l) = "I";
 
@@ -83,13 +111,21 @@ function status = system_init()
     system.vaccinated = vaccinated;
     system.reward = reward;
     system.age = age;
-    system.reward2 = reward2;
+    system.reward_vacc = reward_vacc;
     
+    % Printing the initialization success message
     fprintf(['~~~~~~~~~~~~~~~~ Epic Demics ~~~~~~~~~~~~~~~~ \n', ...
-        'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
-        'A system of size %d x %d was initialized as a \n', ...
-        'global variable named `system`.\n'],n,n);
-     
+             'A project of N.Delmotte, L.Pedrelli, I.Rojkov \n', ...
+             'A system of size %d x %d was initialized as a \n', ...
+             'global variable named `system`.\n'],n,n);
+    
+    % Sending warning if there exist some config restrictions
+    for msg_id=1:size(war_msg,2)
+        warning off backtrace
+        warning('ID:config_warning',war_msg{msg_id});
+        warning on backtrace
+    end
+       
     status = 1;
 end
 

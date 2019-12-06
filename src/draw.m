@@ -354,11 +354,6 @@ function draw_distance_from_patient_zero(t)
     global system    
 
     if isempty(findobj('Type', 'Figure', 'Name', 'distance_from_patient_zero'))
-        if isnan(system.cfg.patient_zero_coord)
-           warning('ID:no_patient_zero','No zero patient defined. The system will not draw distance_from_patient_zero.')
-           system.cfg.todraw(strcmp(system.cfg.todraw, "distance_from_patient_zero")) = [];
-           return
-        end
         figure('Name', 'distance_from_patient_zero')
         h_DPZ=animatedline('Tag','distance_from_patient_zero','Color','Black');
     else

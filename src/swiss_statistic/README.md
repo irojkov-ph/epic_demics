@@ -1,0 +1,7 @@
+# epic_demics/src/swiss_statistic
+Here you will find various data that are used in the simulation.
+
+ - `swiss_pop_age.mat` : the age distribution of the swiss population in 2016 given by the Federal Statistical Office of the Swiss Confederation. <br>Source: [Pyramide des âges (Version 30.08.2017),<br>https://www.bfs.admin.ch/bfs/fr/home/statistiques/catalogues-banques-donnees/graphiques.assetdetail.3302625.html](https://www.bfs.admin.ch/bfs/fr/home/statistiques/catalogues-banques-donnees/graphiques.assetdetail.3302625.html)
+ - `swiss_influenza_2017-2018_2018-2019.mat` : statisics on the influenza impact in Switzerland for seasons 2017-2018 and 2018-2019 given by the Federal Public Health Office. <br>Source: [Grippe saisonnière – Point de la situation (Version 03.12.2019), <br>https://www.bag.admin.ch/bag/fr/home/krankheiten/ausbrueche-epidemien-pandemien/aktuelle-ausbrueche-epidemien/saisonale-grippe---lagebericht-schweiz.html](https://www.bag.admin.ch/bag/fr/home/krankheiten/ausbrueche-epidemien-pandemien/aktuelle-ausbrueche-epidemien/saisonale-grippe---lagebericht-schweiz.html)
+ - `swiss_mortality_data_2016-2018.mat` : statisics of the mortality in Switzerland between 2016 and 2018 given by the Federal Statistical Office. <br>Source: [Décès selon le sexe, la nationalité, l'état civil et l'âge (Version 12.09.2019), <br>https://www.bfs.admin.ch/bfs/fr/home/statistiques/population/naissances-deces/deces.assetdetail.8966351.html](https://www.bfs.admin.ch/bfs/fr/home/statistiques/population/naissances-deces/deces.assetdetail.8966351.html)
+
