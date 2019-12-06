@@ -6,7 +6,7 @@ start();
 %% SIRS without vaccination
 % clear config
 % config.name = 'SIRS_no_vaccin';
-% config.vaccination = true;
+% config.vaccination = false;
 % start(config);
 
 %% SIRS with dynamical agents

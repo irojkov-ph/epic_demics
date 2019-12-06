@@ -65,7 +65,7 @@ function status = system_init()
     end
 
     % Checking if Image Processing Toolbox is installed
-    if ismember(1,strcmp(system.cfg.todraw, "max_area_infection")) && ~license('test','Image_Toolbox')
+    if ismember(1,strcmp(system.cfg.todraw, "max_area_infection")) & ~license('test','Image_Toolbox')
         system.cfg.todraw(strcmp(system.cfg.todraw, "max_area_infection")) = [];
         war_msg{end+1} = 'No Image Processing Toolbox installed. The system will not draw `max_area_infection`.';
     end
