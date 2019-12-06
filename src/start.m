@@ -31,10 +31,8 @@ function start(varargin)
     
     % Create a global path for the simulation
     global epic_demics_path
-    tmp = pwd;
-    idx = strfind(tmp,'epic_demics');
-    epic_demics_path = tmp(1:idx+10);
-    
+    epic_demics_path = pwd;
+
     % Create a global structure system
     global system
     
