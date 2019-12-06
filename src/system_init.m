@@ -36,7 +36,7 @@ function status = system_init()
 
     %%% Some checkpoints
     % Checking if Image Processing Toolbox is installed
-    if sum( version('-release') >= '2017b' ) ~= 5
+    if sum(version('-release') >= '2017b') < 4 || sum(version('-release') == '2017a') == 5
         war_msg{end+1} = ['Your MATLAB version is anterior to R2017b.\n',...
                           'We do not guarantee the proper execution of the following simulation.'];
     end
