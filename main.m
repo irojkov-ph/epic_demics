@@ -28,7 +28,7 @@ start();
 % config.name = 'SIRS_bigger_and_longer';
 % config.nb_cell = 200;
 % config.nb_decision_step = 1000;
-% config.todraw = ["state";"state_density";"vaccination_density";"distance_from_patient_zero";"local_vaccination_density"];
+% config.todraw = ["state";"state_density";"vaccination_density";"local_vaccination_density"];
 % start(config)
 
 %% For a custom simulation, please refer to the compare_config.m file where you'll find all possible parameter you can change.
