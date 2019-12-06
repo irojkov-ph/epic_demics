@@ -11,7 +11,7 @@ function status = finish()
   global system epic_demics_path
 
   % Save all the figures and the system in `./data/` folder
-  if system.cfg.tosave
+  if system.cfg.tosave & ~isempty(findobj('Type', 'Figure'))
     name = num2str(round(posixtime(datetime('now'))));
     
     save([epic_demics_path,filesep,'data',filesep,char(system.cfg.name),name,'_system.mat'],'system');
