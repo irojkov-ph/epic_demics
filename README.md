@@ -35,7 +35,8 @@ config.parameter2 = value2;
 ...
 start(config);
 ```
-Where [`parameter`,`value`] couples are the values of different parameter implemented in the project.
+Where [`parameter`,`value`] couples are the values of different parameter implemented in the project. <br>
+To stop a simulation just press `CRTL+C` in the MATLAB &copy; command line.
 
 ## Parameters that can be simulated
 
