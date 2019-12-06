@@ -20,9 +20,6 @@ main.m
 # Files begining with `my_` are ignored :
 my_*
 
-# The folder `./doc/papers/`
-papers/
-
 # The certain files in folder `./data/`
 data/*.fig
 data/*.mat
