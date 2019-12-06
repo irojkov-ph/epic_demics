@@ -13,7 +13,7 @@ On the 11th of March 2019, the World Health Organisation (WHO) launched the Glob
 
 ## Model
 
-This project implements an agent-based stochastic model for SIRS epidemics. SIRS sands for Susceptible-Infected-Recovered-Susceptible and represents the three agent states existing in the system as well as the viral dynamic between them. In other words, a recovered agent from the infected state can with a certain probability become susceptible again.
+This project implements an agent-based stochastic model for SIRS epidemics. SIRS stands for Susceptible-Infected-Recovered-Susceptible and represents the three agent states existing in the system as well as the viral dynamic between them. In other words, a recovered agent from the infected state can with a certain probability become susceptible again.
 The model is organised as following: starting from a given time, the illness evolves locally during a period of one week (i.e. time unit = week). Then all agents take their vaccination choice depending on their situation and the rewards of their neighbours. Finally, the illness is simulated for another week and so on. The simulation ends after a given number of decision steps (cf. the report for further details).
 
 ## Reproducibility
