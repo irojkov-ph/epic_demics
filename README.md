@@ -63,7 +63,7 @@ To stop a simulation just press `CRTL+C` in the MATLAB &copy; command line.
 
 cf. `./src/compare_config.m` file for further details
 
-## Refereces
+## References
 
 [1] Agent-Based Modeling and Social System Simulation, _Computational Social Science_, ETH Zürich, <br>  url:[https://coss.ethz.ch/education/agentBased.html](https://coss.ethz.ch/education/agentBased.html)
 
