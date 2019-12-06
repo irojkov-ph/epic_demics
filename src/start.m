@@ -54,6 +54,6 @@ function start(varargin)
     t_now = evolve_system(t_now,N,vaccination,dynamic,drawsystem,system.cfg.todraw);
     
     % Finish and save the current simulation 
-    finish();
+    finished();
 
 end

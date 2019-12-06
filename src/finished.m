@@ -1,17 +1,17 @@
-% Function status  = finish()
+% Function status  = finished()
 %
 % Function which finishes the simulation and saves all drawings 
 % in `./data/` folder if  the variable `tosave` is set to true.
 % 
 % 
 
-function status = finish()
+function status = finished()
   status = -1;
 
   global system epic_demics_path
 
   % Save all the figures and the system in `./data/` folder
-  if system.cfg.tosave & ~isempty(findobj('Type', 'Figure'))
+  if system.cfg.tosave
     name = num2str(round(posixtime(datetime('now'))));
     
     save([epic_demics_path,filesep,'data',filesep,char(system.cfg.name),name,'_system.mat'],'system');

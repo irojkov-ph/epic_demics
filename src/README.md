@@ -35,5 +35,5 @@ The structure of the code is as following:
     |         |
     |         |--- draw.m
     |
-    |--- finish.m
+    |--- finished.m
 ```
